@@ -1,0 +1,72 @@
+site_name: T3CO-Go
+site_description: An open-source web-based dashboard for T3CO
+repo_url: https://github.nrel.gov/AVCI/t3co_go
+edit_uri: https://github.nrel.gov/AVCI/t3co_go/main/docs
+site_author: Harish Panneer Selvam 
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_if_no_docstring: true
+            docstring_options:
+              ignore_init_summary: false
+            merge_init_into_class: false
+            heading_level: 2
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_root_toc_entry: true 
+            annotations_path: source
+            show_signature: true
+            separate_signature: false
+            show_signature_annotations: true
+            unwrap_annotated: true
+
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+      auto_title: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+
+theme:
+  name: material
+  favicon: nrel_logo.png
+  highlightjs: true
+  hljs_languages:
+    - python
+    - yaml
+  features:
+    - search.highlight
+    - content.action.view
+    - search.suggest
+    - content.code.copy
+    - navigation.path
+    - content.tooltips
+
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil 
+    view: material/eye
+
+nav:
+    - Home: index.md
+    - Installation: installation.md
+    - Quick Start: quick_start.md
+    - Overview: t3co_go_overview.md
+    - Inputs: 
+      - Data: data.md
+    - Results:
+      - Outputs: outputs.md

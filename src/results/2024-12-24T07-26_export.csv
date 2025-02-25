@@ -1,0 +1,619 @@
+﻿,selection,scenario_name,veh_year,veh_pt_type,pareto_front_number,run_time_[s],algorithm,n_gen,fvals_over_gens,design_cyc_trace_miss_dist_frac,design_cyc_trace_miss_time_frac,design_cyc_trace_miss_speed_mps,design_cycle_EA_err,accel_EA_err,accel_loaded_EA_err,grade_6_EA_err,grade_125_EA_err,final_cda_pct,final_eng_eff_pct,final_ltwt_pct,final_max_motor_kw,final_battery_kwh,final_max_fc_kw,final_fs_kwh,minSpeed6PercentGradeIn5minAch,target_minSpeed6PercentGradeIn5min,delta_6PercentGrade,minSpeed1point25PercentGradeIn5minAch,target_minSpeed1point25PercentGradeIn5min,delta_1point25PercentGrade,max0to60secAtGVWRAch,target_max0to60secAtGVWR,delta_0to60sec,max0to30secAtGVWRAch,target_max0to30secAtGVWR,delta_0to30sec,scenario_selection,scenario_drive_cycle,scenario_use_config,scenario_vmt_reduct_per_yr,scenario_vmt,scenario_constant_trip_distance_mi,scenario_vehicle_life_yr,scenario_desired_ess_replacements,scenario_discount_rate_pct_per_yr,scenario_ess_max_charging_power_kw,scenario_ess_cost_dol_per_kw,scenario_ess_cost_dol_per_kwh,scenario_ess_base_cost_dol,scenario_ess_cost_reduction_dol_per_yr,scenario_ess_salvage_value_dol,scenario_ess_charge_rate_kW,scenario_pe_mc_cost_dol_per_kw,scenario_pe_mc_base_cost_dol,scenario_fc_ice_cost_dol_per_kw,scenario_fc_ice_base_cost_dol,scenario_fc_fuelcell_cost_dol_per_kw,scenario_fs_cost_dol_per_kwh,scenario_fs_h2_cost_dol_per_kwh,scenario_plug_base_cost_dol,scenario_markup_pct,scenario_tax_rate_pct,scenario_fc_cng_ice_cost_dol_per_kw,scenario_fs_cng_cost_dol_per_kwh,scenario_vehicle_glider_cost_dol,scenario_segment_name,scenario_gvwr_kg,scenario_gvwr_credit_kg,scenario_fuel_type,scenario_maint_oper_cost_dol_per_mi,scenario_vocation,scenario_vehicle_class,scenario_model_year,scenario_region,scenario_target_range_mi,scenario_min_speed_at_6pct_grade_in_5min_mph,scenario_min_speed_at_1p25pct_grade_in_5min_mph,scenario_max_time_0_to_60mph_at_gvwr_s,scenario_max_time_0_to_30mph_at_gvwr_s,scenario_lw_imp_curve_sel,scenario_eng_eff_imp_curve_sel,scenario_aero_drag_imp_curve_sel,scenario_originalcargo_kg,scenario_originalglider_kg,scenario_originalGliderPrice,scenario_originalIceDolPerKw,scenario_origfc_eff_map,scenario_originaldrag_coef,scenario_ess_init_soc_grade,scenario_ess_init_soc_accel,scenario_soc_norm_init_for_accel_pct,scenario_soc_norm_init_for_grade_pct,scenario_fs_fueling_rate_gasoline_gpm,scenario_fs_fueling_rate_diesel_gpm,scenario_fs_fueling_rate_kg_per_min,scenario_phev_utility_factor_override,scenario_phev_utility_factor_computed,scenario_motor_power_override_kw_fc_demand_on_pct,scenario_shifts_per_year,scenario_missed_trace_correction,scenario_max_time_dilation,scenario_min_time_dilation,scenario_time_dilation_tol,scenario_skip_opt,scenario_knob_min_ess_kwh,scenario_knob_max_ess_kwh,scenario_knob_min_motor_kw,scenario_knob_max_motor_kw,scenario_knob_min_fc_kw,scenario_knob_max_fc_kw,scenario_knob_min_fs_kwh,scenario_knob_max_fs_kwh,scenario_objective_phev_minimize_fuel_use,scenario_constraint_c_rate,scenario_constraint_range,scenario_constraint_accel,scenario_constraint_grade,scenario_objective_tco,scenario_constraint_trace_miss_dist_percent_on,scenario_trace_miss_dist_percent,scenario_constraint_phev_minimize_fuel_use_on,scenario_constraint_phev_minimize_fuel_use_percent,scenario_labor_rate_dol_per_hr,scenario_downtime_oppy_cost_dol_per_hr,scenario_activate_tco_payload_cap_cost_multiplier,scenario_plf_ref_veh_empty_mass_kg,scenario_plf_scenario_vehicle_empty_kg,scenario_plf_reference_vehicle_cargo_capacity_kg,scenario_plf_scenario_vehicle_cargo_capacity_kg,scenario_estimated_lost_payload_kg,scenario_activate_tco_fueling_dwell_time_cost,scenario_dlf_min_charge_time_hr,scenario_fdt_dwpt_fraction_power_pct,scenario_fdt_avg_overhead_hr_per_dwell_hr,scenario_fdt_frac_full_charge_bounds,scenario_fdt_num_free_dwell_trips,scenario_fdt_available_freetime_hr,scenario_insurance_rates_pct_per_yr,scenario_residual_rate_pct,scenario_activate_mr_downtime_cost,scenario_mr_planned_downtime_hr_per_yr,scenario_mr_unplanned_downtime_hr_per_mi,scenario_mr_avg_tire_life_mi,scenario_mr_tire_replace_downtime_hr_per_event,optimized_vehicle_value_selection,optimized_vehicle_value_scenario_name,optimized_vehicle_value_veh_year,optimized_vehicle_value_veh_pt_type,optimized_vehicle_value_drag_coef,optimized_vehicle_value_frontal_area_m2,optimized_vehicle_value_veh_override_kg,optimized_vehicle_value_fc_peak_eff_override,optimized_vehicle_value_mc_peak_eff_override,optimized_vehicle_value_stop_start,optimized_vehicle_value_force_aux_on_fc,optimized_vehicle_value_glider_kg,optimized_vehicle_value_veh_cg_m,optimized_vehicle_value_drive_axle_weight_frac,optimized_vehicle_value_wheel_base_m,optimized_vehicle_value_cargo_kg,optimized_vehicle_value_comp_mass_multiplier,optimized_vehicle_value_fs_max_kw,optimized_vehicle_value_fs_secs_to_peak_pwr,optimized_vehicle_value_fs_kwh,optimized_vehicle_value_fs_kwh_per_kg,optimized_vehicle_value_fc_max_kw,optimized_vehicle_value_fc_pwr_out_perc,optimized_vehicle_value_fc_eff_map,optimized_vehicle_value_fc_eff_type,optimized_vehicle_value_fc_sec_to_peak_pwr,optimized_vehicle_value_fc_base_kg,optimized_vehicle_value_fc_kw_per_kg,optimized_vehicle_value_min_fc_time_on,optimized_vehicle_value_idle_fc_kw,optimized_vehicle_value_mc_max_kw,optimized_vehicle_value_mc_pwr_out_perc,optimized_vehicle_value_mc_eff_map,optimized_vehicle_value_mc_sec_to_peak_pwr,optimized_vehicle_value_mc_pe_kg_per_kw,optimized_vehicle_value_mc_pe_base_kg,optimized_vehicle_value_ess_max_kw,optimized_vehicle_value_ess_max_kwh,optimized_vehicle_value_ess_kg_per_kwh,optimized_vehicle_value_ess_base_kg,optimized_vehicle_value_ess_round_trip_eff,optimized_vehicle_value_ess_life_coef_a,optimized_vehicle_value_ess_life_coef_b,optimized_vehicle_value_min_soc,optimized_vehicle_value_max_soc,optimized_vehicle_value_ess_dischg_to_fc_max_eff_perc,optimized_vehicle_value_ess_chg_to_fc_max_eff_perc,optimized_vehicle_value_wheel_inertia_kg_m2,optimized_vehicle_value_num_wheels,optimized_vehicle_value_wheel_rr_coef,optimized_vehicle_value_wheel_radius_m,optimized_vehicle_value_wheel_coef_of_fric,optimized_vehicle_value_max_accel_buffer_mph,optimized_vehicle_value_max_accel_buffer_perc_of_useable_soc,optimized_vehicle_value_perc_high_acc_buf,optimized_vehicle_value_mph_fc_on,optimized_vehicle_value_kw_demand_fc_on,optimized_vehicle_value_max_regen,optimized_vehicle_value_alt_eff,optimized_vehicle_value_chg_eff,optimized_vehicle_value_aux_kw,optimized_vehicle_value_trans_kg,optimized_vehicle_value_trans_eff,optimized_vehicle_value_ess_to_fuel_ok_error,optimized_vehicle_value_val_udds_mpgge,optimized_vehicle_value_val_hwy_mpgge,optimized_vehicle_value_val_comb_mpgge,optimized_vehicle_value_val_udds_kwh_per_mile,optimized_vehicle_value_val_hwy_kwh_per_mile,optimized_vehicle_value_val_comb_kwh_per_mile,optimized_vehicle_value_val_cd_range_mi,optimized_vehicle_value_val_const65_mph_kwh_per_mile,optimized_vehicle_value_val_const60_mph_kwh_per_mile,optimized_vehicle_value_val_const55_mph_kwh_per_mile,optimized_vehicle_value_val_const45_mph_kwh_per_mile,optimized_vehicle_value_val_unadj_udds_kwh_per_mile,optimized_vehicle_value_val_unadj_hwy_kwh_per_mile,optimized_vehicle_value_val0_to60_mph,optimized_vehicle_value_val_ess_life_miles,optimized_vehicle_value_val_range_miles,optimized_vehicle_value_val_veh_base_cost,optimized_vehicle_value_val_msrp,input_vehicle_value_selection,input_vehicle_value_scenario_name,input_vehicle_value_veh_year,input_vehicle_value_veh_pt_type,input_vehicle_value_drag_coef,input_vehicle_value_frontal_area_m2,input_vehicle_value_veh_override_kg,input_vehicle_value_fc_peak_eff_override,input_vehicle_value_mc_peak_eff_override,input_vehicle_value_stop_start,input_vehicle_value_force_aux_on_fc,input_vehicle_value_glider_kg,input_vehicle_value_veh_cg_m,input_vehicle_value_drive_axle_weight_frac,input_vehicle_value_wheel_base_m,input_vehicle_value_cargo_kg,input_vehicle_value_comp_mass_multiplier,input_vehicle_value_fs_max_kw,input_vehicle_value_fs_secs_to_peak_pwr,input_vehicle_value_fs_kwh,input_vehicle_value_fs_kwh_per_kg,input_vehicle_value_fc_max_kw,input_vehicle_value_fc_pwr_out_perc,input_vehicle_value_fc_eff_map,input_vehicle_value_fc_eff_type,input_vehicle_value_fc_sec_to_peak_pwr,input_vehicle_value_fc_base_kg,input_vehicle_value_fc_kw_per_kg,input_vehicle_value_min_fc_time_on,input_vehicle_value_idle_fc_kw,input_vehicle_value_mc_max_kw,input_vehicle_value_mc_pwr_out_perc,input_vehicle_value_mc_eff_map,input_vehicle_value_mc_sec_to_peak_pwr,input_vehicle_value_mc_pe_kg_per_kw,input_vehicle_value_mc_pe_base_kg,input_vehicle_value_ess_max_kw,input_vehicle_value_ess_max_kwh,input_vehicle_value_ess_kg_per_kwh,input_vehicle_value_ess_base_kg,input_vehicle_value_ess_round_trip_eff,input_vehicle_value_ess_life_coef_a,input_vehicle_value_ess_life_coef_b,input_vehicle_value_min_soc,input_vehicle_value_max_soc,input_vehicle_value_ess_dischg_to_fc_max_eff_perc,input_vehicle_value_ess_chg_to_fc_max_eff_perc,input_vehicle_value_wheel_inertia_kg_m2,input_vehicle_value_num_wheels,input_vehicle_value_wheel_rr_coef,input_vehicle_value_wheel_radius_m,input_vehicle_value_wheel_coef_of_fric,input_vehicle_value_max_accel_buffer_mph,input_vehicle_value_max_accel_buffer_perc_of_useable_soc,input_vehicle_value_perc_high_acc_buf,input_vehicle_value_mph_fc_on,input_vehicle_value_kw_demand_fc_on,input_vehicle_value_max_regen,input_vehicle_value_alt_eff,input_vehicle_value_chg_eff,input_vehicle_value_aux_kw,input_vehicle_value_trans_kg,input_vehicle_value_trans_eff,input_vehicle_value_ess_to_fuel_ok_error,input_vehicle_value_val_udds_mpgge,input_vehicle_value_val_hwy_mpgge,input_vehicle_value_val_comb_mpgge,input_vehicle_value_val_udds_kwh_per_mile,input_vehicle_value_val_hwy_kwh_per_mile,input_vehicle_value_val_comb_kwh_per_mile,input_vehicle_value_val_cd_range_mi,input_vehicle_value_val_const65_mph_kwh_per_mile,input_vehicle_value_val_const60_mph_kwh_per_mile,input_vehicle_value_val_const55_mph_kwh_per_mile,input_vehicle_value_val_const45_mph_kwh_per_mile,input_vehicle_value_val_unadj_udds_kwh_per_mile,input_vehicle_value_val_unadj_hwy_kwh_per_mile,input_vehicle_value_val0_to60_mph,input_vehicle_value_val_ess_life_miles,input_vehicle_value_val_range_miles,input_vehicle_value_val_veh_base_cost,input_vehicle_value_val_msrp,config_analysis_id,config_analysis_name,config_vehicle_file,config_scenario_file,config_dst_dir,config_resfile_suffix,config_write_tsv,config_selections,config_vehicle_life_yr,config_drive_cycle,config_ess_max_charging_power_kw,config_fs_fueling_rate_kg_per_min,config_fs_fueling_rate_gasoline_gpm,config_fs_fueling_rate_diesel_gpm,config_TCO_method,config_algorithms,config_lw_imp_curves,config_eng_eff_imp_curves,config_aero_drag_imp_curves,config_lw_imp_curve_sel,config_eng_eff_imp_curve_sel,config_aero_drag_imp_curve_sel,config_skip_all_opt,config_constraint_range,config_constraint_accel,config_constraint_grade,config_objective_tco,config_constraint_c_rate,config_constraint_trace_miss_dist_percent_on,config_objective_phev_minimize_fuel_use,config_activate_tco_payload_cap_cost_multiplier,config_activate_tco_fueling_dwell_time_cost,config_fdt_frac_full_charge_bounds,config_activate_mr_downtime_cost,input_vehicle_value_regen_a,optimized_vehicle_value_regen_a,input_vehicle_value_regen_b,optimized_vehicle_value_regen_b,input_vehicle_value_large_baseline_eff,optimized_vehicle_value_large_baseline_eff,input_vehicle_value_small_baseline_eff,optimized_vehicle_value_small_baseline_eff,input_vehicle_value_small_motor_power_kw,optimized_vehicle_value_small_motor_power_kw,input_vehicle_value_large_motor_power_kw,optimized_vehicle_value_large_motor_power_kw,input_vehicle_value_fc_perc_out_array,optimized_vehicle_value_fc_perc_out_array,input_vehicle_value_mc_perc_out_array,optimized_vehicle_value_mc_perc_out_array,input_vehicle_value_max_roadway_chg_kw,optimized_vehicle_value_max_roadway_chg_kw,input_vehicle_value_charging_on,optimized_vehicle_value_charging_on,input_vehicle_value_no_elec_sys,optimized_vehicle_value_no_elec_sys,input_vehicle_value_no_elec_aux,optimized_vehicle_value_no_elec_aux,input_vehicle_value_input_kw_out_array,optimized_vehicle_value_input_kw_out_array,input_vehicle_value_fc_kw_out_array,optimized_vehicle_value_fc_kw_out_array,input_vehicle_value_fc_eff_array,optimized_vehicle_value_fc_eff_array,input_vehicle_value_modern_max,optimized_vehicle_value_modern_max,input_vehicle_value_mc_eff_array,optimized_vehicle_value_mc_eff_array,input_vehicle_value_mc_kw_in_array,optimized_vehicle_value_mc_kw_in_array,input_vehicle_value_mc_kw_out_array,optimized_vehicle_value_mc_kw_out_array,input_vehicle_value_mc_max_elec_in_kw,optimized_vehicle_value_mc_max_elec_in_kw,input_vehicle_value_mc_full_eff_array,optimized_vehicle_value_mc_full_eff_array,input_vehicle_value_veh_kg,optimized_vehicle_value_veh_kg,input_vehicle_value_max_trac_mps2,optimized_vehicle_value_max_trac_mps2,input_vehicle_value_ess_mass_kg,optimized_vehicle_value_ess_mass_kg,input_vehicle_value_mc_mass_kg,optimized_vehicle_value_mc_mass_kg,input_vehicle_value_fc_mass_kg,optimized_vehicle_value_fc_mass_kg,input_vehicle_value_fs_mass_kg,optimized_vehicle_value_fs_mass_kg,range_ach_mi,target_range_mi,delta_range_mi,min_speed_at_6pct_grade_in_5min_ach_mph,target_min_speed_at_6pct_grade_in_5min_mph,delta_min_speed_at_6pct_grade_in_5min_mph,min_speed_at_1p25pct_grade_in_5min_ach_mph,target_min_speed_at_1p25pct_grade_in_5min_mph,delta_min_speed_at_1p25pct_grade_in_5min_mph,max_time_0_to_60mph_at_gvwr_ach_s,target_max_time_0_to_60mph_at_gvwr_s,delta_max_time_0_to_60mph_at_gvwr_s,max_time_0_to_30mph_at_gvwr_ach_s,target_max_time_0_to_30mph_at_gvwr_s,delta_max_time_0_to_30mph_at_gvwr_s,mpgge,grid_mpgge,mpgde,kwh_per_mi,payload_cap_cost_multiplier,total_fueling_dwell_time_hr,total_mr_downtime_hr,total_downtime_hr,fueling_dwell_labor_cost_dol,fueling_downtime_oppy_cost_dol,mr_downtime_oppy_cost_dol,discounted_downtime_oppy_cost_dol,payload_capacity_cost_dol,glider_cost_dol,fuel_converter_cost_dol,fuel_storage_cost_dol,motor_control_power_elecs_cost_dol,plug_cost_dol,battery_cost_dol,purchase_tax_dol,msrp_total_dol,insurance_cost_dol,residual_cost_dol,total_fuel_cost_dol,total_maintenance_cost_dol,discounted_tco_dol,grade_1p25_EA_err,vehicle_weight_class,vehicle_type,tech_progress,vehicle_fuel_type
+0,12,"Class 8 Sleeper cab low roof (Diesel, 2035, no program)",2035,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0014281288046776009, 'EPA_Ph2_urban_highway_55mph.csv': 0.0003970299413118993, 'EPA_Ph2_transient.csv': 0.0028791488453272338}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.4789500448362922, 'EPA_Ph2_urban_highway_55mph.csv': 0.7051563727136099, 'EPA_Ph2_transient.csv': 1.1018753983718916}","{'EPA_Ph2_rural_interstate_65mph.csv': -1.844133076401464e-10, 'EPA_Ph2_urban_highway_55mph.csv': -6.771377138744353e-11, 'EPA_Ph2_transient.csv': -1.4059279582680124e-12}",0.0054373373567777935,0.005204379649668231,3.735164596910015e-05,,,,,,,,,,,,,,,,,,,,,12,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,105,0,0,0,0,15.65,450,50,6250,99,0.07,9.75,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2035,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14248.59965455443,21546.43275,22038.83309544557,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,12,"Class 8 Sleeper cab low roof (Diesel, 2035, no program)",2035,Conv,0.466877368,6.9,0.0,None,None,False,False,11275.32261,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,332.5794028,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04535994 0.06803991 0.12473984 0.2267997  0.28349962 0.37421951
+ 0.41957945 0.46493939 0.49895934 0.51029933 0.51029933 0.51029933]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.29,0.0,0.0,0.0,3.31,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.005659208,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.945,300.0,0.98,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.66289701   4.98869104  13.30317611  19.95476417
+  33.25794028  46.56111639  66.51588056 133.03176112 199.54764168
+ 266.06352224 332.5794028 ]",None,"[  0.           0.3325794    0.66515881   0.99773821   1.33031761
+   1.66289701   1.99547642   2.32805582   2.66063522   2.99321463
+   3.32579403   3.65837343   3.99095283   4.32353224   4.65611164
+   4.98869104   5.32127044   5.65384985   5.98642925   6.31900865
+   6.65158806   6.98416746   7.31674686   7.64932626   7.98190567
+   8.31448507   8.64706447   8.97964388   9.31222328   9.64480268
+   9.97738208  11.6402791   13.30317611  14.96607313  16.62897014
+  18.29186715  19.95476417  21.61766118  23.2805582   26.60635222
+  29.93214625  33.25794028  36.58373431  39.90952834  43.23532236
+  46.56111639  49.88691042  53.21270445  56.53849848  59.8642925
+  63.19008653  66.51588056  69.84167459  73.16746862  76.49326264
+  79.81905667  83.1448507   86.47064473  89.79643876  93.12223278
+  96.44802681  99.77382084 103.09961487 106.4254089  109.75120292
+ 113.07699695 116.40279098 119.72858501 123.05437904 126.38017306
+ 129.70596709 133.03176112 136.35755515 139.68334918 143.0091432
+ 146.33493723 149.66073126 152.98652529 156.31231932 159.63811334
+ 162.96390737 166.2897014  169.61549543 172.94128946 176.26708348
+ 179.59287751 182.91867154 186.24446557 189.5702596  192.89605362
+ 196.22184765 199.54764168 216.17661182 232.80558196 249.4345521
+ 266.06352224 282.69249238 299.32146252 315.95043266 332.5794028 ]",None,"[0.04535994 0.04989593 0.05443193 0.05896792 0.06350392 0.06803991
+ 0.0737099  0.0793799  0.08504989 0.09071988 0.09638987 0.10205987
+ 0.10772986 0.11339985 0.11906984 0.12473984 0.12882223 0.13290462
+ 0.13698702 0.14106941 0.14515181 0.1492342  0.1533166  0.15739899
+ 0.16148139 0.16556378 0.16964618 0.17372857 0.17781096 0.18189336
+ 0.18597575 0.20638773 0.2267997  0.24097468 0.25514966 0.26932464
+ 0.28349962 0.29483961 0.3061796  0.32885957 0.35153954 0.37421951
+ 0.38555949 0.39689948 0.40823946 0.41957945 0.42713944 0.43469943
+ 0.44225942 0.44981941 0.4573794  0.46493939 0.46664039 0.46834139
+ 0.47004238 0.47174338 0.47344438 0.47514538 0.47684637 0.47854737
+ 0.48024837 0.48194937 0.48365037 0.48535136 0.48705236 0.48875336
+ 0.49045436 0.49215535 0.49385635 0.49555735 0.49725835 0.49895934
+ 0.49952634 0.50009334 0.50066034 0.50122734 0.50179434 0.50236134
+ 0.50292834 0.50349534 0.50406234 0.50462934 0.50519634 0.50576334
+ 0.50633034 0.50689733 0.50746433 0.50803133 0.50859833 0.50916533
+ 0.50973233 0.51029933 0.51029933 0.51029933 0.51029933 0.51029933
+ 0.51029933 0.51029933 0.51029933 0.51029933]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31484.59965455443,None,4.940710920770878,None,0.0,None,0.0,None,1534.981859076923,None,1078.295185477506,None,2918.8905185039666,600,2318.8905185039666,30.466565809367236,30,0.4665658093672356,74.86167168797368,65,9.861671687973683,52.00850368672324,80,-27.991496313276762,13.587563406647753,20,-6.412436593352247,8.640018486919955,8.467218117181556,9.740719827418213,3.8034038485403943,1,96.65390209011258,850.3053600000001,946.9592620901126,2313.7508509144955,3702.0013614631926,32316.159087471984,36018.160448935174,0,112759,27454.764168,956.34,0,0,0,4940.95364588,141170.104168,20168.378958981775,-56150.00995981758,147900.70156869508,64019.67938515293,360381.71906674193,0.0019805739838789503,Class 8,Sleeper cab low roof , no program,Diesel
+1,13,"Class 8 Sleeper cab high roof (Diesel, 2040, no program)",2040,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0038610088925428382, 'EPA_Ph2_urban_highway_55mph.csv': 0.0009843275936883993, 'EPA_Ph2_transient.csv': 0.0030979402180518326}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 2.4421683045168763, 'EPA_Ph2_urban_highway_55mph.csv': 1.176759914234193, 'EPA_Ph2_transient.csv': 1.1191736414939193}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.328035157658199e-10, 'EPA_Ph2_urban_highway_55mph.csv': -7.177623807260745e-11, 'EPA_Ph2_transient.csv': -1.1872323992198614e-12}",0.003282840462781798,0.0032341234206853652,1.2739811272567118e-06,,,,,,,,,,,,,,,,,,,,,13,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,90,0,0,0,0,13.0,400,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2040,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,False,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14741.987493169814,21546.43275,21545.445256830186,0.0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,13,"Class 8 Sleeper cab high roof (Diesel, 2040, no program)",2040,Conv,0.68,10.4,0.0,None,None,False,False,11776.0,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,331.0,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],[0.04 0.06 0.11 0.2  0.25 0.33 0.37 0.41 0.44 0.45 0.45 0.45],HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.25,0.0,0.0,0.0,2.95,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.005229,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.86,300.0,0.98,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.      1.655   4.965  13.24   19.86   33.1    46.34   66.2   132.4
+ 198.6   264.8   331.   ]",None,"[  0.      0.331   0.662   0.993   1.324   1.655   1.986   2.317   2.648
+   2.979   3.31    3.641   3.972   4.303   4.634   4.965   5.296   5.627
+   5.958   6.289   6.62    6.951   7.282   7.613   7.944   8.275   8.606
+   8.937   9.268   9.599   9.93   11.585  13.24   14.895  16.55   18.205
+  19.86   21.515  23.17   26.48   29.79   33.1    36.41   39.72   43.03
+  46.34   49.65   52.96   56.27   59.58   62.89   66.2    69.51   72.82
+  76.13   79.44   82.75   86.06   89.37   92.68   95.99   99.3   102.61
+ 105.92  109.23  112.54  115.85  119.16  122.47  125.78  129.09  132.4
+ 135.71  139.02  142.33  145.64  148.95  152.26  155.57  158.88  162.19
+ 165.5   168.81  172.12  175.43  178.74  182.05  185.36  188.67  191.98
+ 195.29  198.6   215.15  231.7   248.25  264.8   281.35  297.9   314.45
+ 331.   ]",None,"[0.04       0.044      0.048      0.052      0.056      0.06
+ 0.065      0.07       0.075      0.08       0.085      0.09
+ 0.095      0.1        0.105      0.11       0.1136     0.1172
+ 0.1208     0.1244     0.128      0.1316     0.1352     0.1388
+ 0.1424     0.146      0.1496     0.1532     0.1568     0.1604
+ 0.164      0.182      0.2        0.2125     0.225      0.2375
+ 0.25       0.26       0.27       0.29       0.31       0.33
+ 0.34       0.35       0.36       0.37       0.37666667 0.38333333
+ 0.39       0.39666667 0.40333333 0.41       0.4115     0.413
+ 0.4145     0.416      0.4175     0.419      0.4205     0.422
+ 0.4235     0.425      0.4265     0.428      0.4295     0.431
+ 0.4325     0.434      0.4355     0.437      0.4385     0.44
+ 0.4405     0.441      0.4415     0.442      0.4425     0.443
+ 0.4435     0.444      0.4445     0.445      0.4455     0.446
+ 0.4465     0.447      0.4475     0.448      0.4485     0.449
+ 0.4495     0.45       0.45       0.45       0.45       0.45
+ 0.45       0.45       0.45       0.45      ]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31977.987493169814,None,4.9407109207708775,None,0.0,None,0.0,None,1527.6923076923074,None,1078.295185477506,None,1952.2539957400209,600,1352.2539957400209,30.018123042941568,30,0.018123042941567746,68.09273957121097,65,3.09273957121097,55.900199116405986,80,-24.099800883594014,13.67168875506167,20,-6.32831124493833,5.778740417781178,5.663165609425555,6.514927190283176,5.768442969986906,1.0,144.51099037464087,850.3053600000001,994.8163503746409,3459.3784597965664,5535.005535674506,32316.159087471984,37851.164623146484,0,112759,27360,956.34,0,0,0,4937.6369,141075.34,20154.840400919355,-56112.31777981677,227468.2591789143,64019.67938515293,442853.9811681129,0.0004924387650000997,Class 8,Sleeper cab high roof , no program,Diesel
+2,14,"Class 8 Sleeper cab mid roof (Diesel, 2040, no program)",2040,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0016653312290301804, 'EPA_Ph2_urban_highway_55mph.csv': 0.00044645581884195773, 'EPA_Ph2_transient.csv': 0.0028901816606815636}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.6040109666797484, 'EPA_Ph2_urban_highway_55mph.csv': 0.7531049898519235, 'EPA_Ph2_transient.csv': 1.103663617642919}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.0219497081059514e-10, 'EPA_Ph2_urban_highway_55mph.csv': -7.100061638200094e-11, 'EPA_Ph2_transient.csv': -1.4415962563327133e-12}",0.005151977331370717,0.004985333576853585,3.1630472372818995e-05,,,,,,,,,,,,,,,,,,,,,14,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,90,0,0,0,0,13.0,400,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2040,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14181.711212708273,21546.43275,22105.721537291727,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,14,"Class 8 Sleeper cab mid roof (Diesel, 2040, no program)",2040,Conv,0.50841778,7.7,0.0,None,None,False,False,11214.10333,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,331.3510844,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04621997 0.06932995 0.12710492 0.23109985 0.28887481 0.38131475
+ 0.42753472 0.47375469 0.50841967 0.51997466 0.51997466 0.51997466]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.25,0.0,0.0,0.0,2.95,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.005394895,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.86,300.0,0.98,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.65675542   4.97026627  13.25404338  19.88106506
+  33.13510844  46.38915182  66.27021688 132.54043376 198.81065064
+ 265.08086752 331.3510844 ]",None,"[  0.           0.33135108   0.66270217   0.99405325   1.32540434
+   1.65675542   1.98810651   2.31945759   2.65080868   2.98215976
+   3.31351084   3.64486193   3.97621301   4.3075641    4.63891518
+   4.97026627   5.30161735   5.63296843   5.96431952   6.2956706
+   6.62702169   6.95837277   7.28972386   7.62107494   7.95242603
+   8.28377711   8.61512819   8.94647928   9.27783036   9.60918145
+   9.94053253  11.59728795  13.25404338  14.9107988   16.56755422
+  18.22430964  19.88106506  21.53782049  23.19457591  26.50808675
+  29.8215976   33.13510844  36.44861928  39.76213013  43.07564097
+  46.38915182  49.70266266  53.0161735   56.32968435  59.64319519
+  62.95670604  66.27021688  69.58372772  72.89723857  76.21074941
+  79.52426026  82.8377711   86.15128194  89.46479279  92.77830363
+  96.09181448  99.40532532 102.71883616 106.03234701 109.34585785
+ 112.6593687  115.97287954 119.28639038 122.59990123 125.91341207
+ 129.22692292 132.54043376 135.8539446  139.16745545 142.48096629
+ 145.79447714 149.10798798 152.42149882 155.73500967 159.04852051
+ 162.36203136 165.6755422  168.98905304 172.30256389 175.61607473
+ 178.92958558 182.24309642 185.55660726 188.87011811 192.18362895
+ 195.4971398  198.81065064 215.37820486 231.94575908 248.5133133
+ 265.08086752 281.64842174 298.21597596 314.78353018 331.3510844 ]",None,"[0.04621997 0.05084197 0.05546396 0.06008596 0.06470795 0.06932995
+ 0.07510745 0.08088494 0.08666244 0.09243994 0.09821744 0.10399493
+ 0.10977243 0.11554993 0.12132742 0.12710492 0.13126472 0.13542451
+ 0.13958431 0.14374411 0.14790391 0.1520637  0.1562235  0.1603833
+ 0.16454309 0.16870289 0.17286269 0.17702249 0.18118228 0.18534208
+ 0.18950188 0.21030086 0.23109985 0.24554359 0.25998733 0.27443107
+ 0.28887481 0.3004298  0.31198479 0.33509478 0.35820476 0.38131475
+ 0.39286974 0.40442473 0.41597973 0.42753472 0.43523805 0.44294138
+ 0.4506447  0.45834803 0.46605136 0.47375469 0.47548794 0.47722119
+ 0.47895444 0.48068769 0.48242093 0.48415418 0.48588743 0.48762068
+ 0.48935393 0.49108718 0.49282043 0.49455368 0.49628693 0.49802018
+ 0.49975342 0.50148667 0.50321992 0.50495317 0.50668642 0.50841967
+ 0.50899742 0.50957517 0.51015292 0.51073067 0.51130842 0.51188617
+ 0.51246392 0.51304167 0.51361942 0.51419717 0.51477491 0.51535266
+ 0.51593041 0.51650816 0.51708591 0.51766366 0.51824141 0.51881916
+ 0.51939691 0.51997466 0.51997466 0.51997466 0.51997466 0.51997466
+ 0.51997466 0.51997466 0.51997466 0.51997466]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31417.711212708273,None,4.940710920770878,None,0.0,None,0.0,None,1529.312697230769,None,1078.295185477506,None,2856.8816376386103,600,2256.8816376386103,30.38692367053338,30,0.38692367053338117,73.61244499945843,65,8.612444999458432,52.56486490597867,80,-27.435135094021327,13.609993649801028,20,-6.390006350198972,8.456470020941692,8.287340620522858,9.533788073214986,3.899159220416691,1,98.7517839977549,850.3053600000001,949.057143997755,2363.971027689149,3782.3536443026387,32316.159087471984,36098.51273177462,0,112759,27381.065064,956.34,0,0,0,4938.37417724,141096.405064,20157.84987800411,-56120.69634948897,155440.74771439194,64019.67938515293,367994.84362876375,0.0017360059604111986,Class 8,Sleeper cab mid roof , no program,Diesel
+3,15,"Class 8 Sleeper cab low roof (Diesel, 2040, no program)",2040,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0013098647465763526, 'EPA_Ph2_urban_highway_55mph.csv': 0.0003650229873952543, 'EPA_Ph2_transient.csv': 0.0028734242056994274}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.4126546347750057, 'EPA_Ph2_urban_highway_55mph.csv': 0.6729691899812984, 'EPA_Ph2_transient.csv': 1.1022981406377035}","{'EPA_Ph2_rural_interstate_65mph.csv': -1.7394463136368238e-10, 'EPA_Ph2_urban_highway_55mph.csv': -6.35177238445468e-11, 'EPA_Ph2_transient.csv': -1.4529824305886084e-12}",0.005785687924367137,0.005530651140632956,4.144149035600537e-05,,,,,,,,,,,,,,,,,,,,,15,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,90,0,0,0,0,13.0,400,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2040,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14181.711212708273,21546.43275,22105.721537291727,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,15,"Class 8 Sleeper cab low roof (Diesel, 2040, no program)",2040,Conv,0.440215395,6.9,0.0,None,None,False,False,11214.10333,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,331.3510844,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04621997 0.06932995 0.12710492 0.23109985 0.28887481 0.38131475
+ 0.42753472 0.47375469 0.50841967 0.51997466 0.51997466 0.51997466]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.25,0.0,0.0,0.0,2.95,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.005394895,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.86,300.0,0.98,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.65675542   4.97026627  13.25404338  19.88106506
+  33.13510844  46.38915182  66.27021688 132.54043376 198.81065064
+ 265.08086752 331.3510844 ]",None,"[  0.           0.33135108   0.66270217   0.99405325   1.32540434
+   1.65675542   1.98810651   2.31945759   2.65080868   2.98215976
+   3.31351084   3.64486193   3.97621301   4.3075641    4.63891518
+   4.97026627   5.30161735   5.63296843   5.96431952   6.2956706
+   6.62702169   6.95837277   7.28972386   7.62107494   7.95242603
+   8.28377711   8.61512819   8.94647928   9.27783036   9.60918145
+   9.94053253  11.59728795  13.25404338  14.9107988   16.56755422
+  18.22430964  19.88106506  21.53782049  23.19457591  26.50808675
+  29.8215976   33.13510844  36.44861928  39.76213013  43.07564097
+  46.38915182  49.70266266  53.0161735   56.32968435  59.64319519
+  62.95670604  66.27021688  69.58372772  72.89723857  76.21074941
+  79.52426026  82.8377711   86.15128194  89.46479279  92.77830363
+  96.09181448  99.40532532 102.71883616 106.03234701 109.34585785
+ 112.6593687  115.97287954 119.28639038 122.59990123 125.91341207
+ 129.22692292 132.54043376 135.8539446  139.16745545 142.48096629
+ 145.79447714 149.10798798 152.42149882 155.73500967 159.04852051
+ 162.36203136 165.6755422  168.98905304 172.30256389 175.61607473
+ 178.92958558 182.24309642 185.55660726 188.87011811 192.18362895
+ 195.4971398  198.81065064 215.37820486 231.94575908 248.5133133
+ 265.08086752 281.64842174 298.21597596 314.78353018 331.3510844 ]",None,"[0.04621997 0.05084197 0.05546396 0.06008596 0.06470795 0.06932995
+ 0.07510745 0.08088494 0.08666244 0.09243994 0.09821744 0.10399493
+ 0.10977243 0.11554993 0.12132742 0.12710492 0.13126472 0.13542451
+ 0.13958431 0.14374411 0.14790391 0.1520637  0.1562235  0.1603833
+ 0.16454309 0.16870289 0.17286269 0.17702249 0.18118228 0.18534208
+ 0.18950188 0.21030086 0.23109985 0.24554359 0.25998733 0.27443107
+ 0.28887481 0.3004298  0.31198479 0.33509478 0.35820476 0.38131475
+ 0.39286974 0.40442473 0.41597973 0.42753472 0.43523805 0.44294138
+ 0.4506447  0.45834803 0.46605136 0.47375469 0.47548794 0.47722119
+ 0.47895444 0.48068769 0.48242093 0.48415418 0.48588743 0.48762068
+ 0.48935393 0.49108718 0.49282043 0.49455368 0.49628693 0.49802018
+ 0.49975342 0.50148667 0.50321992 0.50495317 0.50668642 0.50841967
+ 0.50899742 0.50957517 0.51015292 0.51073067 0.51130842 0.51188617
+ 0.51246392 0.51304167 0.51361942 0.51419717 0.51477491 0.51535266
+ 0.51593041 0.51650816 0.51708591 0.51766366 0.51824141 0.51881916
+ 0.51939691 0.51997466 0.51997466 0.51997466 0.51997466 0.51997466
+ 0.51997466 0.51997466 0.51997466 0.51997466]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31417.711212708273,None,4.940710920770878,None,0.0,None,0.0,None,1529.312697230769,None,1078.295185477506,None,3074.4466503902668,600,2474.4466503902668,30.50572672464636,30,0.5057267246463617,75.4747174753958,65,10.474717475395806,51.710997347806014,80,-28.289002652193986,13.590740640647207,20,-6.409259359352793,9.10047010260448,8.918460700552389,10.259831006318468,3.6056218302399055,1,91.76355633018647,850.3053600000001,942.0689163301865,2196.683237309554,3514.6931796952863,32316.159087471984,35830.85226716727,0,112759,27381.065064,956.34,0,0,0,4938.37417724,141096.405064,20157.84987800411,-56120.69634948897,144440.89242195556,64019.67938515293,356560.0400813404,0.002178086594512134,Class 8,Sleeper cab low roof , no program,Diesel
+4,16,"Class 8 Sleeper cab high roof (Diesel, 2050, no program)",2050,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.003313076398309066, 'EPA_Ph2_urban_highway_55mph.csv': 0.0008094066710674085, 'EPA_Ph2_transient.csv': 0.002977264214843584}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 2.268606631703779, 'EPA_Ph2_urban_highway_55mph.csv': 1.0537006356397143, 'EPA_Ph2_transient.csv': 1.1124386563044055}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.0934957478530264e-10, 'EPA_Ph2_urban_highway_55mph.csv': -7.483589403490237e-11, 'EPA_Ph2_transient.csv': -1.255540247772788e-12}",0.003379673372951086,0.0033409113816837807,4.036920157257163e-05,,,,,,,,,,,,,,,,,,,,,16,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,85,0,0,0,0,11.0,350,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2050,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,False,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14741.987493169814,21546.43275,21545.445256830186,0.0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,16,"Class 8 Sleeper cab high roof (Diesel, 2050, no program)",2050,Conv,0.68,10.4,0.0,None,None,False,False,11776.0,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,331.0,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],[0.04 0.06 0.11 0.2  0.25 0.33 0.37 0.41 0.44 0.45 0.45 0.45],HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.13,0.0,0.0,0.0,2.61,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.004623,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.74,300.0,0.99,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.      1.655   4.965  13.24   19.86   33.1    46.34   66.2   132.4
+ 198.6   264.8   331.   ]",None,"[  0.      0.331   0.662   0.993   1.324   1.655   1.986   2.317   2.648
+   2.979   3.31    3.641   3.972   4.303   4.634   4.965   5.296   5.627
+   5.958   6.289   6.62    6.951   7.282   7.613   7.944   8.275   8.606
+   8.937   9.268   9.599   9.93   11.585  13.24   14.895  16.55   18.205
+  19.86   21.515  23.17   26.48   29.79   33.1    36.41   39.72   43.03
+  46.34   49.65   52.96   56.27   59.58   62.89   66.2    69.51   72.82
+  76.13   79.44   82.75   86.06   89.37   92.68   95.99   99.3   102.61
+ 105.92  109.23  112.54  115.85  119.16  122.47  125.78  129.09  132.4
+ 135.71  139.02  142.33  145.64  148.95  152.26  155.57  158.88  162.19
+ 165.5   168.81  172.12  175.43  178.74  182.05  185.36  188.67  191.98
+ 195.29  198.6   215.15  231.7   248.25  264.8   281.35  297.9   314.45
+ 331.   ]",None,"[0.04       0.044      0.048      0.052      0.056      0.06
+ 0.065      0.07       0.075      0.08       0.085      0.09
+ 0.095      0.1        0.105      0.11       0.1136     0.1172
+ 0.1208     0.1244     0.128      0.1316     0.1352     0.1388
+ 0.1424     0.146      0.1496     0.1532     0.1568     0.1604
+ 0.164      0.182      0.2        0.2125     0.225      0.2375
+ 0.25       0.26       0.27       0.29       0.31       0.33
+ 0.34       0.35       0.36       0.37       0.37666667 0.38333333
+ 0.39       0.39666667 0.40333333 0.41       0.4115     0.413
+ 0.4145     0.416      0.4175     0.419      0.4205     0.422
+ 0.4235     0.425      0.4265     0.428      0.4295     0.431
+ 0.4325     0.434      0.4355     0.437      0.4385     0.44
+ 0.4405     0.441      0.4415     0.442      0.4425     0.443
+ 0.4435     0.444      0.4445     0.445      0.4455     0.446
+ 0.4465     0.447      0.4475     0.448      0.4485     0.449
+ 0.4495     0.45       0.45       0.45       0.45       0.45
+ 0.45       0.45       0.45       0.45      ]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31977.987493169814,None,4.9407109207708775,None,0.0,None,0.0,None,1527.6923076923074,None,1078.295185477506,None,2028.3567891608598,600,1428.3567891608598,30.568084383904704,30,0.5680843839047043,69.05808758877988,65,4.058087588779884,54.29038484619853,80,-25.709615153801472,13.472036116520242,20,-6.527963883479758,6.004007360098461,5.8839272128964915,6.768892175984735,5.549135645311772,1.0,139.089020183651,850.3053600000001,989.394380183651,3329.584546961678,5327.335275138686,32316.159087471984,37643.49436261067,0,112759,27360,956.34,0,0,0,4937.6369,141075.34,20154.840400919355,-56112.31777981677,225372.12844276364,64019.67938515293,440420.38625859155,0.0006553574166338037,Class 8,Sleeper cab high roof , no program,Diesel
+5,17,"Class 8 Sleeper cab mid roof (Diesel, 2050, no program)",2050,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0012970569677476233, 'EPA_Ph2_urban_highway_55mph.csv': 0.00035186561054865876, 'EPA_Ph2_transient.csv': 0.0028613720706972753}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.4048140435156071, 'EPA_Ph2_urban_highway_55mph.csv': 0.6588024652749631, 'EPA_Ph2_transient.csv': 1.103373059647346}","{'EPA_Ph2_rural_interstate_65mph.csv': -1.7936356612185285e-10, 'EPA_Ph2_urban_highway_55mph.csv': -6.405426712220482e-11, 'EPA_Ph2_transient.csv': -1.5600896190308808e-12}",0.006072444468607932,0.005839925273904893,5.017361402017861e-05,,,,,,,,,,,,,,,,,,,,,17,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,85,0,0,0,0,11.0,350,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2050,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14068.338653169812,21546.43275,22219.094096830187,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,17,"Class 8 Sleeper cab mid roof (Diesel, 2050, no program)",2050,Conv,0.434176388,7.7,0.0,None,None,False,False,11124.63408,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,326.172034,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04799949 0.07199924 0.1319986  0.23999746 0.29999682 0.3959958
+ 0.4439953  0.49199479 0.52799441 0.53999428 0.53999428 0.53999428]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.13,0.0,0.0,0.0,2.61,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.004775904,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.74,300.0,0.99,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.63086017   4.89258051  13.04688136  19.57032204
+  32.6172034   45.66408476  65.2344068  130.4688136  195.7032204
+ 260.9376272  326.172034  ]",None,"[  0.           0.32617203   0.65234407   0.9785161    1.30468814
+   1.63086017   1.9570322    2.28320424   2.60937627   2.93554831
+   3.26172034   3.58789237   3.91406441   4.24023644   4.56640848
+   4.89258051   5.21875254   5.54492458   5.87109661   6.19726865
+   6.52344068   6.84961271   7.17578475   7.50195678   7.82812882
+   8.15430085   8.48047288   8.80664492   9.13281695   9.45898899
+   9.78516102  11.41602119  13.04688136  14.67774153  16.3086017
+  17.93946187  19.57032204  21.20118221  22.83204238  26.09376272
+  29.35548306  32.6172034   35.87892374  39.14064408  42.40236442
+  45.66408476  48.9258051   52.18752544  55.44924578  58.71096612
+  61.97268646  65.2344068   68.49612714  71.75784748  75.01956782
+  78.28128816  81.5430085   84.80472884  88.06644918  91.32816952
+  94.58988986  97.8516102  101.11333054 104.37505088 107.63677122
+ 110.89849156 114.1602119  117.42193224 120.68365258 123.94537292
+ 127.20709326 130.4688136  133.73053394 136.99225428 140.25397462
+ 143.51569496 146.7774153  150.03913564 153.30085598 156.56257632
+ 159.82429666 163.086017   166.34773734 169.60945768 172.87117802
+ 176.13289836 179.3946187  182.65633904 185.91805938 189.17977972
+ 192.44150006 195.7032204  212.0118221  228.3204238  244.6290255
+ 260.9376272  277.2462289  293.5548306  309.8634323  326.172034  ]",None,"[0.04799949 0.05279944 0.05759939 0.06239934 0.06719929 0.07199924
+ 0.07799918 0.08399911 0.08999905 0.09599898 0.10199892 0.10799886
+ 0.11399879 0.11999873 0.12599866 0.1319986  0.13631855 0.14063851
+ 0.14495846 0.14927842 0.15359837 0.15791833 0.16223828 0.16655824
+ 0.17087819 0.17519814 0.1795181  0.18383805 0.18815801 0.19247796
+ 0.19679792 0.21839769 0.23999746 0.2549973  0.26999714 0.28499698
+ 0.29999682 0.31199669 0.32399657 0.34799631 0.37199605 0.3959958
+ 0.40799568 0.41999555 0.43199542 0.4439953  0.45199521 0.45999513
+ 0.46799504 0.47599496 0.48399487 0.49199479 0.49379477 0.49559475
+ 0.49739473 0.49919471 0.5009947  0.50279468 0.50459466 0.50639464
+ 0.50819462 0.5099946  0.51179458 0.51359456 0.51539454 0.51719452
+ 0.5189945  0.52079449 0.52259447 0.52439445 0.52619443 0.52799441
+ 0.5285944  0.5291944  0.52979439 0.53039438 0.53099438 0.53159437
+ 0.53219436 0.53279436 0.53339435 0.53399434 0.53459434 0.53519433
+ 0.53579433 0.53639432 0.53699431 0.53759431 0.5381943  0.53879429
+ 0.53939429 0.53999428 0.53999428 0.53999428 0.53999428 0.53999428
+ 0.53999428 0.53999428 0.53999428 0.53999428]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31304.338653169812,None,4.940710920770878,None,0.0,None,0.0,None,1505.4093876923075,None,1078.295185477506,None,3266.2945937203417,600,2666.2945937203417,30.579446616823358,30,0.5794466168233576,75.39891647263337,65,10.398916472633374,51.5527620105693,80,-28.447237989430697,13.582405084342964,20,-6.417594915657036,9.6683467552372,9.474979820132457,10.900052711654116,3.395684367593469,1,86.37376399839687,850.3053600000001,936.679123998397,2067.659614628454,3308.255383405527,32316.159087471984,35624.41447087751,0,112759,27070.32204,956.34,0,0,0,4927.4981714000005,140785.66204,20113.45532928696,-55997.09918991063,139955.2531769131,64019.67938515293,351496.5229983483,0.002290176768402431,Class 8,Sleeper cab mid roof , no program,Diesel
+6,18,"Class 8 Sleeper cab low roof (Diesel, 2050, no program)",2050,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.001045193980960593, 'EPA_Ph2_urban_highway_55mph.csv': 0.0002913803122132878, 'EPA_Ph2_transient.csv': 0.002846994661288391}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.2467975292132252, 'EPA_Ph2_urban_highway_55mph.csv': 0.59087608254071, 'EPA_Ph2_transient.csv': 1.102201807674927}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.0620880077614004e-10, 'EPA_Ph2_urban_highway_55mph.csv': -5.022476142514017e-11, 'EPA_Ph2_transient.csv': -1.570678017194225e-12}",0.006783279946421116,0.0064536119342614535,5.936336467320675e-05,,,,,,,,,,,,,,,,,,,,,18,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,85,0,0,0,0,11.0,350,50,6250,85,0.07,9.5,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2050,FY22NoProgram,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14068.338653169812,21546.43275,22219.094096830187,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,18,"Class 8 Sleeper cab low roof (Diesel, 2050, no program)",2050,Conv,0.375933214,6.9,0.0,None,None,False,False,11124.63408,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,326.172034,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04799949 0.07199924 0.1319986  0.23999746 0.29999682 0.3959958
+ 0.4439953  0.49199479 0.52799441 0.53999428 0.53999428 0.53999428]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.13,0.0,0.0,0.0,2.61,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.004775904,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,2.74,300.0,0.99,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.63086017   4.89258051  13.04688136  19.57032204
+  32.6172034   45.66408476  65.2344068  130.4688136  195.7032204
+ 260.9376272  326.172034  ]",None,"[  0.           0.32617203   0.65234407   0.9785161    1.30468814
+   1.63086017   1.9570322    2.28320424   2.60937627   2.93554831
+   3.26172034   3.58789237   3.91406441   4.24023644   4.56640848
+   4.89258051   5.21875254   5.54492458   5.87109661   6.19726865
+   6.52344068   6.84961271   7.17578475   7.50195678   7.82812882
+   8.15430085   8.48047288   8.80664492   9.13281695   9.45898899
+   9.78516102  11.41602119  13.04688136  14.67774153  16.3086017
+  17.93946187  19.57032204  21.20118221  22.83204238  26.09376272
+  29.35548306  32.6172034   35.87892374  39.14064408  42.40236442
+  45.66408476  48.9258051   52.18752544  55.44924578  58.71096612
+  61.97268646  65.2344068   68.49612714  71.75784748  75.01956782
+  78.28128816  81.5430085   84.80472884  88.06644918  91.32816952
+  94.58988986  97.8516102  101.11333054 104.37505088 107.63677122
+ 110.89849156 114.1602119  117.42193224 120.68365258 123.94537292
+ 127.20709326 130.4688136  133.73053394 136.99225428 140.25397462
+ 143.51569496 146.7774153  150.03913564 153.30085598 156.56257632
+ 159.82429666 163.086017   166.34773734 169.60945768 172.87117802
+ 176.13289836 179.3946187  182.65633904 185.91805938 189.17977972
+ 192.44150006 195.7032204  212.0118221  228.3204238  244.6290255
+ 260.9376272  277.2462289  293.5548306  309.8634323  326.172034  ]",None,"[0.04799949 0.05279944 0.05759939 0.06239934 0.06719929 0.07199924
+ 0.07799918 0.08399911 0.08999905 0.09599898 0.10199892 0.10799886
+ 0.11399879 0.11999873 0.12599866 0.1319986  0.13631855 0.14063851
+ 0.14495846 0.14927842 0.15359837 0.15791833 0.16223828 0.16655824
+ 0.17087819 0.17519814 0.1795181  0.18383805 0.18815801 0.19247796
+ 0.19679792 0.21839769 0.23999746 0.2549973  0.26999714 0.28499698
+ 0.29999682 0.31199669 0.32399657 0.34799631 0.37199605 0.3959958
+ 0.40799568 0.41999555 0.43199542 0.4439953  0.45199521 0.45999513
+ 0.46799504 0.47599496 0.48399487 0.49199479 0.49379477 0.49559475
+ 0.49739473 0.49919471 0.5009947  0.50279468 0.50459466 0.50639464
+ 0.50819462 0.5099946  0.51179458 0.51359456 0.51539454 0.51719452
+ 0.5189945  0.52079449 0.52259447 0.52439445 0.52619443 0.52799441
+ 0.5285944  0.5291944  0.52979439 0.53039438 0.53099438 0.53159437
+ 0.53219436 0.53279436 0.53339435 0.53399434 0.53459434 0.53519433
+ 0.53579433 0.53639432 0.53699431 0.53759431 0.5381943  0.53879429
+ 0.53939429 0.53999428 0.53999428 0.53999428 0.53999428 0.53999428
+ 0.53999428 0.53999428 0.53999428 0.53999428]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31304.338653169812,None,4.940710920770878,None,0.0,None,0.0,None,1505.4093876923075,None,1078.295185477506,None,3489.276965376589,600,2889.276965376589,30.68412142599893,30,0.6841214259989314,77.09055688206301,65,12.090556882063012,50.86347788151273,80,-29.13652211848727,13.566074012945663,20,-6.433925987054337,10.328382409590782,10.121814761398966,11.644174080711142,3.1631416541166457,1,80.85404546176277,850.3053600000001,931.1594054617628,1935.5257515896012,3096.8412025433618,32316.159087471984,35413.00029001535,0,112759,27070.32204,956.34,0,0,0,4927.4981714000005,140785.66204,20113.45532928696,-55997.09918991063,131011.40762128509,64019.67938515293,342209.1293988193,0.002743203364711218,Class 8,Sleeper cab low roof , no program,Diesel
+7,19,"Class 8 Sleeper cab high roof (Diesel, 2025, program success)",2025,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.004571335156127345, 'EPA_Ph2_urban_highway_55mph.csv': 0.0012186827236108652, 'EPA_Ph2_transient.csv': 0.0032245082024756205}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 2.6504213465710684, 'EPA_Ph2_urban_highway_55mph.csv': 1.3242824205959955, 'EPA_Ph2_transient.csv': 1.1260105876342514}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.4446042640311073e-10, 'EPA_Ph2_urban_highway_55mph.csv': -8.155328388058963e-11, 'EPA_Ph2_transient.csv': -1.1124005757605194e-12}",0.003174939003390809,0.0031153785757124914,-4.0646445275930104e-05,,,,,,,,,,,,,,,,,,,,,19,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,177,0,0,0,0,18.0,300,50,6250,130,0.07,10.0,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2025,FY22TechSuccess,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,False,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14741.987493169814,21546.43275,21545.445256830186,0.0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,19,"Class 8 Sleeper cab high roof (Diesel, 2025, program success)",2025,Conv,0.68,10.4,0.0,None,None,False,False,11776.0,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,331.0,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],[0.04 0.06 0.11 0.2  0.25 0.33 0.37 0.41 0.44 0.45 0.45 0.45],HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.39,0.0,0.0,0.0,4.18,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.005931667,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,3.23,300.0,0.97,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.      1.655   4.965  13.24   19.86   33.1    46.34   66.2   132.4
+ 198.6   264.8   331.   ]",None,"[  0.      0.331   0.662   0.993   1.324   1.655   1.986   2.317   2.648
+   2.979   3.31    3.641   3.972   4.303   4.634   4.965   5.296   5.627
+   5.958   6.289   6.62    6.951   7.282   7.613   7.944   8.275   8.606
+   8.937   9.268   9.599   9.93   11.585  13.24   14.895  16.55   18.205
+  19.86   21.515  23.17   26.48   29.79   33.1    36.41   39.72   43.03
+  46.34   49.65   52.96   56.27   59.58   62.89   66.2    69.51   72.82
+  76.13   79.44   82.75   86.06   89.37   92.68   95.99   99.3   102.61
+ 105.92  109.23  112.54  115.85  119.16  122.47  125.78  129.09  132.4
+ 135.71  139.02  142.33  145.64  148.95  152.26  155.57  158.88  162.19
+ 165.5   168.81  172.12  175.43  178.74  182.05  185.36  188.67  191.98
+ 195.29  198.6   215.15  231.7   248.25  264.8   281.35  297.9   314.45
+ 331.   ]",None,"[0.04       0.044      0.048      0.052      0.056      0.06
+ 0.065      0.07       0.075      0.08       0.085      0.09
+ 0.095      0.1        0.105      0.11       0.1136     0.1172
+ 0.1208     0.1244     0.128      0.1316     0.1352     0.1388
+ 0.1424     0.146      0.1496     0.1532     0.1568     0.1604
+ 0.164      0.182      0.2        0.2125     0.225      0.2375
+ 0.25       0.26       0.27       0.29       0.31       0.33
+ 0.34       0.35       0.36       0.37       0.37666667 0.38333333
+ 0.39       0.39666667 0.40333333 0.41       0.4115     0.413
+ 0.4145     0.416      0.4175     0.419      0.4205     0.422
+ 0.4235     0.425      0.4265     0.428      0.4295     0.431
+ 0.4325     0.434      0.4355     0.437      0.4385     0.44
+ 0.4405     0.441      0.4415     0.442      0.4425     0.443
+ 0.4435     0.444      0.4445     0.445      0.4455     0.446
+ 0.4465     0.447      0.4475     0.448      0.4485     0.449
+ 0.4495     0.45       0.45       0.45       0.45       0.45
+ 0.45       0.45       0.45       0.45      ]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31977.987493169814,None,4.9407109207708775,None,0.0,None,0.0,None,1527.6923076923074,None,1078.295185477506,None,1869.3248807292478,600,1269.3248807292478,29.414849365729527,30,-0.5851506342704731,67.00035577314978,65,2.000355773149778,57.842017721255324,80,-22.157982278744676,13.899910947070572,20,-6.1000890529294285,5.53326732372206,5.422601977247618,6.238181875673122,6.027301182779755,1.0,150.92195117906996,850.3053600000001,1001.22731117907,3612.8473389174305,5780.5557422678885,32316.159087471984,38096.714829739874,0,112759,27360,956.34,0,0,0,4937.6369,141075.34,20154.840400919355,-56112.31777981677,216660.68751765936,64019.67938515293,432445.4285925722,0.00031347796164435876,Class 8,Sleeper cab high roof , program success,Diesel
+8,20,"Class 8 Sleeper cab mid roof (Diesel, 2025, program success)",2025,Conv,,0,NSGA2,,,"{'EPA_Ph2_rural_interstate_65mph.csv': 0.0021975868968682555, 'EPA_Ph2_urban_highway_55mph.csv': 0.0005837632741378571, 'EPA_Ph2_transient.csv': 0.00291641224408004}","{'EPA_Ph2_rural_interstate_65mph.csv': 0.0, 'EPA_Ph2_urban_highway_55mph.csv': 0.0, 'EPA_Ph2_transient.csv': 0.0}","{'EPA_Ph2_rural_interstate_65mph.csv': 1.8524159383653114, 'EPA_Ph2_urban_highway_55mph.csv': 0.8783145198702726, 'EPA_Ph2_transient.csv': 1.1035264927918043}","{'EPA_Ph2_rural_interstate_65mph.csv': -2.011369681753751e-10, 'EPA_Ph2_urban_highway_55mph.csv': -6.42731244670315e-11, 'EPA_Ph2_transient.csv': -1.3473222011024938e-12}",0.0044464803528832504,0.004346129557972953,1.6381311557044945e-05,,,,,,,,,,,,,,,,,,,,,20,"[('EPA_Ph2_rural_interstate_65mph.csv', 0.86), ('EPA_Ph2_urban_highway_55mph.csv', 0.09), ('EPA_Ph2_transient.csv', 0.05)]",True,nan,"[108010, 117983, 114998, 104732]",0.14209720841659715,4,0,0.03,100,0,177,0,0,0,0,18.0,300,50,6250,130,0.07,10.0,500,1.2,0.035,55,7.467735503,112759,HDTC8,36287.43275,0,['diesel'],"[0.15,0.15,0.15,0.15]",Long haul,class 8 sleeper,2025,FY22TechSuccess,600,30,65,80,20,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,-1.0,-1.0,-1.0,-1.0,[],-1,-1.0,-1.0,-1,-1,10,15,7.2,-1,-1,-1,"[260,260,260,260,260,260,260,260,260,260]",False,-1,-1,-1,True,nan,nan,nan,nan,280.0,400.0,nan,nan,False,False,False,True,True,True,False,nan,nan,nan,25,40,True,14741,14319.375390554429,21546.43275,21968.05735944557,0,True,0,0,0.3,"[0.1,0.9]",1,0.1,"[3.0, 3.5, 4.0, 4.5, 4.8]",0,True,24,"[0.001, 0.0015, 0.002, 0.0022, 0.0025]",100000,2,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,20,"Class 8 Sleeper cab mid roof (Diesel, 2025, program success)",2025,Conv,0.602728507,7.7,0.0,None,None,False,False,11324.48487,-0.46,0.8,5.88,17236.0,1.2,5000.0,1.0,11385.0,12.67,337.2623226,[0.    0.005 0.015 0.04  0.06  0.1   0.14  0.2   0.4   0.6   0.8   1.   ],"[0.04521131 0.06781696 0.1243311  0.22605654 0.28257067 0.37299329
+ 0.41820459 0.4634159  0.49732438 0.50862721 0.50862721 0.50862721]",HD_Diesel,6.0,0.0,0.26,5.0,0.0,0.0,[0.   0.02 0.04 0.06 0.08 0.1  0.2  0.4  0.6  0.8  1.  ],[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],1.0,0.39,0.0,0.0,0.0,4.18,75.0,0.97,130.0,-0.6811,0.05,0.95,0.0,0.0,11.84,18,0.006021667,0.506,0.6,60.0,0.2,0.0,55.0,9999.0,0.9,1.0,0.98,3.23,300.0,0.97,0.005,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,Demo-NoOpt,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_vehicle_model_assumptions.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/inputs/demo/Demo_FY22_scenario_assumptions.csv,../tco_results/t3co_results,None,False,"[12, 13, 14, 15, 16, 17, 18, 19, 20]",4,None,100,7.2,10,15,DIRECT,NSGA2,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/LightweightImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/EngineEffImprovementCostCurve.csv,/Users/hpanneer/Documents/GitHub/T3CO_Go/demo_inputs/auxiliary/AeroDragImprovementCostCurve.csv,MDHD_noprogram_2020,MDHD_large_noprogram_2020,SleeperTractorHighRoof_noprogram_2021,True,False,True,True,True,False,False,False,True,True,"[0.1,0.9]",True,500.0,None,0.99,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,[0.12 0.16 0.21 0.29 0.35 0.42 0.75 0.92 0.93 0.93 0.92],None,7.5,None,75.0,None,"[0.    0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01  0.011
+ 0.012 0.013 0.014 0.015 0.016 0.017 0.018 0.019 0.02  0.021 0.022 0.023
+ 0.024 0.025 0.026 0.027 0.028 0.029 0.03  0.035 0.04  0.045 0.05  0.055
+ 0.06  0.065 0.07  0.08  0.09  0.1   0.11  0.12  0.13  0.14  0.15  0.16
+ 0.17  0.18  0.19  0.2   0.21  0.22  0.23  0.24  0.25  0.26  0.27  0.28
+ 0.29  0.3   0.31  0.32  0.33  0.34  0.35  0.36  0.37  0.38  0.39  0.4
+ 0.41  0.42  0.43  0.44  0.45  0.46  0.47  0.48  0.49  0.5   0.51  0.52
+ 0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6   0.65  0.7   0.75  0.8
+ 0.85  0.9   0.95  1.   ]",None,"[0.   0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1  0.11 0.12 0.13
+ 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25 0.26 0.27
+ 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.4  0.41
+ 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.5  0.51 0.52 0.53 0.54 0.55
+ 0.56 0.57 0.58 0.59 0.6  0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69
+ 0.7  0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.8  0.81 0.82 0.83
+ 0.84 0.85 0.86 0.87 0.88 0.89 0.9  0.91 0.92 0.93 0.94 0.95 0.96 0.97
+ 0.98 0.99 1.  ]",None,[0. 0. 0. 0. 0. 0.],None,False,None,True,None,True,None,"[  0.           1.68631161   5.05893484  13.4904929   20.23573936
+  33.72623226  47.21672516  67.45246452 134.90492904 202.35739356
+ 269.80985808 337.2623226 ]",None,"[  0.           0.33726232   0.67452465   1.01178697   1.34904929
+   1.68631161   2.02357394   2.36083626   2.69809858   3.0353609
+   3.37262323   3.70988555   4.04714787   4.38441019   4.72167252
+   5.05893484   5.39619716   5.73345948   6.07072181   6.40798413
+   6.74524645   7.08250877   7.4197711    7.75703342   8.09429574
+   8.43155807   8.76882039   9.10608271   9.44334503   9.78060736
+  10.11786968  11.80418129  13.4904929   15.17680452  16.86311613
+  18.54942774  20.23573936  21.92205097  23.60836258  26.98098581
+  30.35360903  33.72623226  37.09885549  40.47147871  43.84410194
+  47.21672516  50.58934839  53.96197162  57.33459484  60.70721807
+  64.07984129  67.45246452  70.82508775  74.19771097  77.5703342
+  80.94295742  84.31558065  87.68820388  91.0608271   94.43345033
+  97.80607355 101.17869678 104.55132001 107.92394323 111.29656646
+ 114.66918968 118.04181291 121.41443614 124.78705936 128.15968259
+ 131.53230581 134.90492904 138.27755227 141.65017549 145.02279872
+ 148.39542194 151.76804517 155.1406684  158.51329162 161.88591485
+ 165.25853807 168.6311613  172.00378453 175.37640775 178.74903098
+ 182.1216542  185.49427743 188.86690066 192.23952388 195.61214711
+ 198.98477033 202.35739356 219.22050969 236.08362582 252.94674195
+ 269.80985808 286.67297421 303.53609034 320.39920647 337.2623226 ]",None,"[0.04521131 0.04973244 0.05425357 0.0587747  0.06329583 0.06781696
+ 0.07346837 0.07911979 0.0847712  0.09042262 0.09607403 0.10172544
+ 0.10737686 0.11302827 0.11867969 0.1243311  0.12840012 0.13246914
+ 0.13653815 0.14060717 0.14467619 0.14874521 0.15281422 0.15688324
+ 0.16095226 0.16502128 0.16909029 0.17315931 0.17722833 0.18129735
+ 0.18536636 0.20571145 0.22605654 0.24018507 0.2543136  0.26844214
+ 0.28257067 0.2938735  0.30517633 0.32778198 0.35038763 0.37299329
+ 0.38429611 0.39559894 0.40690176 0.41820459 0.42573981 0.43327503
+ 0.44081024 0.44834546 0.45588068 0.4634159  0.46511132 0.46680675
+ 0.46850217 0.4701976  0.47189302 0.47358844 0.47528387 0.47697929
+ 0.47867472 0.48037014 0.48206556 0.48376099 0.48545641 0.48715184
+ 0.48884726 0.49054268 0.49223811 0.49393353 0.49562896 0.49732438
+ 0.49788952 0.49845466 0.4990198  0.49958495 0.50015009 0.50071523
+ 0.50128037 0.50184551 0.50241065 0.5029758  0.50354094 0.50410608
+ 0.50467122 0.50523636 0.5058015  0.50636664 0.50693179 0.50749693
+ 0.50806207 0.50862721 0.50862721 0.50862721 0.50862721 0.50862721
+ 0.50862721 0.50862721 0.50862721 0.50862721]",None,0.95,None,[0.83 0.85 0.87 0.89 0.9  0.91 0.93 0.94 0.94 0.93 0.92],None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,"[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0.]",None,0.0,None,"[0.     0.84   0.85   0.86   0.87   0.88   0.89   0.895  0.9    0.905
+ 0.91   0.912  0.914  0.916  0.918  0.92   0.922  0.924  0.926  0.928
+ 0.93   0.9305 0.931  0.9315 0.932  0.9325 0.933  0.9335 0.934  0.9345
+ 0.935  0.9355 0.936  0.9365 0.937  0.9375 0.938  0.9385 0.939  0.9395
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94   0.94
+ 0.94   0.9395 0.939  0.9385 0.938  0.9375 0.937  0.9365 0.936  0.9355
+ 0.935  0.9345 0.934  0.9335 0.933  0.9325 0.932  0.9315 0.931  0.9305
+ 0.93   0.9295 0.929  0.9285 0.928  0.9275 0.927  0.9265 0.926  0.9255
+ 0.925  0.9245 0.924  0.9235 0.923  0.9225 0.922  0.9215 0.921  0.9205
+ 0.92  ]",None,31555.37539055443,None,4.940710920770878,None,0.0,None,0.0,None,1556.5953350769228,None,1078.295185477506,None,2513.911870791795,600,1913.911870791795,30.2092659078045,30,0.20926590780450027,71.6608611824545,65,6.6608611824544965,53.74589154595979,80,-26.254108454040207,13.630638578558692,20,-6.369361421441308,7.441267461193105,7.292442111969244,8.389253056587492,4.4490573414746395,1,112.22436301968756,850.3053600000001,962.5297230196875,2686.484557944213,4298.375292710741,32316.159087471984,36614.534380182726,0,112759,27735.739356,956.34,0,0,0,4950.78777746,141451.079356,20208.520702186208,-56261.76704675637,161107.16471739384,64019.67938515293,374776.4838295636,0.0012469250086593296,Class 8,Sleeper cab mid roof , program success,Diesel

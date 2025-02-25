@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[project]
+name = "t3co_go"
+version = "0.0.1"
+dynamic = ["dependencies"]
+description = """
+Template for NREL python package
+"""
+readme = "README.md"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+requires-python = ">=3.8"
+authors = [
+  {name = "John Doe", email = "John.Doe@nrel.gov"},
+
+]
+maintainers = [
+  {name = "NREL-AVCI", email = "AVCI@nrel.gov"}
+]
+keywords = ["nrel", "tool", "cims"]
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
+
+[project.urls]
+Homepage = "https://www.nrel.gov/transportation/t3co_go.html"
+Documentation = "https://pages.github.nrel.gov/AVCI/t3co_go/"
+Repository = "https://github.nrel.gov/AVCI/t3co_go"
+"Bug Tracker" = "https://github.nrel.gov/AVCI/t3co_go/issues"
+
+[project.scripts]
+install_demo_inputs = "t3co_go.utilities.demo_files_installer:main"
+run_t3co_go = "t3co_go.cli.run_t3co_go"
+
