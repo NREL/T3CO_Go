@@ -24,11 +24,11 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 authors = [
-  {name = "John Doe", email = "John.Doe@nrel.gov"},
+  {name = "Harish Panneer Selvam", email = "harish.panneerselvam@nrel.gov"},
 
 ]
 maintainers = [
-  {name = "NREL-AVCI", email = "AVCI@nrel.gov"}
+  {name = "NREL-AVCI", email = "T3CO@nrel.gov"}
 ]
 keywords = ["nrel", "tool", "cims"]
 
@@ -43,5 +43,5 @@ Repository = "https://github.nrel.gov/AVCI/t3co_go"
 
 [project.scripts]
 install_demo_inputs = "t3co_go.utilities.demo_files_installer:main"
-run_t3co_go = "t3co_go.cli.run_t3co_go"
+run_t3co_go = "t3co_go.cli.run_t3co_go:main"
 

@@ -132,7 +132,7 @@ def visualization_dashboard():
 
     # st.subheader("T3CO Results")
     with st.expander("See T3CO Results Table"):
-        st.write(st.session_state.results_df)
+        st.write(st.session_state.tc.t3co_results)
         # vehicle_df = st.data_editor(st.session_state.results_df, key=3)
 
     st.markdown("#### T3COCharts")

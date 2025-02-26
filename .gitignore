@@ -135,3 +135,4 @@ src/t3co_go/tco_results
 src/t3co_go/app/fig.png
 demo_inputs/T3COConfig.csv
 src/demo
+/demo_inputs

@@ -20,7 +20,7 @@ parser.add_argument(
     "--input-file",
     type=str,
     default=None,
-    help="Filepath of Quickstats results CSV file",
+    help="Filepath of T3CO results CSV file",
 )
 args = parser.parse_args()
 if args.input_file:
@@ -40,7 +40,7 @@ purpose = st.radio(
 )
 
 if purpose == "Visualize Existing Results":
-    uploaded_file = st.file_uploader("Choose a Quickstats results file")
+    uploaded_file = st.file_uploader("Choose a T3CO results file")
     if uploaded_file is not None or df is not None:
         st.subheader(f"Filename: {uploaded_file.name} ")
         st.session_state.results_df = pd.read_csv(uploaded_file)
