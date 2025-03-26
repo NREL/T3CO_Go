@@ -16,7 +16,10 @@ From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/d
 
 ```bash
 pip install t3co-go
+install_demo_inputs
 ```
+
+This installs the tool from PyPI and copies T3CO demo input files to the current folder
 
 ### Installation Source #2: From a git clone of the repository
 
@@ -34,7 +37,10 @@ From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/d
 
 ```bash
 pip install -e .
+install_demo_inputs
 ```
+
+This installs the tool from the repo clone and copies T3CO demo input files to the same folder
 
 ## Quick Start
 
