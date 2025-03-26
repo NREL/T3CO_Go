@@ -29,41 +29,41 @@ This package depends on [Python](https://www.python.org/downloads/)>=3.8 and <=3
     t3co_go\Scripts\activate
     ```
 
-## Installing t3co_go Python Package
+## Installing T3CO-Go Python Package
 
-t3co_go is available on PyPI and as a public access GitHub repository. This gives the user two ways of installing the t3co_go Python Package.
+T3CO-Go can be installed from two sources: PyPI or GitHub
 
-### 1. Installing From [PyPI](https://pypi.org/project/t3co_go/) <a name=install-from-pypi></a>
+### Installation Source #1: PyPI
 
-t3co_go can be easily installed from PyPI. This is the preferred method when using t3co_go to run analysis using input files. To install the latest release:
-
-```bash
-pip install t3co_go
-```
-
-To install a specific version (for example t3co_go v0.1.0):
+From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/docs/installation.md#setting-up-env), navigate to the parent directory containing the T3CO repository (`cd T3CO_Go`) and run:
 
 ```bash
-pip install t3co_go==0.1.0
+pip install t3co-go
+install_demo_inputs
 ```
 
-### 2. From [GitHub](https://github.com/NREL/t3co_go)
+This installs the tool from PyPI and copies T3CO demo input files to the current folder
 
-t3co_go can also be installed directly from the GitHub repository for accessing demo input files and running t3co_go using the Command Line Interface.
+### Installation Source #2: From a git clone of the repository
 
-First, [clone](https://git-scm.com/docs/git-clone) the repository from [GitHub](https://github.com/NREL/t3co_go):
+T3CO-Go can also be installed from a clone of the [GitHub repository](https://github.com/NREL/T3CO_Go).
+
+First, [clone](https://git-scm.com/docs/git-clone) the repository from [GitHub](https://github.com/NREL/T3CO_Go) from your desired directory (eg., /Users/Projects/):
 
 ```bash
-git clone https://github.nrel.gov/AVCI/t3co_go.git t3co_go
+git clone https://github.com/NREL/T3CO_Go.git T3CO_Go
 ```
 
-From within the [Python environment](#setting-up-env) Navigate to the parent directory containing the t3co_go repository e.g. `cd GitHub/t3co_go/` and run:
+This creates a git compliant folder 'T3CO_Go' (i.e., a '/Users/Projects/T3CO_Go' folder)
+
+From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/docs/installation.md#setting-up-env), navigate to the parent directory containing the T3CO repository (`cd T3CO_Go`) and run this command:
 
 ```bash
 pip install -e .
+install_demo_inputs
 ```
 
-This installs the local version of the t3co_go clone along with all its [dependencies](https://github.nrel.gov/AVCI/t3co_go/blob/3ab424fec5c24ca0bcf7e0983aa72b781ab60a23/requirements.txt).
+This installs the tool from the repo clone and copies T3CO demo input files to the same folder
 
 Check that the right version of t3co_go is installed in your environment:
 
@@ -76,22 +76,6 @@ If there are updates or new releases to t3co_go that don't show in the local ver
 ```bash
 git pull origin main
 ```
-
-## Copying T3CO-Go Demo Input Files <a name=copy-demo-inputs></a>
-
-The `t3co_go.resources` folder contains all the necessary input files needed for running t3co_go. However, it sometimes is difficult to navigate to these files when installing. To help with this, run this command on the Command Line Interface.
-
-```bash
-install_t3co_go_demo_inputs
-```
-
-The user will receive these questions on the command line:
-
-`Do you want to copy the t3co_go demo input files? (y/n):`
-
-`Enter the path where you want to copy demo input files:`
-
-Choose `y` and provide the desired destination path to get a `demo_inputs` folder containing the `t3co_go.resources` files copied to your local directory.
 
 ## Starting a T3CO-Go instance
 
