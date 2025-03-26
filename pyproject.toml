@@ -1,11 +1,13 @@
 [build-system]
-requires = ["hatchling", "hatch-requirements-txt"]
-build-backend = "hatchling.build"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 
 [project]
 name = "t3co_go"
 version = "0.1.1"
 dynamic = ["dependencies"]
+license = "BSD-3-Clause"
 description = """
 A web-based dashboard for NREL's Transportation Technology Total Cost of Ownership (T3CO) tool
 """
@@ -31,8 +33,14 @@ maintainers = [
 ]
 keywords = ["tco", "vehicle-cost", "total-cost", "vehicle-simulation", "total-cost-of-ownership"]
 
-[tool.hatch.metadata.hooks.requirements_txt]
-files = ["requirements.txt"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,!=3.9.7,<3.11"
+numpy = "^1.24"
+scipy = "^1.10.1"
+pandas = "^2.0.3"
+streamlit = "^1.41"
+t3co = { version = "^1.0.11", optional = true, python = ">=3.9,<3.11" }
 
 [project.urls]
 Homepage = "https://www.nrel.gov/transportation/t3co.html"
