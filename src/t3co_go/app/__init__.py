@@ -1,4 +1,3 @@
-"""Python Package Template"""
 from __future__ import annotations
 import t3co_go
 
