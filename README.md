@@ -12,17 +12,15 @@ T3CO-Go can be installed from two sources: PyPI or GitHub
 
 ### Installation Source #1: PyPI
 
-From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/docs/installation.md#setting-up-env), navigate to the parent directory containing the T3CO repository (`cd T3CO-Go`) and run one of these three installation options:
-
-For the default option/extra:
+From within the [Python environment](https://github.com/NREL/T3CO_Go/blob/main/docs/installation.md#setting-up-env), navigate to the parent directory containing the T3CO repository (`cd T3CO_Go`) and run:
 
 ```bash
-pip install t3co_go
+pip install t3co-go
 ```
 
 ### Installation Source #2: From a git clone of the repository
 
-T3CO-Go can also be installed from a clone of the GitHub repository.
+T3CO-Go can also be installed from a clone of the [GitHub repository](https://github.com/NREL/T3CO_Go).
 
 First, [clone](https://git-scm.com/docs/git-clone) the repository from [GitHub](https://github.com/NREL/T3CO_Go) from your desired directory (eg., /Users/Projects/):
 
@@ -44,7 +42,7 @@ Go to [Quick Start Guide](https://github.com/NREL/T3CO_Go/blob/main/docs/quick_s
 
 ## Starting a T3CO-Go instance
 
-After installing T3CO_Go within a Python environment using one of the two sources, run this command:
+After installing T3CO-Go within a Python environment using one of the two sources, run this command:
 
 ```bash
 run_t3co_go
@@ -54,4 +52,12 @@ This will open a web browser tab with T3CO prepared to run on your local machine
 
 ## Acknowledgements
 
-## How to Cite this tool
+This tool was developed with funding support from the US Department of Energy's Office of Energy Efficiency and Renewable Energy (EERE)'s Vehicle Technology Office.
+
+DOE NREL Software Record: SWR-25-38
+
+## Contact Us
+
+To reach out to the NREL developer team with feedback, feature requests, or to explore partnership opportunities, please email at [T3CO@nrel.gov](mailto:T3CO@nrel.gov)
+
+This tool is developed and maintained by the Commercial Vehicle Technologies (CVT) team in NREL's Center for Integrated Mobility Sciences.
