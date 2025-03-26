@@ -35,9 +35,15 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       # For Python 3.9, and 3.10, install the local package with the fastsim extra.
-      - name: Install local package (Python 3.9–3.10)
+      - name: Install local package with fastsim extra (Python 3.9–3.10)
         if: ${{ matrix.python-version == '3.9' || matrix.python-version == '3.10' }}
         run: pip install .
+
+      - name: Install pytest
+        run: pip install pytest pytest-mock
+
+      - name: Run tests
+        run: pytest
 
       # Build the distribution only on Python 3.10.
       - name: Install distribution dependencies
@@ -83,7 +89,7 @@ jobs:
       - name: Install t3co_go from Test PyPI and run tests
         run: |
           pip install --upgrade --no-cache-dir --index-url https://test.pypi.org/simple/ t3co_go
-
+          pytest
 
       - name: Publish distribution 📦 to PyPI
         run: twine upload -r pypi dist/*
@@ -94,4 +100,5 @@ jobs:
       - name: Install t3co_go from Test PyPI and run tests
         run: |
           pip install --upgrade --no-cache-dir --index-url https://pypi.org/simple/ t3co_go
+          pytest
 

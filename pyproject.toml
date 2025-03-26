@@ -2,16 +2,18 @@
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-
 [project]
 name = "t3co_go"
-version = "0.1.1"
+version = "0.1.3"
 dynamic = ["dependencies"]
-license = "BSD-3-Clause"
-description = """
-A web-based dashboard for NREL's Transportation Technology Total Cost of Ownership (T3CO) tool
-"""
+description = "A web-based dashboard for NREL's Transportation Technology Total Cost of Ownership (T3CO) tool"
 readme = "README.md"
+license = "BSD-3-Clause"
+authors = [
+  {name = "Harish Panneer Selvam", email = "harish.panneerselvam@nrel.gov"},
+]
+maintainers = [{name = "NREL-AVCI", email = "t3co@nrel.gov"}]
+keywords = ["tco", "vehicle-cost", "total-cost", "vehicle-simulation", "total-cost-of-ownership"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -24,15 +26,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 requires-python = ">=3.9, <3.11"
-authors = [
-  {name = "Harish Panneer Selvam", email = "harish.panneerselvam@nrel.gov"},
-
-]
-maintainers = [
-  {name = "NREL-AVCI", email = "T3CO@nrel.gov"}
-]
-keywords = ["tco", "vehicle-cost", "total-cost", "vehicle-simulation", "total-cost-of-ownership"]
-
 
 [tool.poetry.dependencies]
 python = ">=3.9,!=3.9.7,<3.11"
