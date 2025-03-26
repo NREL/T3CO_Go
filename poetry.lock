@@ -4,7 +4,7 @@
 name = "about-time"
 version = "4.2.1"
 description = "Easily measure timing and throughput of code blocks, with beautiful human friendly representations."
-optional = true
+optional = false
 python-versions = ">=3.7, <4"
 groups = ["main"]
 files = [
@@ -16,7 +16,7 @@ files = [
 name = "alive-progress"
 version = "3.2.0"
 description = "A new kind of Progress Bar, with real-time throughput, ETA, and very cool animations!"
-optional = true
+optional = false
 python-versions = "<4,>=3.9"
 groups = ["main"]
 files = [
@@ -77,7 +77,7 @@ tests-mypy = ["mypy (>=1.11.1) ; platform_python_implementation == \"CPython\" a
 name = "autograd"
 version = "1.7.0"
 description = "Efficiently computes derivatives of NumPy code."
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -248,7 +248,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "cma"
 version = "3.2.2"
 description = "CMA-ES, Covariance Matrix Adaptation Evolution Strategy for non-linear numerical optimization in Python"
-optional = true
+optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
@@ -270,7 +270,7 @@ description = "Cross-platform colored terminal text."
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 groups = ["main"]
-markers = "sys_platform == \"win32\" or platform_system == \"Windows\""
+markers = "platform_system == \"Windows\" or sys_platform == \"win32\""
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
@@ -280,10 +280,10 @@ files = [
 name = "contourpy"
 version = "1.3.0"
 description = "Python library for calculating contours of 2D quadrilateral grids"
-optional = true
+optional = false
 python-versions = ">=3.9"
 groups = ["main"]
-markers = "python_version == \"3.9\""
+markers = "python_version < \"3.10\""
 files = [
     {file = "contourpy-1.3.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:880ea32e5c774634f9fcd46504bf9f080a41ad855f4fef54f5380f5133d343c7"},
     {file = "contourpy-1.3.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:76c905ef940a4474a6289c71d53122a4f77766eef23c03cd57016ce19d0f7b42"},
@@ -366,10 +366,10 @@ test-no-images = ["pytest", "pytest-cov", "pytest-rerunfailures", "pytest-xdist"
 name = "contourpy"
 version = "1.3.1"
 description = "Python library for calculating contours of 2D quadrilateral grids"
-optional = true
+optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-markers = "python_version == \"3.10\""
+markers = "python_version >= \"3.10\""
 files = [
     {file = "contourpy-1.3.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:a045f341a77b77e1c5de31e74e966537bba9f3c4099b35bf4c2e3939dd54cdab"},
     {file = "contourpy-1.3.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:500360b77259914f7805af7462e41f9cb7ca92ad38e9f94d6c8641b089338124"},
@@ -441,7 +441,7 @@ test-no-images = ["pytest", "pytest-cov", "pytest-rerunfailures", "pytest-xdist"
 name = "cycler"
 version = "0.12.1"
 description = "Composable style cycles"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -457,7 +457,7 @@ tests = ["pytest", "pytest-cov", "pytest-xdist"]
 name = "deprecated"
 version = "1.2.18"
 description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
-optional = true
+optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
 groups = ["main"]
 files = [
@@ -475,7 +475,7 @@ dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "setuptools ; python_version
 name = "dill"
 version = "0.3.9"
 description = "serialize all of Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -491,7 +491,7 @@ profile = ["gprof2dot (>=2022.7.29)"]
 name = "exceptiongroup"
 version = "1.2.2"
 description = "Backport of PEP 654 (exception groups)"
-optional = true
+optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
@@ -506,7 +506,7 @@ test = ["pytest (>=6)"]
 name = "fastsim"
 version = "2.1.1"
 description = "Tool for modeling vehicle powertrains"
-optional = true
+optional = false
 python-versions = ">=3.8, <3.11"
 groups = ["main"]
 files = [
@@ -539,7 +539,7 @@ dev = ["black", "ipykernel", "maturin", "plotly", "pymoo (==0.6.0.1)"]
 name = "fonttools"
 version = "4.56.0"
 description = "Tools to manipulate font files"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -647,7 +647,7 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock ; python_version < \"3.
 name = "grapheme"
 version = "0.6.0"
 description = "Unicode grapheme helpers"
-optional = true
+optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
@@ -676,10 +676,10 @@ all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2
 name = "importlib-resources"
 version = "6.5.2"
 description = "Read resources from Python packages"
-optional = true
+optional = false
 python-versions = ">=3.9"
 groups = ["main"]
-markers = "python_version == \"3.9\""
+markers = "python_version < \"3.10\""
 files = [
     {file = "importlib_resources-6.5.2-py3-none-any.whl", hash = "sha256:789cfdc3ed28c78b67a06acb8126751ced69a3d5f79c095a98298cd8a760ccec"},
     {file = "importlib_resources-6.5.2.tar.gz", hash = "sha256:185f87adef5bcc288449d98fb4fba07cea78bc036455dd44c5fc4a2fe78fed2c"},
@@ -700,7 +700,7 @@ type = ["pytest-mypy"]
 name = "iniconfig"
 version = "2.1.0"
 description = "brain-dead simple config-ini parsing"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -767,10 +767,10 @@ referencing = ">=0.31.0"
 name = "kiwisolver"
 version = "1.4.7"
 description = "A fast implementation of the Cassowary constraint solver"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
-markers = "python_version == \"3.9\""
+markers = "python_version < \"3.10\""
 files = [
     {file = "kiwisolver-1.4.7-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:8a9c83f75223d5e48b0bc9cb1bf2776cf01563e00ade8775ffe13b0b6e1af3a6"},
     {file = "kiwisolver-1.4.7-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:58370b1ffbd35407444d57057b57da5d6549d2d854fa30249771775c63b5fe17"},
@@ -892,10 +892,10 @@ files = [
 name = "kiwisolver"
 version = "1.4.8"
 description = "A fast implementation of the Cassowary constraint solver"
-optional = true
+optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-markers = "python_version == \"3.10\""
+markers = "python_version >= \"3.10\""
 files = [
     {file = "kiwisolver-1.4.8-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:88c6f252f6816a73b1f8c904f7bbe02fd67c09a69f7cb8a0eecdbf5ce78e63db"},
     {file = "kiwisolver-1.4.8-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:c72941acb7b67138f35b879bbe85be0f6c6a70cab78fe3ef6db9c024d9223e5b"},
@@ -1054,10 +1054,10 @@ files = [
 name = "matplotlib"
 version = "3.9.4"
 description = "Python plotting package"
-optional = true
+optional = false
 python-versions = ">=3.9"
 groups = ["main"]
-markers = "python_version == \"3.9\""
+markers = "python_version < \"3.10\""
 files = [
     {file = "matplotlib-3.9.4-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:c5fdd7abfb706dfa8d307af64a87f1a862879ec3cd8d0ec8637458f0885b9c50"},
     {file = "matplotlib-3.9.4-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:d89bc4e85e40a71d1477780366c27fb7c6494d293e1617788986f74e2a03d7ff"},
@@ -1121,10 +1121,10 @@ dev = ["meson-python (>=0.13.1,<0.17.0)", "numpy (>=1.25)", "pybind11 (>=2.6,!=2
 name = "matplotlib"
 version = "3.10.1"
 description = "Python plotting package"
-optional = true
+optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-markers = "python_version == \"3.10\""
+markers = "python_version >= \"3.10\""
 files = [
     {file = "matplotlib-3.10.1-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:ff2ae14910be903f4a24afdbb6d7d3a6c44da210fc7d42790b87aeac92238a16"},
     {file = "matplotlib-3.10.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:0721a3fd3d5756ed593220a8b86808a36c5031fce489adb5b31ee6dbb47dd5b2"},
@@ -1410,7 +1410,7 @@ xmp = ["defusedxml"]
 name = "pluggy"
 version = "1.5.0"
 description = "plugin and hook calling mechanisms for python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -1522,7 +1522,7 @@ jupyter = ["ipykernel (>=5.1.2) ; python_version >= \"3.4\"", "ipython (>=5.8.0)
 name = "pymoo"
 version = "0.6.1"
 description = "Multi-Objective Optimization in Python"
-optional = true
+optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
@@ -1558,7 +1558,7 @@ scipy = ">=1.1"
 name = "pyparsing"
 version = "3.2.3"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
-optional = true
+optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
@@ -1573,7 +1573,7 @@ diagrams = ["jinja2", "railroad-diagrams"]
 name = "pytest"
 version = "8.3.5"
 description = "pytest: simple powerful testing with Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -1623,7 +1623,7 @@ files = [
 name = "pyyaml"
 version = "6.0.2"
 description = "YAML parser and emitter for Python"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -1888,7 +1888,7 @@ test = ["asv", "gmpy2", "mpmath", "pooch", "pytest", "pytest-cov", "pytest-timeo
 name = "seaborn"
 version = "0.13.2"
 description = "Statistical data visualization"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -1969,7 +1969,7 @@ snowflake = ["snowflake-connector-python (>=3.3.0) ; python_version < \"3.12\"",
 name = "t3co"
 version = "1.0.11"
 description = "NREL's Transportation Technology Total Cost of Ownership tool"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -2016,7 +2016,7 @@ files = [
 name = "tomli"
 version = "2.2.1"
 description = "A lil' TOML parser"
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -2165,7 +2165,7 @@ watchmedo = ["PyYAML (>=3.10)"]
 name = "wrapt"
 version = "1.17.2"
 description = "Module for decorators, wrappers and monkey patching."
-optional = true
+optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
@@ -2254,10 +2254,10 @@ files = [
 name = "zipp"
 version = "3.21.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-optional = true
+optional = false
 python-versions = ">=3.9"
 groups = ["main"]
-markers = "python_version == \"3.9\""
+markers = "python_version < \"3.10\""
 files = [
     {file = "zipp-3.21.0-py3-none-any.whl", hash = "sha256:ac1bbe05fd2991f160ebce24ffbac5f6d11d83dc90891255885223d42b3cd931"},
     {file = "zipp-3.21.0.tar.gz", hash = "sha256:2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4"},
@@ -2274,4 +2274,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,!=3.9.7,<3.11"
-content-hash = "90a4d3d4cb0608a6b6d391194bc40769a038350d2d384d2a38a3bb1752952330"
+content-hash = "2e8e445eeab6b23ca1f529d75c571ae92ae79465a1a25cd834b40e3429bb4244"

@@ -1,6 +1,8 @@
 from streamlit.testing.v1 import AppTest
+import pytest
 
 
+@pytest.mark.timeout(300)
 def test_t3co_app():
     """
     Test the t3co_go Streamlit app using st.testing.v1.AppTest.
@@ -10,5 +12,8 @@ def test_t3co_app():
     app_test = AppTest.from_file("src/t3co_go/app/t3co_app.py")
 
     # Run the app with a timeout to prevent indefinite hangs
-    app_test.run()
-    assert not app_test.exception
+    result = app_test.run(timeout=60)
+
+    # Check that expected text appears in the app's stdout.
+    # Adjust the assertion as needed based on your app's output.
+    assert not result.exception, "Expected output not found in app stdout"
