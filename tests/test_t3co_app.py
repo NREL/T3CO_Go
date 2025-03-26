@@ -3,6 +3,7 @@ import re
 import time
 import requests
 import pytest
+import os
 
 
 @pytest.fixture(scope="module")
@@ -12,26 +13,32 @@ def streamlit_app():
     waits until it is serving, and then yields the base URL.
     After tests complete, the process is terminated.
     """
-    # Start the app with the custom command
+    env = os.environ.copy()
+    env["PYTHONUNBUFFERED"] = "1"  # disable buffering for immediate output
+    env["STREAMLIT_SERVER_HEADLESS"] = "true"  # ensure headless mode in CI
+
     process = subprocess.Popen(
         ["run_t3co_go"],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
+        env=env,
     )
 
     port = None
     start_time = time.time()
 
-    # Wait up to 30 seconds for the app to start and print its URL
-    while time.time() - start_time < 30:
+    # Increase timeout to 60 seconds in case GitHub Actions is slower
+    while time.time() - start_time < 60:
         line = process.stdout.readline()
         if not line:
             time.sleep(0.1)
             continue
-        # Example expected output: "Local URL: http://localhost:8501"
-        match = re.search(r"Local URL:\s+http://localhost:(\d+)", line)
+        # Match lines like "Local URL:" or "Network URL:" with either localhost or 127.0.0.1
+        match = re.search(
+            r"(?:Local|Network) URL:\s+http://(?:localhost|127\.0\.0\.1):(\d+)", line
+        )
         if match:
             port = int(match.group(1))
             break
@@ -43,7 +50,6 @@ def streamlit_app():
     base_url = f"http://localhost:{port}"
     yield base_url
 
-    # Cleanup: terminate the streamlit process
     process.terminate()
     process.wait(timeout=5)
 
@@ -53,9 +59,6 @@ def test_app_responds(streamlit_app):
     Test that the app responds to a GET request on its base URL.
     """
     response = requests.get(streamlit_app)
-    # Check that the HTTP status code is OK (200)
     assert response.status_code == 200
-    # Optionally, verify that some expected text appears on the page.
-    # This could be text that you know your app renders.
     expected_texts = ["Streamlit", "T3Co", "t3co_go"]
     assert any(text in response.text for text in expected_texts)
