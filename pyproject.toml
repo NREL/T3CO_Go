@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "t3co_go"
-version = "0.0.1"
+version = "0.1.0"
 dynamic = ["dependencies"]
 description = """
 Template for NREL python package
@@ -21,6 +21,8 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 requires-python = ">=3.8"
 authors = [
@@ -37,7 +39,7 @@ files = ["requirements.txt"]
 
 [project.urls]
 Homepage = "https://www.nrel.gov/transportation/t3co_go.html"
-Documentation = "https://pages.github.nrel.gov/AVCI/t3co_go/"
+Documentation = "https://nrel.github.io/T3CO_Go/"
 Repository = "https://github.nrel.gov/AVCI/t3co_go"
 "Bug Tracker" = "https://github.nrel.gov/AVCI/t3co_go/issues"
 
