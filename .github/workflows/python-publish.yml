@@ -39,11 +39,11 @@ jobs:
         if: ${{ matrix.python-version == '3.9' || matrix.python-version == '3.10' || matrix.python-version == '3.11' || matrix.python-version == '3.12' || matrix.python-version == '3.13' }}
         run: pip install .
 
-      - name: Install pytest
-        run: pip install pytest pytest-mock
+      # - name: Install pytest
+      #   run: pip install pytest pytest-mock
 
-      - name: Run tests
-        run: pytest
+      # - name: Run tests
+      #   run: pytest
 
       # Build the distribution only on Python 3.10.
       - name: Install distribution dependencies
@@ -88,7 +88,7 @@ jobs:
 
       - name: Install t3co from Test PyPI and run tests
         run: |
-          pip install --upgrade --no-cache-dir --index-url https://test.pypi.org/simple/ t3co[dev]
+          pip install --upgrade --no-cache-dir --index-url https://test.pypi.org/simple/ t3co_go
           pytest
 
       - name: Publish distribution 📦 to PyPI
@@ -96,3 +96,8 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.pypi_password }}
+
+      - name: Install t3co from PyPI and run tests
+        run: |
+          pip install --upgrade --no-cache-dir --index-url https://pypi.org/simple/ t3co_go
+          pytest
