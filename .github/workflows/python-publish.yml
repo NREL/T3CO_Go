@@ -1,0 +1,103 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    branches:
+      - main
+      - ci
+  pull_request:
+    branches:
+      - "*"
+
+env:
+  PROJECT_NAME: t3co
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 9
+          submodules: false
+
+      - name: Use Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # For Python 3.9, and 3.10, install the local package with the fastsim extra.
+      - name: Install local package with fastsim extra (Python 3.9–3.10)
+        if: ${{ matrix.python-version == '3.9' || matrix.python-version == '3.10' }}
+        run: pip install .[fastsim]
+
+      # For Python 3.11, 3.12, and 3.13, install the local package without extras.
+      - name: Install local package without extras (Python 3.11–3.13)
+        if: ${{ matrix.python-version == '3.11' || matrix.python-version == '3.12' || matrix.python-version == '3.13' }}
+        run: pip install .
+
+      - name: Install pytest
+        run: pip install pytest pytest-mock
+
+      - name: Run tests
+        run: pytest
+
+      # Build the distribution only on Python 3.10.
+      - name: Install distribution dependencies
+        if: ${{ matrix.python-version == '3.10' }}
+        run: pip install build
+
+      - name: Create distribution package
+        if: ${{ matrix.python-version == '3.10' }}
+        run: python -m build
+
+      - name: Upload distribution package
+        if: ${{ matrix.python-version == '3.10' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+  
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'release'
+    steps:
+      - name: Download a distribution artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install twine
+
+      - name: Publish distribution 📦 to Test PyPI
+        run: twine upload -r testpypi dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.test_pypi_password }}
+
+      - name: Install t3co from Test PyPI and run tests
+        run: |
+          pip install --upgrade --no-cache-dir --index-url https://test.pypi.org/simple/ t3co[dev]
+          pytest
+
+      - name: Publish distribution 📦 to PyPI
+        run: twine upload -r pypi dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.pypi_password }}
