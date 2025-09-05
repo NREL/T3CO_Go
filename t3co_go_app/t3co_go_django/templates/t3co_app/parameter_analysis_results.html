@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Parameter Analysis Results{% endblock %}
+
+{% block extra_css %}
+<style>
+.result-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.metric-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.metric-label {
+    color: #6c757d;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+    color: #007bff;
+    opacity: 0.7;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.parameter-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.parameter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.parameter-item:last-child {
+    border-bottom: none;
+}
+
+.parameter-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.parameter-value {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.export-section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-export {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0">
+                        <i class="fas fa-chart-line text-primary me-2"></i>
+                        Parameter Analysis Results
+                    </h2>
+                    <p class="text-muted mt-2">{{ analysis.name }} - {{ analysis.created_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'tco_parameter_analysis' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-plus me-1"></i>New Analysis
+                    </a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="result-card">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-dollar-sign metric-icon me-3"></i>
+                            <div>
+                                <div class="metric-value">${{ results.total_cost_of_ownership|floatformat:0 }}</div>
+                                <div class="metric-label text-white-50">Total Cost of Ownership</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-road metric-icon me-3"></i>
+                            <div>
+                                <div class="metric-value">${{ results.cost_per_mile|floatformat:2 }}</div>
+                                <div class="metric-label text-white-50">Cost per Mile</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-calendar-alt metric-icon me-3"></i>
+                            <div>
+                                <div class="metric-value">${{ results.annual_cost|floatformat:0 }}</div>
+                                <div class="metric-label text-white-50">Annual Cost</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Analysis Section -->
+    <div class="row">
+        <!-- TCO Summary Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="chart-container">
+                <h5 class="mb-3">
+                    <i class="fas fa-gauge-high me-2 text-primary"></i>
+                    TCO Summary
+                </h5>
+                <canvas id="tcoSummaryChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Cost Breakdown Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="chart-container">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-pie me-2 text-primary"></i>
+                    Cost Breakdown
+                </h5>
+                <canvas id="costBreakdownChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Key Metrics Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="chart-container">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-bar me-2 text-primary"></i>
+                    Performance Metrics
+                </h5>
+                <canvas id="keyMetricsChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Efficiency Timeline Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="chart-container">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-line me-2 text-primary"></i>
+                    Fuel Efficiency Projection
+                </h5>
+                <canvas id="efficiencyTimelineChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parameter Summary and Additional Details -->
+    <div class="row">
+        <!-- Parameter Summary -->
+        <div class="col-lg-6 mb-4">
+            <div class="parameter-summary">
+                <h5 class="mb-3">
+                    <i class="fas fa-cogs me-2 text-success"></i>
+                    Analysis Parameters
+                </h5>
+                {% if form_data %}
+                <div class="parameter-item">
+                    <span class="parameter-label">Vehicle Type:</span>
+                    <span class="parameter-value">{{ form_data.vehicle_type }}</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Analysis Year:</span>
+                    <span class="parameter-value">{{ form_data.analysis_year }}</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Vocation:</span>
+                    <span class="parameter-value">{{ form_data.vocation }}</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Region:</span>
+                    <span class="parameter-value">{{ form_data.region }}</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Vehicle Life:</span>
+                    <span class="parameter-value">{{ form_data.vehicle_life_yr }} years</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Annual VMT:</span>
+                    <span class="parameter-value">{{ form_data.annual_vmt|floatformat:0 }} miles</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Drag Coefficient:</span>
+                    <span class="parameter-value">{{ form_data.drag_coefficient }}</span>
+                </div>
+                <div class="parameter-item">
+                    <span class="parameter-label">Fuel Efficiency:</span>
+                    <span class="parameter-value">{{ results.fuel_efficiency|floatformat:1 }} MPG</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Detailed Metrics -->
+        <div class="col-lg-6 mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="metric-card text-center">
+                        <i class="fas fa-car metric-icon"></i>
+                        <div class="metric-value">${{ results.purchase_cost|floatformat:0 }}</div>
+                        <div class="metric-label">Purchase Cost</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="metric-card text-center">
+                        <i class="fas fa-gas-pump metric-icon"></i>
+                        <div class="metric-value">${{ results.fuel_cost|floatformat:0 }}</div>
+                        <div class="metric-label">Fuel Cost</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="metric-card text-center">
+                        <i class="fas fa-wrench metric-icon"></i>
+                        <div class="metric-value">${{ results.maintenance_cost|floatformat:0 }}</div>
+                        <div class="metric-label">Maintenance</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="metric-card text-center">
+                        <i class="fas fa-shield-alt metric-icon"></i>
+                        <div class="metric-value">${{ results.insurance_cost|floatformat:0 }}</div>
+                        <div class="metric-label">Insurance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export and Actions Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="export-section">
+                <h5 class="mb-3">
+                    <i class="fas fa-download me-2 text-primary"></i>
+                    Export and Share
+                </h5>
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-primary btn-export" onclick="exportToPDF()">
+                        <i class="fas fa-file-pdf me-1"></i>Export to PDF
+                    </button>
+                    <button class="btn btn-success btn-export" onclick="exportToExcel()">
+                        <i class="fas fa-file-excel me-1"></i>Export to Excel
+                    </button>
+                    <button class="btn btn-info btn-export" onclick="exportCharts()">
+                        <i class="fas fa-chart-bar me-1"></i>Export Charts
+                    </button>
+                    <button class="btn btn-secondary btn-export" onclick="shareResults()">
+                        <i class="fas fa-share me-1"></i>Share Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Chart data from Django context
+const chartData = {{ chart_data|safe }};
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all charts
+    initializeCharts();
+    
+    // Set up export functions
+    setupExportFunctions();
+});
+
+function initializeCharts() {
+    // TCO Summary Chart
+    if (chartData.tco_summary) {
+        const ctx1 = document.getElementById('tcoSummaryChart').getContext('2d');
+        new Chart(ctx1, chartData.tco_summary);
+    }
+    
+    // Cost Breakdown Chart
+    if (chartData.cost_breakdown) {
+        const ctx2 = document.getElementById('costBreakdownChart').getContext('2d');
+        new Chart(ctx2, chartData.cost_breakdown);
+    }
+    
+    // Key Metrics Chart
+    if (chartData.key_metrics) {
+        const ctx3 = document.getElementById('keyMetricsChart').getContext('2d');
+        new Chart(ctx3, chartData.key_metrics);
+    }
+    
+    // Efficiency Timeline Chart
+    if (chartData.efficiency_timeline) {
+        const ctx4 = document.getElementById('efficiencyTimelineChart').getContext('2d');
+        new Chart(ctx4, chartData.efficiency_timeline);
+    }
+}
+
+function setupExportFunctions() {
+    // These functions can be enhanced with actual export implementations
+    window.exportToPDF = function() {
+        alert('PDF export functionality can be implemented here');
+    };
+    
+    window.exportToExcel = function() {
+        alert('Excel export functionality can be implemented here');
+    };
+    
+    window.exportCharts = function() {
+        alert('Chart export functionality can be implemented here');
+    };
+    
+    window.shareResults = function() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'TCO Analysis Results',
+                text: 'Check out my TCO analysis results from T3CO-Go',
+                url: window.location.href
+            });
+        } else {
+            // Fallback for browsers that don't support Web Share API
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Results URL copied to clipboard!');
+            });
+        }
+    };
+}
+
+// Additional utility functions for enhanced interactivity
+function toggleChartDisplay(chartId) {
+    const chartContainer = document.getElementById(chartId).closest('.chart-container');
+    chartContainer.style.display = chartContainer.style.display === 'none' ? 'block' : 'none';
+}
+
+// Print functionality
+function printResults() {
+    window.print();
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+            case 'p':
+                e.preventDefault();
+                printResults();
+                break;
+            case 's':
+                e.preventDefault();
+                shareResults();
+                break;
+        }
+    }
+});
+</script>
+{% endblock %}

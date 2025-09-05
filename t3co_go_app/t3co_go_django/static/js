@@ -1,0 +1,37 @@
+// filepath: /t3co_go_django/t3co_go_django/static/js/main.js
+document.addEventListener('DOMContentLoaded', function() {
+    const analysisForm = document.getElementById('analysis-form');
+    const resultsContainer = document.getElementById('results-container');
+
+    analysisForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(analysisForm);
+
+        fetch('/api/analyze/', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayResults(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    function displayResults(data) {
+        resultsContainer.innerHTML = '';
+        if (data.success) {
+            const results = data.results;
+            results.forEach(result => {
+                const resultElement = document.createElement('div');
+                resultElement.classList.add('result');
+                resultElement.innerHTML = `<h3>${result.title}</h3><p>${result.description}</p>`;
+                resultsContainer.appendChild(resultElement);
+            });
+        } else {
+            resultsContainer.innerHTML = '<p>No results found.</p>';
+        }
+    }
+});

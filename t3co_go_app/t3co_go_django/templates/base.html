@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}T3CO Go{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 't3co_app/css/style.css' %}">
+    <script src="{% static 't3co_app/js/main.js' %}"></script>
+</head>
+<body>
+    <header>
+        <h1>T3CO Go Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'tco_analysis' %}">TCO Analysis</a></li>
+                <li><a href="{% url 'results' %}">Results</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; {{ current_year }} T3CO Go. All rights reserved.</p>
+    </footer>
+</body>
+</html>

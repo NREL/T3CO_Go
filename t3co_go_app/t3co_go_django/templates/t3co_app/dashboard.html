@@ -1,0 +1,404 @@
+{% extends 't3co_app/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - T3CO-Go{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshDashboard()">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+        </div>
+        <button type="button" class="btn btn-sm btn-primary" onclick="runQuickDemo()">
+            <i class="fas fa-play"></i> Quick Demo
+        </button>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="stat-number">{{ total_analyses }}</p>
+                        <p class="stat-label">Total Analyses</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="stat-number">{{ total_vehicles }}</p>
+                        <p class="stat-label">Vehicle Configs</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-truck fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="stat-number">{{ total_scenarios }}</p>
+                        <p class="stat-label">Scenarios</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-road fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="stat-number" id="savings-amount">$0</p>
+                        <p class="stat-label">Est. Savings</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-dollar-sign fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-bolt"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'tco_analysis' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-upload fa-2x mb-2"></i>
+                            <span>File Upload TCO</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'tco_parameter_analysis' %}" class="btn btn-outline-secondary w-100 h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-sliders-h fa-2x mb-2"></i>
+                            <span>Parameter TCO</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'vehicle_comparison' %}" class="btn btn-outline-info w-100 h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-balance-scale fa-2x mb-2"></i>
+                            <span>Compare Vehicles</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'fleet_analysis' %}" class="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-truck-loading fa-2x mb-2"></i>
+                            <span>Fleet Analysis</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3 mx-auto">
+                        <a href="{% url 'demo_data' %}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column justify-content-center">
+                            <i class="fas fa-play-circle fa-2x mb-2"></i>
+                            <span>Try Demo</span>
+                        </a>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Analyses and Charts -->
+<div class="row">
+    <!-- Recent Analyses -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-history"></i> Recent Analyses</h5>
+                <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_analyses %}
+                    <div class="list-group list-group-flush">
+                        {% for analysis in recent_analyses %}
+                        <div class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">{{ analysis.name }}</div>
+                                <small class="text-muted">
+                                    {{ analysis.analysis_type|capfirst }} Analysis - {{ analysis.created_at|date:"M d, Y H:i" }}
+                                </small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">
+                                {% if analysis.analysis_type == 'single' %}
+                                    <i class="fas fa-truck"></i>
+                                {% elif analysis.analysis_type == 'comparison' %}
+                                    <i class="fas fa-balance-scale"></i>
+                                {% elif analysis.analysis_type == 'fleet' %}
+                                    <i class="fas fa-truck-loading"></i>
+                                {% else %}
+                                    <i class="fas fa-chart-line"></i>
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No analyses yet. Get started by running your first analysis!</p>
+                        <a href="{% url 'tco_analysis' %}" class="btn btn-primary">Start Analysis</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Analysis Overview Chart -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Analysis Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="analysisOverviewChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Metrics -->
+{% if recent_analyses %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tachometer-alt"></i> Performance Trends</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="performanceTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    updateSavingsAmount();
+});
+
+function initializeCharts() {
+    // Analysis Overview Pie Chart
+    const overviewCtx = document.getElementById('analysisOverviewChart').getContext('2d');
+    new Chart(overviewCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Single Vehicle', 'Comparison', 'Fleet', 'Demo'],
+            datasets: [{
+                data: [
+                    {{ total_analyses|default:0 }},
+                    Math.floor({{ total_analyses|default:0 }} * 0.3),
+                    Math.floor({{ total_analyses|default:0 }} * 0.2),
+                    Math.floor({{ total_analyses|default:0 }} * 0.1)
+                ],
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB', 
+                    '#FFCE56',
+                    '#4BC0C0'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Analysis Types Distribution'
+                }
+            }
+        }
+    });
+    
+    {% if recent_analyses %}
+    // Performance Trend Chart
+    const trendCtx = document.getElementById('performanceTrendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for analysis in recent_analyses reversed %}
+                    '{{ analysis.created_at|date:"M d" }}'{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Analyses per Day',
+                data: [
+                    {% for analysis in recent_analyses reversed %}
+                        {{ forloop.counter }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Analysis Activity Trend'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Analyses'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                }
+            }
+        }
+    });
+    {% endif %}
+}
+
+function updateSavingsAmount() {
+    // Simulate calculating estimated savings based on analyses
+    const baseAmount = {{ total_analyses|default:0 }} * 50000;
+    const savingsElement = document.getElementById('savings-amount');
+    
+    let currentAmount = 0;
+    const targetAmount = baseAmount;
+    const increment = targetAmount / 50;
+    
+    const timer = setInterval(() => {
+        currentAmount += increment;
+        if (currentAmount >= targetAmount) {
+            currentAmount = targetAmount;
+            clearInterval(timer);
+        }
+        savingsElement.textContent = formatCurrency(currentAmount);
+    }, 20);
+}
+
+function refreshDashboard() {
+    showLoading();
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+}
+
+function runQuickDemo() {
+    showLoading();
+    
+    fetch('{% url "run_demo_analysis" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                Demo analysis completed successfully! 
+                <a href="/analysis/${data.analysis_id}/" class="alert-link">View Results</a>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.main-content'));
+            
+            // Update statistics
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            // Show error message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                Demo analysis failed: ${data.error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.main-content'));
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        console.error('Error:', error);
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+        alertDiv.innerHTML = `
+            Error running demo analysis. Please try again.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.main-content'));
+    });
+}
+</script>
+{% endblock %}

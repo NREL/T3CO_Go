@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Parameter-Based TCO Analysis{% endblock %}
+
+{% block extra_css %}
+<style>
+.parameter-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.parameter-section h5 {
+    color: #007bff;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    opacity: 0.65;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.btn-analyze {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-analyze:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+}
+
+.info-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.info-tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.info-tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.form-section-divider {
+    border-top: 2px solid #e9ecef;
+    margin: 30px 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-0">
+                        <i class="fas fa-sliders-h text-primary me-2"></i>
+                        Parameter-Based TCO Analysis
+                    </h2>
+                    <p class="text-muted mt-2">
+                        Configure vehicle and scenario parameters using dropdown selections and custom values
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'tco_analysis' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-file-upload me-1"></i>File Upload Analysis
+                    </a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>Analysis Configuration
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" id="parameter-form">
+                        {% csrf_token %}
+                        
+                        <!-- Analysis Configuration Section -->
+                        <div class="parameter-section">
+                            <h5><i class="fas fa-info-circle me-2"></i>Analysis Configuration</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.analysis_name }}
+                                        <label for="{{ form.analysis_name.id_for_label }}">Analysis Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.analysis_year }}
+                                        <label for="{{ form.analysis_year.id_for_label }}">Analysis Year</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.vehicle_type }}
+                                        <label for="{{ form.vehicle_type.id_for_label }}">Vehicle Type</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Parameters Section -->
+                        <div class="parameter-section">
+                            <h5><i class="fas fa-truck me-2"></i>Vehicle Parameters</h5>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        {{ form.drag_coefficient }}
+                                        <label for="{{ form.drag_coefficient.id_for_label }}">
+                                            Drag Coefficient
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Aerodynamic drag coefficient (typical: 0.4-0.7)</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        {{ form.frontal_area_m2 }}
+                                        <label for="{{ form.frontal_area_m2.id_for_label }}">
+                                            Frontal Area (m²)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Front cross-sectional area in square meters</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        {{ form.glider_kg }}
+                                        <label for="{{ form.glider_kg.id_for_label }}">
+                                            Vehicle Weight (kg)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Vehicle glider weight in kilograms</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario Parameters Section -->
+                        <div class="parameter-section">
+                            <h5><i class="fas fa-map-marked-alt me-2"></i>Scenario Parameters</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.vocation }}
+                                        <label for="{{ form.vocation.id_for_label }}">Vocation</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.region }}
+                                        <label for="{{ form.region.id_for_label }}">Region</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.cargo_kg }}
+                                        <label for="{{ form.cargo_kg.id_for_label }}">
+                                            Cargo Weight (kg)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Typical cargo weight for this vocation</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.min_range_miles }}
+                                        <label for="{{ form.min_range_miles.id_for_label }}">
+                                            Min Range (miles)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Minimum driving range required</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Economic Parameters Section -->
+                        <div class="parameter-section">
+                            <h5><i class="fas fa-dollar-sign me-2"></i>Economic Parameters</h5>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.discount_rate_pct }}
+                                        <label for="{{ form.discount_rate_pct.id_for_label }}">
+                                            Discount Rate (%)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Annual discount rate for NPV calculations</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        {{ form.vehicle_life_yr }}
+                                        <label for="{{ form.vehicle_life_yr.id_for_label }}">
+                                            Vehicle Life (years)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Expected operational life of the vehicle</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.annual_vmt }}
+                                        <label for="{{ form.annual_vmt.id_for_label }}">
+                                            Annual VMT (miles)
+                                            <span class="info-tooltip">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                <span class="tooltiptext">Annual Vehicle Miles Traveled</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-divider"></div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-analyze btn-lg">
+                                <i class="fas fa-calculator me-2"></i>
+                                Run TCO Analysis
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-4">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="mt-3">Calculating TCO Analysis...</h5>
+                <p class="text-muted mb-0">Please wait while we process your parameters</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('parameter-form');
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    
+    // Show loading modal on form submit
+    form.addEventListener('submit', function(e) {
+        loadingModal.show();
+    });
+    
+    // Auto-populate dependent fields when selections change
+    const vehicleTypeSelect = document.getElementById('{{ form.vehicle_type.id_for_label }}');
+    const vocationSelect = document.getElementById('{{ form.vocation.id_for_label }}');
+    const regionSelect = document.getElementById('{{ form.region.id_for_label }}');
+    const yearSelect = document.getElementById('{{ form.analysis_year.id_for_label }}');
+    
+    // Update form values when key selections change
+    function updateDependentFields() {
+        // This could be expanded to make AJAX calls to get updated defaults
+        console.log('Selection changed - could update dependent fields');
+    }
+    
+    if (vehicleTypeSelect) vehicleTypeSelect.addEventListener('change', updateDependentFields);
+    if (vocationSelect) vocationSelect.addEventListener('change', updateDependentFields);
+    if (regionSelect) regionSelect.addEventListener('change', updateDependentFields);
+    if (yearSelect) yearSelect.addEventListener('change', updateDependentFields);
+    
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        const requiredFields = form.querySelectorAll('[required]');
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            loadingModal.hide();
+            alert('Please fill in all required fields.');
+        }
+    });
+    
+    // Enhanced tooltips
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => {
+        new bootstrap.Tooltip(tooltip);
+    });
+});
+</script>
+{% endblock %}

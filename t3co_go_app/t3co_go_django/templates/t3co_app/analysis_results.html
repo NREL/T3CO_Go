@@ -1,0 +1,384 @@
+{% extends 't3co_app/base.html' %}
+
+{% block title %}Analysis Results - T3CO-Go{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-chart-line"></i> Analysis Results: {{ analysis.name }}
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="exportResults()">
+                <i class="fas fa-download"></i> Export
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="shareResults()">
+                <i class="fas fa-share"></i> Share
+            </button>
+        </div>
+        <a href="{% url 'tco_analysis' %}" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus"></i> New Analysis
+        </a>
+    </div>
+</div>
+
+<!-- Analysis Summary -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Analysis Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Analysis Type:</dt>
+                            <dd class="col-sm-8">{{ analysis.analysis_type|capfirst }}</dd>
+                            
+                            <dt class="col-sm-4">Created:</dt>
+                            <dd class="col-sm-8">{{ analysis.created_at|date:"F d, Y g:i A" }}</dd>
+                            
+                            {% if analysis.vehicle_file %}
+                            <dt class="col-sm-4">Vehicle File:</dt>
+                            <dd class="col-sm-8">{{ analysis.vehicle_file }}</dd>
+                            {% endif %}
+                            
+                            {% if analysis.scenario_file %}
+                            <dt class="col-sm-4">Scenario File:</dt>
+                            <dd class="col-sm-8">{{ analysis.scenario_file }}</dd>
+                            {% endif %}
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        {% if results.total_cost %}
+                        <div class="text-center">
+                            <h3 class="text-primary">Total Cost of Ownership</h3>
+                            <h2 class="display-4 text-success">${{ results.total_cost|floatformat:0 }}</h2>
+                            {% if results.cost_per_mile %}
+                            <p class="text-muted">
+                                <strong>${{ results.cost_per_mile|floatformat:2 }}</strong> per mile
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+{% if chart_data %}
+<div class="row">
+    <!-- TCO Breakdown Chart -->
+    {% if chart_data.tco_breakdown %}
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Cost Breakdown</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="tcoBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Annual Costs Chart -->
+    {% if chart_data.annual_costs %}
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Annual Costs</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="annualCostsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Cost per Mile Timeline -->
+    {% if chart_data.cost_per_mile %}
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-line"></i> Cost per Mile Over Time</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="costPerMileChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- Detailed Results Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-table"></i> Detailed Results</h5>
+            </div>
+            <div class="card-body">
+                {% if results %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                                <th>Units</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if results.total_cost %}
+                            <tr>
+                                <td><strong>Total Cost of Ownership</strong></td>
+                                <td class="text-end">${{ results.total_cost|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Total lifecycle cost</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.cost_per_mile %}
+                            <tr>
+                                <td>Cost per Mile</td>
+                                <td class="text-end">${{ results.cost_per_mile|floatformat:2 }}</td>
+                                <td>USD/mile</td>
+                                <td>Operating cost per mile</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.fuel_cost %}
+                            <tr>
+                                <td>Fuel Costs</td>
+                                <td class="text-end">${{ results.fuel_cost|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Total fuel expenses</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.maintenance_cost %}
+                            <tr>
+                                <td>Maintenance Costs</td>
+                                <td class="text-end">${{ results.maintenance_cost|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Maintenance and repair costs</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.depreciation %}
+                            <tr>
+                                <td>Depreciation</td>
+                                <td class="text-end">${{ results.depreciation|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Vehicle depreciation</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.insurance_cost %}
+                            <tr>
+                                <td>Insurance</td>
+                                <td class="text-end">${{ results.insurance_cost|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Insurance premiums</td>
+                            </tr>
+                            {% endif %}
+                            
+                            {% if results.registration_cost %}
+                            <tr>
+                                <td>Registration & Fees</td>
+                                <td class="text-end">${{ results.registration_cost|floatformat:0 }}</td>
+                                <td>USD</td>
+                                <td>Registration and licensing fees</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <p class="text-muted">No detailed results available for this analysis.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary me-2">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <a href="{% url 'tco_analysis' %}" class="btn btn-primary me-2">
+            <i class="fas fa-plus"></i> New Analysis
+        </a>
+        <a href="{% url 'vehicle_comparison' %}" class="btn btn-info">
+            <i class="fas fa-balance-scale"></i> Compare Vehicles
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+});
+
+function initializeCharts() {
+    {% if chart_data %}
+    
+    // TCO Breakdown Chart
+    {% if chart_data.tco_breakdown %}
+    try {
+        const chartData = JSON.parse('{{ chart_data.tco_breakdown|escapejs }}');
+        const breakdownCtx = document.getElementById('tcoBreakdownChart').getContext('2d');
+        new Chart(breakdownCtx, chartData);
+    } catch (e) {
+        console.error('Error parsing TCO breakdown chart data:', e);
+    }
+    {% endif %}
+    
+    // Annual Costs Chart  
+    {% if chart_data.annual_costs %}
+    try {
+        const annualData = JSON.parse('{{ chart_data.annual_costs|escapejs }}');
+        const annualCtx = document.getElementById('annualCostsChart').getContext('2d');
+        new Chart(annualCtx, annualData);
+    } catch (e) {
+        console.error('Error parsing annual costs chart data:', e);
+    }
+    {% endif %}
+    
+    // Cost per Mile Chart
+    {% if chart_data.cost_per_mile %}
+    try {
+        const costPerMileData = JSON.parse('{{ chart_data.cost_per_mile|escapejs }}');
+        const costPerMileCtx = document.getElementById('costPerMileChart').getContext('2d');
+        new Chart(costPerMileCtx, costPerMileData);
+    } catch (e) {
+        console.error('Error parsing cost per mile chart data:', e);
+    }
+    {% endif %}
+    
+    {% endif %}
+}
+
+function exportResults() {
+    // Create CSV export
+    const analysisData = {
+        name: "{{ analysis.name|escapejs }}",
+        type: "{{ analysis.analysis_type|escapejs }}",
+        created: "{{ analysis.created_at|date:'c'|escapejs }}",
+        {% if results.total_cost %}
+        total_cost: {{ results.total_cost|default:0 }},
+        {% endif %}
+        {% if results.cost_per_mile %}
+        cost_per_mile: {{ results.cost_per_mile|default:0 }},
+        {% endif %}
+        {% if results.fuel_cost %}
+        fuel_cost: {{ results.fuel_cost|default:0 }},
+        {% endif %}
+        {% if results.maintenance_cost %}
+        maintenance_cost: {{ results.maintenance_cost|default:0 }},
+        {% endif %}
+        {% if results.depreciation %}
+        depreciation: {{ results.depreciation|default:0 }}
+        {% endif %}
+    };
+    
+    const csvContent = convertToCSV(analysisData);
+    downloadCSV(csvContent, '{{ analysis.name|escapejs }}_results.csv');
+}
+
+function shareResults() {
+    const shareData = {
+        title: 'T3CO Analysis Results: {{ analysis.name|escapejs }}',
+        text: 'Check out my T3CO analysis results',
+        url: window.location.href
+    };
+    
+    if (navigator.share) {
+        navigator.share(shareData).catch(function(error) {
+            console.log('Error sharing:', error);
+            fallbackShare();
+        });
+    } else {
+        fallbackShare();
+    }
+}
+
+function fallbackShare() {
+    // Fallback: copy URL to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            alert('Analysis URL copied to clipboard!');
+        }).catch(function(err) {
+            console.error('Failed to copy: ', err);
+        });
+    } else {
+        // Even older fallback
+        const textArea = document.createElement('textarea');
+        textArea.value = window.location.href;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('Analysis URL copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+        document.body.removeChild(textArea);
+    }
+}
+
+function convertToCSV(data) {
+    const headers = Object.keys(data).join(',');
+    const values = Object.values(data).map(function(value) {
+        // Escape values that contain commas or quotes
+        if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
+            return '"' + value.replace(/"/g, '""') + '"';
+        }
+        return value;
+    }).join(',');
+    return headers + '\n' + values;
+}
+
+function downloadCSV(content, filename) {
+    const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    } else {
+        // Fallback for older browsers
+        if (navigator.msSaveBlob) {
+            navigator.msSaveBlob(blob, filename);
+        }
+    }
+}
+</script>
+{% endblock %}
