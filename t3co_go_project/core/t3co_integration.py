@@ -64,15 +64,17 @@ except ImportError as e:
 class T3COIntegration:
     def __init__(self):
         self.vehicle_data_path = os.path.join(
-            settings.BASE_DIR, "demo_inputs", "vehicles"
+            "/Users/hpanneer/GitHub/T3CO_Go-Private/.subtrees/T3CO/src/t3co/resources/inputs"
         )
         self.scenario_data_path = os.path.join(
-            settings.BASE_DIR, "demo_inputs", "scenarios"
+            "/Users/hpanneer/GitHub/T3CO_Go-Private/.subtrees/T3CO/src/t3co/resources/inputs"
         )
-        self.config_data_path = os.path.join(settings.BASE_DIR, "demo_inputs")
+        self.config_data_path = os.path.join(
+            "/Users/hpanneer/GitHub/T3CO_Go-Private/.subtrees/T3CO/src/t3co/resources"
+        )
         self.results_path = os.path.join(settings.MEDIA_ROOT, "results")
 
-        # Ensure directories exist
+        # Ensure directories exist (only create directory paths, not file paths)
         os.makedirs(self.vehicle_data_path, exist_ok=True)
         os.makedirs(self.scenario_data_path, exist_ok=True)
         os.makedirs(self.config_data_path, exist_ok=True)
@@ -434,6 +436,154 @@ default,0.12,3.50,0.07"""
             return sorted(scenario_files)
         return []
 
+    def get_vehicle_parameters_by_selection(self, selection_data):
+        """
+        Get vehicle parameters based on dropdown selections
+
+        Args:
+            selection_data (dict): Dictionary with dropdown selections
+
+        Returns:
+            dict: Vehicle parameters for the selected configuration
+        """
+        try:
+            # Get demo data paths
+            main_project_root = settings.BASE_DIR.parent
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs")
+
+            vehicle_file = os.path.join(
+                demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
+            )
+            scenario_file = os.path.join(
+                demo_path, "Demo_FY22_scenario_assumptions.csv"
+            )
+
+            # Reconstruct scenario_name from dropdown selections
+            vehicle_class = selection_data.get("vehicle_class", "Class 8")
+            cab_type = selection_data.get("cab_type", "Sleeper cab")
+            roof_type = selection_data.get("roof_type", "high")
+            fuel_type = selection_data.get("fuel_type", "Diesel")
+            analysis_year = selection_data.get("analysis_year", "2025")
+            program_status = selection_data.get("program_status", "no program")
+
+            scenario_name = f"{vehicle_class} {cab_type} {roof_type} roof ({fuel_type}, {analysis_year}, {program_status})"
+
+            print(f"Looking for vehicle parameters for: {scenario_name}")
+
+            parameters = {}
+
+            # Load vehicle data
+            if os.path.exists(vehicle_file):
+                vehicle_df = pd.read_csv(vehicle_file)
+
+                # Find matching vehicle row
+                vehicle_row = vehicle_df[vehicle_df["scenario_name"] == scenario_name]
+
+                if not vehicle_row.empty:
+                    v_data = vehicle_row.iloc[0]
+
+                    # Extract technical parameters
+                    parameters.update(
+                        {
+                            "drag_coefficient": float(v_data.get("drag_coef", 0.546)),
+                            "frontal_area_m2": float(
+                                v_data.get("frontal_area_m2", 10.4)
+                            ),
+                            "glider_kg": float(v_data.get("glider_kg", 11776)),
+                        }
+                    )
+                else:
+                    print(f"No vehicle data found for scenario: {scenario_name}")
+                    # Use default values
+                    parameters.update(
+                        {
+                            "drag_coefficient": 0.546,
+                            "frontal_area_m2": 10.4,
+                            "glider_kg": 11776,
+                        }
+                    )
+
+            # Load scenario data
+            if os.path.exists(scenario_file):
+                scenario_df = pd.read_csv(scenario_file)
+
+                # Find matching scenario row
+                scenario_row = scenario_df[
+                    scenario_df["scenario_name"] == scenario_name
+                ]
+
+                if not scenario_row.empty:
+                    s_data = scenario_row.iloc[0]
+
+                    # Extract scenario parameters
+                    parameters.update(
+                        {
+                            "cargo_kg": float(s_data.get("cargo_kg", 17236)),
+                            "min_range_miles": float(
+                                s_data.get("target_range_mi", 750)
+                            ),
+                            "discount_rate_pct": float(
+                                s_data.get("discount_rate_pct_per_yr", 4.1)
+                            ),
+                            "vehicle_life_yr": int(s_data.get("vehicle_life_yr", 7)),
+                            "annual_vmt": float(
+                                str(s_data.get("vmt", "100000"))
+                                .strip("[]")
+                                .split(",")[0]
+                            ),
+                        }
+                    )
+                else:
+                    print(f"No scenario data found for scenario: {scenario_name}")
+                    # Use default values
+                    parameters.update(
+                        {
+                            "cargo_kg": 17236,
+                            "min_range_miles": 750,
+                            "discount_rate_pct": 4.1,
+                            "vehicle_life_yr": 7,
+                            "annual_vmt": 100000,
+                        }
+                    )
+
+            print(f"Retrieved parameters: {parameters}")
+            return parameters
+
+        except Exception as e:
+            print(f"Error getting vehicle parameters: {e}")
+            import traceback
+
+            traceback.print_exc()
+
+            # Return default parameters on error
+            return {
+                "drag_coefficient": 0.546,
+                "frontal_area_m2": 10.4,
+                "glider_kg": 11776,
+                "cargo_kg": 17236,
+                "min_range_miles": 750,
+                "discount_rate_pct": 4.1,
+                "vehicle_life_yr": 7,
+                "annual_vmt": 100000,
+            }
+
+    def get_demo_data(self):
+        """Get available demo vehicle and scenario files"""
+        try:
+            vehicles = self.get_available_vehicles()
+            scenarios = self.get_available_scenarios()
+
+            # Convert to full paths
+            vehicle_paths = [os.path.join(self.vehicle_data_path, v) for v in vehicles]
+            scenario_paths = [
+                os.path.join(self.scenario_data_path, s) for s in scenarios
+            ]
+
+            return vehicle_paths, scenario_paths
+        except Exception as e:
+            print(f"Error getting demo data: {e}")
+            return [], []
+
     def save_results(self, results, output_filename):
         """Save analysis results to file"""
         output_path = os.path.join(self.results_path, output_filename)
@@ -476,13 +626,31 @@ default,0.12,3.50,0.07"""
                 "details": {},
             }
 
+    def _reconstruct_scenario_name(self, form_data):
+        """
+        Reconstruct scenario_name from separate dropdown selections
+        """
+        # Get values from form data with fallbacks
+        vehicle_class = form_data.get("vehicle_class", "Class 8")
+        cab_type = form_data.get("cab_type", "Sleeper cab")
+        roof_type = form_data.get("roof_type", "high")
+        fuel_type = form_data.get("fuel_type", "Diesel")
+        analysis_year = form_data.get("analysis_year", "2025")
+        program_status = form_data.get("program_status", "no program")
+
+        # Reconstruct in the expected format
+        scenario_name = f"{vehicle_class} {cab_type} {roof_type} roof ({fuel_type}, {analysis_year}, {program_status})"
+
+        print(f"Reconstructed scenario_name: {scenario_name}")
+        return scenario_name
+
     def _perform_t3co_2_0_analysis(self, form_data):
         """
         Perform analysis using actual T3CO 2.0 modules and generate Ledger object
         """
         try:
             # Get demo data paths
-            main_project_root = settings.BASE_DIR.parent.parent
+            main_project_root = settings.BASE_DIR.parent
             demo_path = os.path.join(main_project_root, "demo_inputs", "inputs", "demo")
 
             vehicle_file = os.path.join(
@@ -492,9 +660,11 @@ default,0.12,3.50,0.07"""
                 demo_path, "Demo_FY22_scenario_assumptions.csv"
             )
 
+            # Reconstruct scenario_name from separate dropdown selections
+            selected_vehicle_name = self._reconstruct_scenario_name(form_data)
+
             # Find matching vehicle selection
             vehicle_df = pd.read_csv(vehicle_file)
-            selected_vehicle_name = form_data.get("vehicle_type")
             vehicle_row = vehicle_df[
                 vehicle_df["scenario_name"] == selected_vehicle_name
             ]
@@ -502,6 +672,9 @@ default,0.12,3.50,0.07"""
             if vehicle_row.empty:
                 # Fallback to first row
                 vehicle_selection = 1
+                print(
+                    f"Warning: Vehicle scenario '{selected_vehicle_name}' not found, using fallback"
+                )
             else:
                 vehicle_selection = int(vehicle_row.iloc[0]["selection"])
 
@@ -514,6 +687,9 @@ default,0.12,3.50,0.07"""
             if scenario_row.empty:
                 # Fallback to first row
                 scenario_selection = 1
+                print(
+                    f"Warning: Scenario '{selected_vehicle_name}' not found, using fallback"
+                )
             else:
                 scenario_selection = int(scenario_row.iloc[0]["selection"])
 

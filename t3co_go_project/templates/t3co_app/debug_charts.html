@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>T3CO Charts Debug</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .chart-container { width: 400px; height: 300px; margin: 20px; float: left; border: 1px solid #ccc; }
+        .debug-info { clear: both; margin-top: 20px; padding: 20px; background: #f5f5f5; }
+        .debug-info pre { background: white; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>T3CO Charts Debug Page</h1>
+    
+    <div class="chart-container">
+        <h3>TCO Stacked Breakdown</h3>
+        <canvas id="tcoSummaryChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h3>Cost Category Summary</h3>
+        <canvas id="costBreakdownChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h3>Key Metrics</h3>
+        <canvas id="keyMetricsChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h3>Cost Timeline</h3>
+        <canvas id="efficiencyTimelineChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h3>Performance Radar</h3>
+        <canvas id="performanceRadarChart"></canvas>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Debug Information</h3>
+        <p><strong>Raw Chart Data:</strong></p>
+        <pre id="rawData">{{ chart_data|safe|default:"No chart data" }}</pre>
+        
+        <p><strong>Parsed Chart Data Keys:</strong></p>
+        <pre id="parsedKeys">Loading...</pre>
+        
+        <p><strong>Chart Status:</strong></p>
+        <pre id="chartStatus">Loading...</pre>
+    </div>
+
+    <script>
+        // Debug chart data
+        let chartDataConfig = {};
+        let debugLog = [];
+        
+        function log(message) {
+            debugLog.push(message);
+            console.log(message);
+        }
+        
+        try {
+            const rawChartData = '{{ chart_data|safe|default:"{}" }}';
+            log('Raw chart data length: ' + rawChartData.length);
+            
+            if (rawChartData && rawChartData !== '{}') {
+                chartDataConfig = JSON.parse(rawChartData);
+                log('Successfully parsed chart data');
+                log('Chart keys: ' + Object.keys(chartDataConfig).join(', '));
+            } else {
+                log('No chart data provided');
+            }
+        } catch (e) {
+            log('Error parsing chart data: ' + e.message);
+        }
+        
+        // Update debug display
+        document.getElementById('parsedKeys').textContent = Object.keys(chartDataConfig).join(', ') || 'None';
+        
+        // Create simple test charts
+        function createTestCharts() {
+            log('Creating test charts...');
+            
+            // TCO Stacked Breakdown
+            if (chartDataConfig.tco_stacked_breakdown) {
+                try {
+                    const ctx1 = document.getElementById('tcoSummaryChart').getContext('2d');
+                    new Chart(ctx1, chartDataConfig.tco_stacked_breakdown);
+                    log('✅ TCO Stacked chart created');
+                } catch (e) {
+                    log('❌ TCO Stacked chart error: ' + e.message);
+                }
+            } else {
+                log('❌ No TCO stacked breakdown data');
+                createPlaceholderChart('tcoSummaryChart', 'No TCO Data');
+            }
+            
+            // Cost Category Summary
+            if (chartDataConfig.cost_category_summary) {
+                try {
+                    const ctx2 = document.getElementById('costBreakdownChart').getContext('2d');
+                    new Chart(ctx2, chartDataConfig.cost_category_summary);
+                    log('✅ Cost Category chart created');
+                } catch (e) {
+                    log('❌ Cost Category chart error: ' + e.message);
+                }
+            } else {
+                log('❌ No cost category data');
+                createPlaceholderChart('costBreakdownChart', 'No Category Data');
+            }
+            
+            // Key Metrics
+            if (chartDataConfig.key_metrics) {
+                try {
+                    const ctx3 = document.getElementById('keyMetricsChart').getContext('2d');
+                    new Chart(ctx3, chartDataConfig.key_metrics);
+                    log('✅ Key Metrics chart created');
+                } catch (e) {
+                    log('❌ Key Metrics chart error: ' + e.message);
+                }
+            } else {
+                log('❌ No key metrics data');
+                createPlaceholderChart('keyMetricsChart', 'No Metrics Data');
+            }
+            
+            // Cost Timeline
+            if (chartDataConfig.cost_timeline) {
+                try {
+                    const ctx4 = document.getElementById('efficiencyTimelineChart').getContext('2d');
+                    new Chart(ctx4, chartDataConfig.cost_timeline);
+                    log('✅ Cost Timeline chart created');
+                } catch (e) {
+                    log('❌ Cost Timeline chart error: ' + e.message);
+                }
+            } else {
+                log('❌ No cost timeline data');
+                createPlaceholderChart('efficiencyTimelineChart', 'No Timeline Data');
+            }
+            
+            // Performance Radar
+            if (chartDataConfig.performance_radar) {
+                try {
+                    const ctx5 = document.getElementById('performanceRadarChart').getContext('2d');
+                    new Chart(ctx5, chartDataConfig.performance_radar);
+                    log('✅ Performance Radar chart created');
+                } catch (e) {
+                    log('❌ Performance Radar chart error: ' + e.message);
+                }
+            } else {
+                log('❌ No performance radar data');
+                createPlaceholderChart('performanceRadarChart', 'No Radar Data');
+            }
+            
+            // Update status
+            document.getElementById('chartStatus').textContent = debugLog.join('\n');
+        }
+        
+        function createPlaceholderChart(canvasId, message) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Simple placeholder chart
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['No Data'],
+                    datasets: [{
+                        label: message,
+                        data: [1],
+                        backgroundColor: '#ccc'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: message
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOM loaded, initializing charts...');
+            createTestCharts();
+        });
+    </script>
+</body>
+</html>

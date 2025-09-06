@@ -1,0 +1,620 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicle Comparison Analysis - T3CO-Go{% endblock %}
+
+{% block extra_css %}
+<style>
+.comparison-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-left: 4px solid #1976d2;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #1976d2;
+}
+
+.section-header i {
+    margin-right: 12px;
+    font-size: 1.5rem;
+}
+
+.method-selector {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2196f3;
+}
+
+.method-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.method-option:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.method-option.active {
+    border-color: #2196f3;
+    background: #e3f2fd;
+}
+
+.method-option input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.3);
+}
+
+.grouping-section {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff9800;
+}
+
+.chart-options {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4caf50;
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.option-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.option-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.option-card.selected {
+    border-color: #4caf50;
+    background: #f1f8e9;
+}
+
+.file-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.file-upload-area.dragover {
+    border-color: #2196f3;
+    background: #e3f2fd;
+}
+
+.comparison-form-section {
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.comparison-form-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.submit-section {
+    text-align: center;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    margin-top: 24px;
+}
+
+/* TomSelect styles for dropdown selection method */
+.tomselect-field {
+    margin-bottom: 20px;
+}
+
+.tomselect-field label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.ts-wrapper {
+    width: 100%;
+}
+
+/* Hide original select elements */
+select.tomselected {
+    display: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="row">
+    <div class="col s12">
+        <div class="section-header">
+            <i class="material-icons">compare</i>
+            <h4 style="margin: 0;">Vehicle Comparison Analysis</h4>
+        </div>
+        <p class="grey-text" style="margin-top: -10px; margin-bottom: 24px;">
+            Compare multiple vehicle-scenario combinations with advanced grouping and visualization options
+        </p>
+        <div class="right-align" style="margin-top: -80px;">
+            <a href="{% url 'tco_parameter_analysis' %}" class="btn grey darken-1 waves-effect waves-light">
+                <i class="material-icons left">tune</i>Parameter Analysis
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn blue darken-1 waves-effect waves-light">
+                <i class="material-icons left">arrow_back</i>Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Messages -->
+{% if messages %}
+<div class="row">
+    <div class="col s12">
+        {% for message in messages %}
+        <div class="card-panel {{ message.tags }} lighten-4">
+            <span class="{{ message.tags }}-text text-darken-2">{{ message }}</span>
+            <i class="material-icons right close-alert" style="cursor: pointer;">close</i>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Comparison Form -->
+<form method="post" enctype="multipart/form-data" id="comparisonForm">
+    {% csrf_token %}
+    
+    <!-- Selection Method -->
+    <div class="method-selector">
+        <h6 class="blue-text darken-2">
+            <i class="material-icons left">input</i>
+            Selection Method
+        </h6>
+        <p>Choose how you want to select vehicles and scenarios for comparison</p>
+        
+        <div class="method-option active" data-method="dropdown">
+            <input type="radio" name="selection_method" value="dropdown" id="method_dropdown" checked>
+            <div>
+                <strong>Dropdown Selection</strong>
+                <br>
+                <span class="grey-text">Select from predefined vehicle and scenario options</span>
+            </div>
+        </div>
+        
+        <div class="method-option" data-method="file_upload">
+            <input type="radio" name="selection_method" value="file_upload" id="method_file_upload">
+            <div>
+                <strong>File Upload</strong>
+                <br>
+                <span class="grey-text">Upload custom vehicle and scenario files</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown Selection Section -->
+    <div id="dropdown-section" class="comparison-form-section active">
+        <div class="comparison-section">
+            <div class="section-header">
+                <i class="material-icons">list</i>
+                <h5 style="margin: 0;">Vehicle & Scenario Selection</h5>
+            </div>
+            
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="tomselect-field">
+                        <label for="{{ form.vehicles.id_for_label }}">{{ form.vehicles.label }}</label>
+                        {{ form.vehicles }}
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="tomselect-field">
+                        <label for="{{ form.scenarios.id_for_label }}">{{ form.scenarios.label }}</label>
+                        {{ form.scenarios }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Upload Section -->
+    <div id="file-upload-section" class="comparison-form-section">
+        <div class="comparison-section">
+            <div class="section-header">
+                <i class="material-icons">upload_file</i>
+                <h5 style="margin: 0;">Upload Files</h5>
+            </div>
+            
+            <div class="row">
+                <div class="col s12 m6">
+                    <h6>Vehicle Files</h6>
+                    <div class="file-field input-field">
+                        <div class="btn blue">
+                            <span><i class="material-icons left">attach_file</i>Select Files</span>
+                            {{ form.vehicle_files }}
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Upload multiple vehicle files">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <h6>Scenario Files</h6>
+                    <div class="file-field input-field">
+                        <div class="btn orange">
+                            <span><i class="material-icons left">attach_file</i>Select Files</span>
+                            {{ form.scenario_files }}
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Upload multiple scenario files">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grouping Options -->
+    <div class="grouping-section">
+        <h6 class="orange-text darken-2">
+            <i class="material-icons left">group_work</i>
+            Grouping & Analysis Options
+        </h6>
+        <p>Configure how to group and analyze the comparison results</p>
+        
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="tomselect-field">
+                    <label for="{{ form.primary_grouping.id_for_label }}">{{ form.primary_grouping.label }}</label>
+                    {{ form.primary_grouping }}
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="tomselect-field">
+                    <label for="{{ form.secondary_grouping.id_for_label }}">{{ form.secondary_grouping.label }}</label>
+                    {{ form.secondary_grouping }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.comparison_metric.id_for_label }}">{{ form.comparison_metric.label }}</label>
+                    {{ form.comparison_metric }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.chart_type.id_for_label }}">{{ form.chart_type.label }}</label>
+                    {{ form.chart_type }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.cost_breakdown_level.id_for_label }}">{{ form.cost_breakdown_level.label }}</label>
+                    {{ form.cost_breakdown_level }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Options -->
+    <div class="chart-options">
+        <h6 class="green-text darken-2">
+            <i class="material-icons left">settings</i>
+            Advanced Options
+        </h6>
+        
+        <div class="row">
+            <div class="col s12 m6">
+                <p>
+                    <label>
+                        {{ form.include_cost_breakdown }}
+                        <span>{{ form.include_cost_breakdown.label }}</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        {{ form.enable_interactive_charts }}
+                        <span>{{ form.enable_interactive_charts.label }}</span>
+                    </label>
+                </p>
+            </div>
+            <div class="col s12 m6">
+                <p>
+                    <label>
+                        {{ form.show_statistical_summary }}
+                        <span>{{ form.show_statistical_summary.label }}</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        {{ form.export_results }}
+                        <span>{{ form.export_results.label }}</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+        <h5 class="blue-text darken-2" style="margin-bottom: 16px;">Ready to Compare?</h5>
+        <p class="grey-text" style="margin-bottom: 24px;">
+            Review your selections and click the button below to run the comparison analysis
+        </p>
+        <button type="submit" class="btn-large blue darken-2 waves-effect waves-light" id="runComparisonBtn">
+            <i class="material-icons left">compare_arrows</i>
+            Run Comparison Analysis
+        </button>
+    </div>
+</form>
+
+<!-- Help Section -->
+<div class="comparison-section" style="margin-top: 32px;">
+    <h6 class="blue-text darken-2">
+        <i class="material-icons left">help</i>
+        Comparison Help
+    </h6>
+    <ul class="collection">
+        <li class="collection-item">
+            <strong>Selection Method:</strong> Choose between dropdown selection for predefined options or file upload for custom data
+        </li>
+        <li class="collection-item">
+            <strong>Grouping:</strong> Primary grouping organizes the main comparison structure, secondary grouping creates sub-categories
+        </li>
+        <li class="collection-item">
+            <strong>Chart Types:</strong> Choose from stacked bar, grouped bar, radar chart, or matrix comparison visualizations
+        </li>
+        <li class="collection-item">
+            <strong>Cost Breakdown:</strong> Select summary level for high-level costs or detailed for component-level analysis
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let tomSelectInstances = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Vehicle Comparison JavaScript is running!');
+    
+    // Initialize Materialize components
+    M.AutoInit();
+    
+    // Initialize TomSelect for form fields
+    initializeTomSelect();
+    
+    // Setup method selection
+    setupMethodSelection();
+    
+    // Setup form handling
+    setupFormHandling();
+    
+    // Setup file upload
+    setupFileUpload();
+    
+    // Setup close alerts
+    setupAlerts();
+});
+
+function initializeTomSelect() {
+    // List of select elements to enhance with TomSelect
+    const selectFields = [
+        'id_vehicles',
+        'id_scenarios',
+        'id_primary_grouping',
+        'id_secondary_grouping',
+        'id_comparison_metric',
+        'id_chart_type',
+        'id_cost_breakdown_level'
+    ];
+    
+    console.log('Initializing TomSelect for vehicle comparison form...');
+    
+    selectFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            console.log(`Setting up TomSelect for ${fieldId}`);
+            
+            try {
+                tomSelectInstances[fieldId] = new TomSelect(element, {
+                    create: false,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    },
+                    placeholder: `Select ${element.getAttribute('name') || fieldId.replace('id_', '')}...`,
+                    allowEmptyOption: false,
+                    searchField: ['text', 'value'],
+                    maxItems: fieldId === 'id_vehicles' || fieldId === 'id_scenarios' ? null : 1
+                });
+                
+                console.log(`✅ TomSelect instance created for ${fieldId}`);
+            } catch (error) {
+                console.error(`❌ Error creating TomSelect for ${fieldId}:`, error);
+            }
+        } else {
+            console.warn(`Element not found: ${fieldId}`);
+        }
+    });
+}
+
+function setupMethodSelection() {
+    const methodOptions = document.querySelectorAll('.method-option');
+    const dropdownSection = document.getElementById('dropdown-section');
+    const fileUploadSection = document.getElementById('file-upload-section');
+    
+    methodOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Update radio selection
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            // Update visual state
+            methodOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Toggle form sections
+            const method = this.dataset.method;
+            if (method === 'dropdown') {
+                dropdownSection.classList.add('active');
+                fileUploadSection.classList.remove('active');
+            } else {
+                dropdownSection.classList.remove('active');
+                fileUploadSection.classList.add('active');
+            }
+        });
+    });
+}
+
+function setupFormHandling() {
+    const form = document.getElementById('comparisonForm');
+    const submitBtn = document.getElementById('runComparisonBtn');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Show loading state
+            submitBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Processing...';
+            submitBtn.disabled = true;
+            
+            // Basic validation
+            const selectionMethod = document.querySelector('input[name="selection_method"]:checked').value;
+            
+            if (selectionMethod === 'dropdown') {
+                const vehiclesSelected = tomSelectInstances['id_vehicles'] && tomSelectInstances['id_vehicles'].getValue().length > 0;
+                const scenariosSelected = tomSelectInstances['id_scenarios'] && tomSelectInstances['id_scenarios'].getValue().length > 0;
+                
+                if (!vehiclesSelected || !scenariosSelected) {
+                    e.preventDefault();
+                    showToast('Please select at least one vehicle and one scenario', 'red');
+                    
+                    // Reset button
+                    submitBtn.innerHTML = '<i class="material-icons left">compare_arrows</i>Run Comparison Analysis';
+                    submitBtn.disabled = false;
+                    return;
+                }
+            } else {
+                const vehicleFiles = document.getElementById('id_vehicle_files').files;
+                const scenarioFiles = document.getElementById('id_scenario_files').files;
+                
+                if (vehicleFiles.length === 0 || scenarioFiles.length === 0) {
+                    e.preventDefault();
+                    showToast('Please upload at least one vehicle file and one scenario file', 'red');
+                    
+                    // Reset button
+                    submitBtn.innerHTML = '<i class="material-icons left">compare_arrows</i>Run Comparison Analysis';
+                    submitBtn.disabled = false;
+                    return;
+                }
+            }
+        });
+    }
+}
+
+function setupFileUpload() {
+    // Add drag and drop functionality
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    
+    fileInputs.forEach(input => {
+        const wrapper = input.closest('.file-field');
+        
+        // Drag events
+        wrapper.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        wrapper.addEventListener('dragleave', function(e) {
+            this.classList.remove('dragover');
+        });
+        
+        wrapper.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                input.files = files;
+                updateFilePathDisplay(input, files);
+            }
+        });
+        
+        // File selection change
+        input.addEventListener('change', function() {
+            updateFilePathDisplay(this, this.files);
+        });
+    });
+}
+
+function updateFilePathDisplay(input, files) {
+    const pathInput = input.closest('.file-field').querySelector('.file-path');
+    if (pathInput && files.length > 0) {
+        const fileNames = Array.from(files).map(f => f.name).join(', ');
+        pathInput.value = fileNames;
+    }
+}
+
+function setupAlerts() {
+    document.querySelectorAll('.close-alert').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.style.display = 'none';
+        });
+    });
+}
+
+function showToast(message, color) {
+    M.toast({html: message, classes: color});
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('runComparisonBtn').click();
+        }
+    }
+});
+</script>
+{% endblock %}

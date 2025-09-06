@@ -11,6 +11,11 @@ urlpatterns = [
         views.tco_parameter_analysis,
         name="tco_parameter_analysis",
     ),
+    path(
+        "analysis/parameters/<int:analysis_id>/results/",
+        views.parameter_analysis_results,
+        name="parameter_analysis_results",
+    ),
     path("comparison/", views.vehicle_comparison, name="vehicle_comparison"),
     path("fleet/", views.fleet_analysis, name="fleet_analysis"),
     # Results and details
@@ -21,6 +26,14 @@ urlpatterns = [
     # Demo and utilities
     path("demo/", views.demo_data, name="demo_data"),
     path("demo/run/", views.run_demo_analysis, name="run_demo_analysis"),
+    path("demo/parameter-results/", views.demo_parameter_results, name="demo_parameter_results"),
+    path("debug/charts/", views.debug_charts, name="debug_charts"),
+    # AJAX endpoints
+    path(
+        "api/vehicle-parameters/",
+        views.get_vehicle_parameters,
+        name="get_vehicle_parameters",
+    ),
     # Legacy URLs for backward compatibility
     path("results/", views.results, name="results"),
     path("analysis/legacy/", views.analysis, name="analysis_legacy"),

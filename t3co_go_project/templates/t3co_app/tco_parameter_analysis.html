@@ -100,6 +100,287 @@
     margin-top: 24px;
 }
 
+/* TomSelect field wrapper styling */
+.tomselect-field {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.tomselect-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #9e9e9e;
+    margin-bottom: 8px;
+    transform: none;
+    transition: color 0.2s ease-out;
+}
+
+.tomselect-field .ts-wrapper.focus label,
+.tomselect-field:hover label {
+    color: #2196f3;
+}
+
+/* Completely hide original select elements - multiple strong selectors */
+.tomselect-field select,
+.ts-wrapper + select,
+select[style*="display: none"],
+select.tomselected,
+select.tomselect-original,
+#id_vehicle_class,
+#id_cab_type,
+#id_roof_type,
+#id_fuel_type,
+#id_program_status,
+#id_vocation,
+#id_analysis_year,
+#id_region {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    z-index: -1 !important;
+}
+
+/* Ensure TomSelect wrapper is visible and properly styled */
+.tomselect-field .ts-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+}
+
+/* Enhanced slider styling */
+.slider-container {
+    padding: 20px 0;
+    margin: 10px 0;
+}
+
+.slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #1976d2;
+}
+
+.slider-value {
+    background: #1976d2;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Custom range slider styling */
+.range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e0e0e0;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1976d2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.5);
+}
+
+.range-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1976d2;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+    transition: all 0.3s ease;
+}
+
+.range-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.5);
+}
+
+/* Cost toggle section */
+.cost-toggles {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4caf50;
+}
+
+.toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.toggle-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.toggle-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.toggle-item.active {
+    border-color: #4caf50;
+    background: #f1f8e9;
+}
+
+.toggle-item input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+.toggle-item label {
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Load from file section */
+.load-section {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff9800;
+}
+
+.load-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.load-btn {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.load-btn:hover {
+    background: #f57c00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.load-btn i {
+    font-size: 1.1rem;
+}
+
+/* Analysis options */
+.analysis-options {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Real-time updates indicator */
+.realtime-indicator {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.realtime-indicator.show {
+    opacity: 1;
+}
+
+.realtime-indicator.updating {
+    background: #ff9800;
+}
+
+/* Enhanced form sections */
+.form-section-header {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.parameter-form-row {
+    margin-bottom: 20px;
+}
+
+.parameter-form-row .ts-wrapper {
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .parameter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .toggle-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .load-buttons {
+        justify-content: center;
+    }
+}
+
+/* Additional orphaned styles moved back into CSS block */
 .form-divider {
     border-top: 2px solid #e0e0e0;
     margin: 32px 0;
@@ -136,18 +417,7 @@
     justify-content: center;
     font-weight: 600;
     margin: 0 8px;
-}
-
-.step-line {
-    width: 80px;
-    height: 2px;
-    background: #e0e0e0;
-}
-
-.floating-action {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
+    position: relative;
     z-index: 1000;
 }
 
@@ -173,6 +443,9 @@
             Configure vehicle and scenario parameters using dropdown selections and custom values
         </p>
         <div class="right-align" style="margin-top: -80px;">
+            <a href="{% url 'demo_parameter_results' %}" class="btn orange darken-1 waves-effect waves-light">
+                <i class="material-icons left">visibility</i>Demo Results
+            </a>
             <a href="{% url 'tco_analysis' %}" class="btn grey darken-1 waves-effect waves-light">
                 <i class="material-icons left">upload_file</i>File Upload
             </a>
@@ -230,78 +503,196 @@
                 <span class="helper-text">{{ form.analysis_name.help_text }}</span>
                 {% endif %}
             </div>
-            <div class="input-field col s12 m3">
-                {{ form.analysis_year }}
+            <div class="col s12 m3">
                 <label for="{{ form.analysis_year.id_for_label }}">{{ form.analysis_year.label }}</label>
+                {{ form.analysis_year }}
             </div>
-            <div class="input-field col s12 m3">
-                {{ form.vehicle_type }}
-                <label for="{{ form.vehicle_type.id_for_label }}">{{ form.vehicle_type.label }}</label>
+        </div>
+        
+        <!-- Vehicle Selection Components -->
+        <div class="row parameter-form-row">
+            <div class="col s12">
+                <h6 class="form-section-header">
+                    <span>
+                        <i class="material-icons left">local_shipping</i>
+                        Vehicle Selection
+                    </span>
+                    <span class="realtime-indicator" id="loadingIndicator">
+                        <i class="material-icons left">sync</i>
+                        Loading...
+                    </span>
+                </h6>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.vehicle_class.id_for_label }}">{{ form.vehicle_class.label }}</label>
+                    {{ form.vehicle_class }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.cab_type.id_for_label }}">{{ form.cab_type.label }}</label>
+                    {{ form.cab_type }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.roof_type.id_for_label }}">{{ form.roof_type.label }}</label>
+                    {{ form.roof_type }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row parameter-form-row">
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.fuel_type.id_for_label }}">{{ form.fuel_type.label }}</label>
+                    {{ form.fuel_type }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.program_status.id_for_label }}">{{ form.program_status.label }}</label>
+                    {{ form.program_status }}
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="tomselect-field">
+                    <label for="{{ form.vocation.id_for_label }}">{{ form.vocation.label }}</label>
+                    {{ form.vocation }}
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Vehicle Parameters -->
+    <!-- Load Parameters from File Section -->
+    <div class="load-section">
+        <h6 class="orange-text darken-2">
+            <i class="material-icons left">file_upload</i>
+            Load Parameters from Vehicle/Scenario Files
+        </h6>
+        <p>Quickly populate parameters by loading values from existing T3CO input files</p>
+        <div class="load-buttons">
+            <button type="button" class="load-btn" id="loadVehicleBtn">
+                <i class="material-icons">directions_car</i>
+                Load Vehicle Parameters
+            </button>
+            <button type="button" class="load-btn" id="loadScenarioBtn">
+                <i class="material-icons">route</i>
+                Load Scenario Parameters
+            </button>
+            <button type="button" class="load-btn" id="loadDefaultsBtn">
+                <i class="material-icons">restore</i>
+                Load Defaults
+            </button>
+            <button type="button" class="load-btn" id="resetFormBtn">
+                <i class="material-icons">clear</i>
+                Reset All
+            </button>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="file-field input-field col s12 m6">
+                <div class="btn orange">
+                    <span><i class="material-icons left">attach_file</i>Vehicle File</span>
+                    <input type="file" id="vehicleFileInput" accept=".csv,.json">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Select vehicle file...">
+                </div>
+            </div>
+            <div class="file-field input-field col s12 m6">
+                <div class="btn orange">
+                    <span><i class="material-icons left">attach_file</i>Scenario File</span>
+                    <input type="file" id="scenarioFileInput" accept=".csv,.json">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Select scenario file...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Parameters with Sliders -->
     <div class="parameter-section">
         <div class="section-header">
-            <i class="material-icons">local_shipping</i>
-            <h5 style="margin: 0;">Vehicle Parameters</h5>
+            <i class="material-icons">build</i>
+            <h5 style="margin: 0;">Technical Parameters</h5>
         </div>
         
         <div class="parameter-grid">
             <div class="parameter-card">
                 <h6>
-                    Powertrain Type
+                    Drag Coefficient
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Select the vehicle's powertrain technology</div>
+                        <div class="tooltip-content">Aerodynamic drag coefficient (dimensionless)</div>
                     </span>
                 </h6>
-                <div class="input-field">
-                    {{ form.powertrain_type }}
-                    <label for="{{ form.powertrain_type.id_for_label }}">Powertrain</label>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Drag Coefficient</span>
+                        <span class="slider-value" id="dragValue">0.546</span>
+                    </div>
+                    <input type="range" class="range-slider" id="dragSlider" 
+                           min="0.1" max="2.0" step="0.001" value="0.546">
+                    {{ form.drag_coefficient }}
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Vehicle Weight (kg)
+                    Frontal Area (m²)
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Total vehicle weight including payload</div>
+                        <div class="tooltip-content">Vehicle frontal area in square meters</div>
                     </span>
                 </h6>
-                <div class="input-field">
-                    {{ form.vehicle_weight }}
-                    <label for="{{ form.vehicle_weight.id_for_label }}">Weight</label>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Frontal Area (m²)</span>
+                        <span class="slider-value" id="frontalAreaValue">10.4</span>
+                    </div>
+                    <input type="range" class="range-slider" id="frontalAreaSlider" 
+                           min="5.0" max="20.0" step="0.1" value="10.4">
+                    {{ form.frontal_area_m2 }}
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Fuel Efficiency (mpg)
+                    Glider Weight (kg)
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Miles per gallon equivalent</div>
+                        <div class="tooltip-content">Vehicle glider (body) weight in kilograms</div>
                     </span>
                 </h6>
-                <div class="input-field">
-                    {{ form.fuel_efficiency }}
-                    <label for="{{ form.fuel_efficiency.id_for_label }}">Efficiency</label>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Glider Weight (kg)</span>
+                        <span class="slider-value" id="gliderWeightValue">11776</span>
+                    </div>
+                    <input type="range" class="range-slider" id="gliderWeightSlider" 
+                           min="5000" max="25000" step="100" value="11776">
+                    {{ form.glider_kg }}
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Purchase Price ($)
+                    Cargo Weight (kg)
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Initial vehicle purchase cost</div>
+                        <div class="tooltip-content">Maximum cargo capacity in kilograms</div>
                     </span>
                 </h6>
-                <div class="input-field">
-                    {{ form.purchase_price }}
-                    <label for="{{ form.purchase_price.id_for_label }}">Price</label>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Cargo Weight (kg)</span>
+                        <span class="slider-value" id="cargoWeightValue">17236</span>
+                    </div>
+                    <input type="range" class="range-slider" id="cargoWeightSlider" 
+                           min="5000" max="35000" step="100" value="17236">
+                    {{ form.cargo_kg }}
                 </div>
             </div>
         </div>
@@ -319,58 +710,56 @@
         <div class="parameter-grid">
             <div class="parameter-card">
                 <h6>
-                    Annual Mileage
+                    Minimum Range (miles)
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Expected miles driven per year</div>
+                        <div class="tooltip-content">Required minimum operating range in miles</div>
                     </span>
                 </h6>
                 <div class="input-field">
-                    {{ form.annual_mileage }}
-                    <label for="{{ form.annual_mileage.id_for_label }}">Miles/Year</label>
+                    {{ form.min_range_miles }}
+                    <label for="{{ form.min_range_miles.id_for_label }}">Min Range</label>
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Operating Years
+                    Annual VMT
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Total years of vehicle operation</div>
+                        <div class="tooltip-content">Annual Vehicle Miles Traveled</div>
                     </span>
                 </h6>
                 <div class="input-field">
-                    {{ form.operating_years }}
-                    <label for="{{ form.operating_years.id_for_label }}">Years</label>
+                    {{ form.annual_vmt }}
+                    <label for="{{ form.annual_vmt.id_for_label }}">Annual VMT</label>
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Fuel Price ($/gallon)
+                    Vehicle Life (years)
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Cost per gallon of fuel/energy</div>
+                        <div class="tooltip-content">Expected vehicle operating lifetime in years</div>
                     </span>
                 </h6>
                 <div class="input-field">
-                    {{ form.fuel_price }}
-                    <label for="{{ form.fuel_price.id_for_label }}">Price</label>
+                    {{ form.vehicle_life_yr }}
+                    <label for="{{ form.vehicle_life_yr.id_for_label }}">Vehicle Life</label>
                 </div>
             </div>
             
             <div class="parameter-card">
                 <h6>
-                    Maintenance Cost ($/mile)
+                    Region
                     <span class="info-tooltip">
                         <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Average maintenance cost per mile</div>
+                        <div class="tooltip-content">Geographic region for fuel pricing</div>
                     </span>
                 </h6>
-                <div class="input-field">
-                    {{ form.maintenance_cost }}
-                    <label for="{{ form.maintenance_cost.id_for_label }}">Cost/Mile</label>
-                </div>
+                <label for="{{ form.region.id_for_label }}">{{ form.region.label }}</label>
+                {{ form.region }}
             </div>
         </div>
     </div>
@@ -394,50 +783,8 @@
                     </span>
                 </h6>
                 <div class="input-field">
-                    {{ form.discount_rate }}
-                    <label for="{{ form.discount_rate.id_for_label }}">Rate</label>
-                </div>
-            </div>
-            
-            <div class="parameter-card">
-                <h6>
-                    Residual Value (%)
-                    <span class="info-tooltip">
-                        <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Percentage of purchase price retained at end</div>
-                    </span>
-                </h6>
-                <div class="input-field">
-                    {{ form.residual_value }}
-                    <label for="{{ form.residual_value.id_for_label }}">Residual %</label>
-                </div>
-            </div>
-            
-            <div class="parameter-card">
-                <h6>
-                    Insurance Cost ($/year)
-                    <span class="info-tooltip">
-                        <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Annual insurance premium</div>
-                    </span>
-                </h6>
-                <div class="input-field">
-                    {{ form.insurance_cost }}
-                    <label for="{{ form.insurance_cost.id_for_label }}">Annual Cost</label>
-                </div>
-            </div>
-            
-            <div class="parameter-card">
-                <h6>
-                    Registration/Fees ($/year)
-                    <span class="info-tooltip">
-                        <i class="material-icons tiny grey-text">info</i>
-                        <div class="tooltip-content">Annual registration and licensing fees</div>
-                    </span>
-                </h6>
-                <div class="input-field">
-                    {{ form.registration_fees }}
-                    <label for="{{ form.registration_fees.id_for_label }}">Annual Fees</label>
+                    {{ form.discount_rate_pct }}
+                    <label for="{{ form.discount_rate_pct.id_for_label }}">Discount Rate</label>
                 </div>
             </div>
         </div>
@@ -481,9 +828,23 @@
 
 {% block extra_js %}
 <script>
+let tomSelectInstances = {};
+let parametersLoaded = false;
+const originalValues = {};
+
 document.addEventListener('DOMContentLoaded', function() {
+    // TEMPORARY: Confirm JavaScript is executing
+    console.log('🚀 JavaScript is running! Initializing T3CO Parameter Analysis...');
+    alert('JavaScript executed! Check browser console for TomSelect debug info.');
+    
     // Initialize Materialize components
     M.AutoInit();
+    
+    // Initialize TomSelect for dropdowns
+    initializeTomSelect();
+    
+    // Initialize sliders
+    initializeSliders();
     
     // Form handling
     setupFormHandling();
@@ -491,9 +852,363 @@ document.addEventListener('DOMContentLoaded', function() {
     // Parameter validation
     setupParameterValidation();
     
+    // Dropdown change handlers
+    setupDropdownHandlers();
+    
+    // File loading handlers
+    setupFileHandlers();
+    
     // Quick help
     setupQuickHelp();
 });
+
+function initializeTomSelect() {
+    // List of select elements to enhance with TomSelect
+    const selectFields = [
+        'id_vehicle_class',
+        'id_cab_type', 
+        'id_roof_type',
+        'id_fuel_type',
+        'id_program_status',
+        'id_vocation',
+        'id_analysis_year',
+        'id_region'
+    ];
+    
+    console.log('=== TomSelect Initialization Debug ===');
+    console.log('Available form fields:', selectFields);
+    
+    selectFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            console.log(`\n--- Processing ${fieldId} ---`);
+            console.log('Element found:', element);
+            console.log('Element type:', element.tagName);
+            console.log('Element name:', element.name);
+            console.log('Options count:', element.options.length);
+            
+            // Log all options to see what data is available
+            console.log('Available options:');
+            for (let i = 0; i < element.options.length; i++) {
+                const option = element.options[i];
+                console.log(`  ${i}: value="${option.value}" text="${option.text}"`);
+            }
+            
+            // Check if form has real data
+            const hasRealOptions = element.options.length > 1 || 
+                                   (element.options.length === 1 && element.options[0].value !== '');
+            console.log('Has real options:', hasRealOptions);
+            
+            if (!hasRealOptions) {
+                console.warn(`⚠️ ${fieldId} has no populated options - Django form may not be loading demo data!`);
+            }
+            
+            // Explicitly hide the original select element before TomSelect initialization
+            element.style.display = 'none';
+            element.style.visibility = 'hidden';
+            
+            try {
+                tomSelectInstances[fieldId] = new TomSelect(element, {
+                    create: false,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    },
+                    placeholder: hasRealOptions ? 
+                        `Select ${element.getAttribute('name') || fieldId.replace('id_', '')}...` :
+                        `No ${fieldId.replace('id_', '')} options available`,
+                    allowEmptyOption: true,
+                    searchField: ['text', 'value'],
+                    onChange: function(value) {
+                        console.log(`${fieldId} changed to:`, value);
+                        updateParametersFromDropdowns();
+                    }
+                });
+                
+                console.log(`✅ TomSelect instance created for ${fieldId}:`, tomSelectInstances[fieldId]);
+            } catch (error) {
+                console.error(`❌ Error creating TomSelect for ${fieldId}:`, error);
+            }
+            
+            // Force hide the original element again after TomSelect creation
+            setTimeout(() => {
+                element.style.display = 'none !important';
+                element.style.visibility = 'hidden !important';
+                
+                // Also hide any remaining visible select elements in the same container
+                const container = element.closest('.tomselect-field') || element.parentElement;
+                if (container) {
+                    const allSelects = container.querySelectorAll('select');
+                    allSelects.forEach(select => {
+                        if (select !== element && !select.hasAttribute('data-tomselect-processed')) {
+                            select.style.display = 'none !important';
+                            select.style.visibility = 'hidden !important';
+                            select.style.position = 'absolute !important';
+                            select.style.left = '-9999px !important';
+                            select.style.opacity = '0 !important';
+                            select.style.zIndex = '-1 !important';
+                            console.log('Hidden additional select element:', select);
+                        }
+                    });
+                }
+            }, 100);
+        } else {
+            console.error(`❌ Element not found: ${fieldId}`);
+        }
+    });
+    
+    console.log('=== End TomSelect Initialization ===\n');
+}
+                    allSelects.forEach(select => {
+                        if (select.id === fieldId || select === element) {
+                            select.style.display = 'none';
+                            select.style.visibility = 'hidden';
+                        }
+                    });
+                }
+            }, 100);
+        } else {
+            console.warn(`Element with id ${fieldId} not found`);
+        }
+    });
+    
+    // Debug: Log all TomSelect instances
+    console.log('All TomSelect instances:', tomSelectInstances);
+}
+
+function initializeSliders() {
+    const sliders = document.querySelectorAll('.range-slider');
+    
+    sliders.forEach(slider => {
+        const valueDisplay = document.getElementById(slider.id.replace('Slider', 'Value'));
+        const fieldMapping = {
+            'dragSlider': 'id_drag_coefficient',
+            'frontalAreaSlider': 'id_frontal_area_m2',
+            'gliderWeightSlider': 'id_glider_kg',
+            'cargoWeightSlider': 'id_cargo_kg'
+        };
+        
+        const hiddenField = document.getElementById(fieldMapping[slider.id]);
+        
+        // Store original value
+        originalValues[slider.id] = slider.value;
+        
+        // Update displays and form fields on slider change
+        slider.addEventListener('input', function() {
+            const value = this.value;
+            valueDisplay.textContent = value;
+            if (hiddenField) {
+                hiddenField.value = value;
+            }
+            
+            // Add visual feedback for changed values
+            if (value !== originalValues[this.id]) {
+                this.classList.add('changed');
+                valueDisplay.classList.add('changed');
+            } else {
+                this.classList.remove('changed');
+                valueDisplay.classList.remove('changed');
+            }
+        });
+        
+        // Initialize displays
+        valueDisplay.textContent = slider.value;
+        if (hiddenField) {
+            hiddenField.value = slider.value;
+        }
+    });
+}
+
+function setupFileHandlers() {
+    // Load from vehicle file
+    const loadVehicleBtn = document.getElementById('loadVehicleBtn');
+    if (loadVehicleBtn) {
+        loadVehicleBtn.addEventListener('click', function() {
+            const fileInput = document.getElementById('vehicleFileInput');
+            if (fileInput && fileInput.files.length > 0) {
+                loadParametersFromFile(fileInput.files[0], 'vehicle');
+            } else {
+                showToast('Please select a vehicle file first', 'orange');
+            }
+        });
+    }
+    
+    // Load from scenario file
+    const loadScenarioBtn = document.getElementById('loadScenarioBtn');
+    if (loadScenarioBtn) {
+        loadScenarioBtn.addEventListener('click', function() {
+            const fileInput = document.getElementById('scenarioFileInput');
+            if (fileInput && fileInput.files.length > 0) {
+                loadParametersFromFile(fileInput.files[0], 'scenario');
+            } else {
+                showToast('Please select a scenario file first', 'orange');
+            }
+        });
+    }
+    
+    // Reset button
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            resetAllParameters();
+        });
+    }
+}
+
+function loadParametersFromFile(file, type) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('type', type);
+    
+    showParameterLoading();
+    
+    fetch('/api/load_parameters_from_file/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideParameterLoading();
+        if (data.success) {
+            updateParameters(data.parameters);
+            showToast(`Parameters loaded from ${type} file!`, 'green');
+        } else {
+            showToast('Error loading file: ' + data.error, 'red');
+        }
+    })
+    .catch(error => {
+        hideParameterLoading();
+        console.error('Error:', error);
+        showToast('Error uploading file', 'red');
+    });
+}
+
+function resetAllParameters() {
+    // Reset sliders
+    const sliders = document.querySelectorAll('.range-slider');
+    sliders.forEach(slider => {
+        slider.value = originalValues[slider.id];
+        slider.dispatchEvent(new Event('input'));
+    });
+    
+    // Reset checkboxes
+    document.querySelectorAll('.cost-toggles input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = true;
+    });
+    
+    // Reset form fields
+    document.querySelectorAll('input[type="number"], input[type="text"]').forEach(field => {
+        if (field.dataset.original) {
+            field.value = field.dataset.original;
+        }
+    });
+    
+    showToast('Parameters reset to defaults', 'blue');
+}
+
+function updateParameters(params) {
+    const sliderMapping = {
+        'drag_coefficient': 'dragSlider',
+        'frontal_area_m2': 'frontalAreaSlider',
+        'glider_kg': 'gliderWeightSlider',
+        'cargo_kg': 'cargoWeightSlider'
+    };
+    
+    Object.keys(sliderMapping).forEach(param => {
+        if (params[param] !== undefined) {
+            const slider = document.getElementById(sliderMapping[param]);
+            const valueDisplay = document.getElementById(sliderMapping[param].replace('Slider', 'Value'));
+            const hiddenField = document.getElementById('id_' + param);
+            
+            if (slider) {
+                slider.value = params[param];
+                valueDisplay.textContent = params[param];
+                if (hiddenField) {
+                    hiddenField.value = params[param];
+                }
+                slider.dispatchEvent(new Event('input'));
+            }
+        }
+    });
+    
+    // Update other form fields
+    Object.keys(params).forEach(param => {
+        const field = document.getElementById('id_' + param);
+        if (field && !sliderMapping[param]) {
+            field.value = params[param];
+            field.focus();
+            field.blur();
+        }
+    });
+}
+
+function setupDropdownHandlers() {
+    // Update parameters when dropdowns change
+    Object.keys(tomSelectInstances).forEach(fieldId => {
+        const instance = tomSelectInstances[fieldId];
+        if (instance) {
+            instance.on('change', function(value) {
+                updateParametersFromDropdowns();
+            });
+        }
+    });
+}
+
+function updateParametersFromDropdowns() {
+    // Check if all required dropdowns have values
+    const requiredFields = ['id_vehicle_class', 'id_fuel_type', 'id_analysis_year'];
+    const allSelected = requiredFields.every(fieldId => {
+        const instance = tomSelectInstances[fieldId];
+        return instance && instance.getValue();
+    });
+    
+    if (allSelected) {
+        loadVehicleParameters();
+    }
+}
+
+function loadVehicleParameters() {
+    // Get selected values
+    const selectedValues = {};
+    Object.keys(tomSelectInstances).forEach(fieldId => {
+        const instance = tomSelectInstances[fieldId];
+        if (instance) {
+            const fieldName = fieldId.replace('id_', '');
+            selectedValues[fieldName] = instance.getValue();
+        }
+    });
+    
+    // Show loading state
+    showParameterLoading();
+    
+    // AJAX call to get vehicle parameters
+    fetch('{% url "get_vehicle_parameters" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify(selectedValues)
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideParameterLoading();
+        if (data.success) {
+            updateParameters(data.parameters);
+            showToast('Vehicle parameters loaded successfully!', 'green');
+            parametersLoaded = true;
+        } else {
+            showToast('Failed to load vehicle parameters: ' + (data.error || 'Unknown error'), 'red');
+        }
+    })
+    .catch(error => {
+        hideParameterLoading();
+        showToast('Error loading vehicle parameters: ' + error.message, 'red');
+    });
+}
 
 function setupFormHandling() {
     const form = document.getElementById('parameterForm');
@@ -507,10 +1222,44 @@ function setupFormHandling() {
                 // Show loading state
                 submitBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Processing...';
                 submitBtn.disabled = true;
-                showLoading();
+                showParameterLoading();
                 
-                // Submit form
-                form.submit();
+                // Collect form data
+                const formData = new FormData(form);
+                
+                // Submit via AJAX
+                fetch(form.action || window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Analysis failed');
+                })
+                .then(data => {
+                    hideParameterLoading();
+                    if (data.success) {
+                        showToast('Analysis completed successfully!', 'green');
+                        if (data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        }
+                    } else {
+                        throw new Error(data.error || 'Analysis failed');
+                    }
+                })
+                .catch(error => {
+                    hideParameterLoading();
+                    showToast('Analysis failed: ' + error.message, 'red');
+                    
+                    // Reset button
+                    submitBtn.innerHTML = '<i class="material-icons left">analytics</i>Run Parameter Analysis';
+                    submitBtn.disabled = false;
+                });
             }
         });
     }
@@ -518,15 +1267,17 @@ function setupFormHandling() {
 
 function setupParameterValidation() {
     // Real-time validation for numeric fields
-    const numericFields = ['vehicle_weight', 'fuel_efficiency', 'purchase_price', 
-                          'annual_mileage', 'operating_years', 'fuel_price', 
-                          'maintenance_cost', 'discount_rate', 'residual_value', 
-                          'insurance_cost', 'registration_fees'];
+    const numericFields = ['drag_coefficient', 'frontal_area_m2', 'glider_kg', 'cargo_kg',
+                          'min_range_miles', 'annual_vmt', 'vehicle_life_yr', 'discount_rate_pct'];
     
     numericFields.forEach(fieldName => {
         const field = document.querySelector(`[name="${fieldName}"]`);
         if (field) {
             field.addEventListener('input', function(e) {
+                validateNumericField(e.target);
+            });
+            
+            field.addEventListener('blur', function(e) {
                 validateNumericField(e.target);
             });
         }
@@ -541,7 +1292,7 @@ function validateNumericField(field) {
     field.classList.remove('valid', 'invalid');
     
     if (field.value === '') {
-        return; // Allow empty for optional fields
+        return true; // Allow empty for optional fields
     }
     
     if (isNaN(value) || value < 0) {
@@ -551,15 +1302,20 @@ function validateNumericField(field) {
     
     // Field-specific validation
     switch(fieldName) {
-        case 'discount_rate':
-        case 'residual_value':
+        case 'discount_rate_pct':
             if (value > 100) {
                 field.classList.add('invalid');
                 return false;
             }
             break;
-        case 'operating_years':
-            if (value > 50) {
+        case 'vehicle_life_yr':
+            if (value > 50 || value < 1) {
+                field.classList.add('invalid');
+                return false;
+            }
+            break;
+        case 'drag_coefficient':
+            if (value > 2.0 || value < 0.1) {
                 field.classList.add('invalid');
                 return false;
             }
@@ -571,22 +1327,55 @@ function validateNumericField(field) {
 }
 
 function validateForm() {
-    const requiredFields = ['analysis_name', 'vehicle_type', 'powertrain_type'];
+    const requiredFields = ['analysis_name', 'vehicle_class', 'analysis_year'];
     let isValid = true;
     
+    // Check required text fields
     requiredFields.forEach(fieldName => {
         const field = document.querySelector(`[name="${fieldName}"]`);
         if (field && !field.value.trim()) {
-            field.classList.add('invalid');
+            // For TomSelect fields, check the instance
+            const fieldId = 'id_' + fieldName;
+            const tomSelectInstance = tomSelectInstances[fieldId];
+            if (tomSelectInstance && !tomSelectInstance.getValue()) {
+                isValid = false;
+                showToast(`${fieldName.replace('_', ' ')} is required`, 'red');
+            } else if (!tomSelectInstance && !field.value.trim()) {
+                field.classList.add('invalid');
+                isValid = false;
+            }
+        }
+    });
+    
+    // Validate numeric fields
+    const numericFields = document.querySelectorAll('input[type="number"]');
+    numericFields.forEach(field => {
+        if (!validateNumericField(field)) {
             isValid = false;
         }
     });
     
     if (!isValid) {
-        showError('Please fill in all required fields');
+        showToast('Please fill in all required fields with valid values', 'red');
     }
     
     return isValid;
+}
+
+function showParameterLoading() {
+    // Add loading state to parameter cards
+    document.querySelectorAll('.parameter-card').forEach(card => {
+        card.style.opacity = '0.6';
+        card.style.pointerEvents = 'none';
+    });
+}
+
+function hideParameterLoading() {
+    // Remove loading state
+    document.querySelectorAll('.parameter-card').forEach(card => {
+        card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
+    });
 }
 
 function setupQuickHelp() {
@@ -600,15 +1389,38 @@ function setupQuickHelp() {
 
 function showQuickHelp() {
     const helpContent = `
-        <h5>Parameter Analysis Help</h5>
-        <p><strong>Required Fields:</strong> Analysis name, vehicle type, and powertrain type</p>
-        <p><strong>Optional Fields:</strong> All other parameters have default values</p>
-        <p><strong>Validation:</strong> Numeric fields must be positive values</p>
-        <p><strong>Tooltips:</strong> Hover over info icons for field descriptions</p>
+        <div class="modal-content">
+            <h5>Parameter Analysis Help</h5>
+            <p><strong>Required Fields:</strong> Analysis name, vehicle class, and analysis year</p>
+            <p><strong>Vehicle Selection:</strong> Use dropdowns to select vehicle components. Parameters will auto-load when selections are made.</p>
+            <p><strong>Sliders:</strong> Technical parameters can be adjusted using interactive sliders or direct input</p>
+            <p><strong>File Loading:</strong> Upload vehicle or scenario files to auto-populate parameters</p>
+            <p><strong>Cost Toggles:</strong> Enable/disable specific cost components for analysis</p>
+            <p><strong>Validation:</strong> All fields are validated in real-time with visual feedback</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-close waves-effect waves-green btn-flat">Close</button>
+        </div>
     `;
     
-    // You could implement a modal here
-    showInfo('Quick Help', helpContent);
+    // Create modal if it doesn't exist
+    let helpModal = document.getElementById('helpModal');
+    if (!helpModal) {
+        helpModal = document.createElement('div');
+        helpModal.id = 'helpModal';
+        helpModal.className = 'modal';
+        helpModal.innerHTML = helpContent;
+        document.body.appendChild(helpModal);
+        M.Modal.init(helpModal);
+    }
+    
+    // Open modal
+    const instance = M.Modal.getInstance(helpModal);
+    instance.open();
+}
+
+function showToast(message, color) {
+    M.toast({html: message, classes: color});
 }
 
 // Keyboard shortcuts

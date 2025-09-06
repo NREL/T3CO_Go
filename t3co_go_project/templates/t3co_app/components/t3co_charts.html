@@ -1,0 +1,204 @@
+{% load static %}
+{# T3CO Charts Component - Reusable Chart.js Integration #}
+
+<!-- Chart.js Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+<!-- T3CO Charts CSS -->
+<link rel="stylesheet" href="{% static 't3co_app/css/charts.css' %}">
+
+<!-- T3CO Charts JavaScript -->
+<script src="{% static 't3co_app/js/charts.js' %}"></script>
+
+<!-- Chart Containers -->
+<div class="row t3co-charts-container">
+    {% if chart_types.tco_breakdown %}
+    <!-- T3CO Stacked Breakdown Chart -->
+    <div class="col s12 l6">
+        <div class="card chart-card chart-tco-breakdown">
+            <div class="chart-title">
+                <i class="material-icons">bar_chart</i>
+                T3CO Cost Breakdown - Stacked Analysis
+            </div>
+            <div class="chart-content">
+                <div class="chart-export-buttons">
+                    <button class="chart-export-btn" onclick="exportChart('tcoSummaryChart', 'png')">
+                        <i class="material-icons" style="font-size: 14px;">download</i>
+                    </button>
+                    <button class="chart-export-btn" onclick="toggleChartData('tcoSummaryChart')">
+                        <i class="material-icons" style="font-size: 14px;">table_chart</i>
+                    </button>
+                </div>
+                <canvas id="tcoSummaryChart" class="chart-canvas"></canvas>
+                <div class="chart-data-toggle" onclick="toggleChartData('tcoSummaryChart')">View Data</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if chart_types.cost_distribution %}
+    <!-- Cost Category Distribution Chart -->
+    <div class="col s12 l6">
+        <div class="card chart-card chart-cost-distribution">
+            <div class="chart-title">
+                <i class="material-icons">donut_large</i>
+                Cost Category Distribution
+            </div>
+            <div class="chart-content">
+                <div class="chart-export-buttons">
+                    <button class="chart-export-btn" onclick="exportChart('costBreakdownChart', 'png')">
+                        <i class="material-icons" style="font-size: 14px;">download</i>
+                    </button>
+                    <button class="chart-export-btn" onclick="toggleChartData('costBreakdownChart')">
+                        <i class="material-icons" style="font-size: 14px;">table_chart</i>
+                    </button>
+                </div>
+                <canvas id="costBreakdownChart" class="chart-canvas"></canvas>
+                <div class="chart-data-toggle" onclick="toggleChartData('costBreakdownChart')">View Data</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if chart_types.key_metrics %}
+    <!-- Key Performance Metrics Chart -->
+    <div class="col s12 l6">
+        <div class="card chart-card chart-key-metrics">
+            <div class="chart-title">
+                <i class="material-icons">bar_chart</i>
+                Key Performance Metrics
+            </div>
+            <div class="chart-content">
+                <div class="chart-export-buttons">
+                    <button class="chart-export-btn" onclick="exportChart('keyMetricsChart', 'png')">
+                        <i class="material-icons" style="font-size: 14px;">download</i>
+                    </button>
+                    <button class="chart-export-btn" onclick="toggleChartData('keyMetricsChart')">
+                        <i class="material-icons" style="font-size: 14px;">table_chart</i>
+                    </button>
+                </div>
+                <canvas id="keyMetricsChart" class="chart-canvas"></canvas>
+                <div class="chart-data-toggle" onclick="toggleChartData('keyMetricsChart')">View Data</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if chart_types.timeline %}
+    <!-- Cost Timeline Chart -->
+    <div class="col s12 l6">
+        <div class="card chart-card chart-timeline">
+            <div class="chart-title">
+                <i class="material-icons">timeline</i>
+                Cost Timeline Analysis
+            </div>
+            <div class="chart-content">
+                <div class="chart-zoom-controls">
+                    <button class="chart-zoom-btn" onclick="zoomChart('costTimelineChart', 'in')">
+                        <i class="material-icons" style="font-size: 14px;">zoom_in</i>
+                    </button>
+                    <button class="chart-zoom-btn" onclick="zoomChart('costTimelineChart', 'out')">
+                        <i class="material-icons" style="font-size: 14px;">zoom_out</i>
+                    </button>
+                    <button class="chart-zoom-btn" onclick="resetZoom('costTimelineChart')">
+                        <i class="material-icons" style="font-size: 14px;">center_focus_strong</i>
+                    </button>
+                </div>
+                <div class="chart-export-buttons">
+                    <button class="chart-export-btn" onclick="exportChart('costTimelineChart', 'png')">
+                        <i class="material-icons" style="font-size: 14px;">download</i>
+                    </button>
+                    <button class="chart-export-btn" onclick="toggleChartData('costTimelineChart')">
+                        <i class="material-icons" style="font-size: 14px;">table_chart</i>
+                    </button>
+                </div>
+                <canvas id="costTimelineChart" class="chart-canvas"></canvas>
+                <div class="chart-data-toggle" onclick="toggleChartData('costTimelineChart')">View Data</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if chart_types.radar %}
+    <!-- Performance Radar Chart -->
+    <div class="col s12">
+        <div class="card chart-card chart-radar">
+            <div class="chart-title">
+                <i class="material-icons">radar</i>
+                Performance Radar Analysis
+            </div>
+            <div class="chart-content">
+                <div class="chart-export-buttons">
+                    <button class="chart-export-btn" onclick="exportChart('performanceRadarChart', 'png')">
+                        <i class="material-icons" style="font-size: 14px;">download</i>
+                    </button>
+                    <button class="chart-export-btn" onclick="toggleChartData('performanceRadarChart')">
+                        <i class="material-icons" style="font-size: 14px;">table_chart</i>
+                    </button>
+                </div>
+                <canvas id="performanceRadarChart" class="chart-canvas"></canvas>
+                <div class="chart-data-toggle" onclick="toggleChartData('performanceRadarChart')">View Data</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Chart Utility Functions -->
+<script>
+// Chart utility functions for enhanced interaction
+function exportChart(canvasId, format = 'png') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) {
+        console.warn('Canvas not found:', canvasId);
+        return;
+    }
+    
+    const link = document.createElement('a');
+    link.download = `${canvasId}_chart.${format}`;
+    link.href = canvas.toDataURL(`image/${format}`);
+    link.click();
+    
+    // Show toast notification
+    if (typeof M !== 'undefined' && M.toast) {
+        M.toast({html: `Chart exported as ${format.toUpperCase()}`, classes: 'green'});
+    }
+}
+
+function toggleChartData(canvasId) {
+    // This would toggle a data table view - placeholder for now
+    if (typeof M !== 'undefined' && M.toast) {
+        M.toast({html: 'Data table view coming soon', classes: 'blue'});
+    }
+}
+
+function zoomChart(canvasId, direction) {
+    // Chart zoom functionality - placeholder for now
+    if (typeof M !== 'undefined' && M.toast) {
+        M.toast({html: `Zoom ${direction} functionality coming soon`, classes: 'blue'});
+    }
+}
+
+function resetZoom(canvasId) {
+    // Reset chart zoom - placeholder for now
+    if (typeof M !== 'undefined' && M.toast) {
+        M.toast({html: 'Reset zoom functionality coming soon', classes: 'blue'});
+    }
+}
+
+// Initialize charts when component loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if chart data is available
+    if (typeof window.chartData !== 'undefined' || typeof chartDataFromTemplate !== 'undefined') {
+        const data = window.chartData || chartDataFromTemplate;
+        if (data && typeof T3COCharts !== 'undefined') {
+            const chartsInstance = new T3COCharts();
+            chartsInstance.initializeCharts(data);
+            
+            // Store globally for access
+            window.t3coChartsInstance = chartsInstance;
+        }
+    }
+});
+</script>

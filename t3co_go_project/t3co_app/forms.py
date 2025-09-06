@@ -82,94 +82,337 @@ class TCOAnalysisParameterForm(forms.Form):
         ),
     )
 
-    # Vehicle selection
-    vehicle_type = forms.ChoiceField(
-        label="Vehicle Type",
+    # Vehicle selection components parsed from scenario_name
+    vehicle_class = forms.ChoiceField(
+        label="Vehicle Class",
         choices=[],
-        widget=forms.Select(attrs={"class": "browser-default"}),
+        widget=forms.Select(attrs={"class": ""}),
+    )
+
+    cab_type = forms.ChoiceField(
+        label="Cab Type",
+        choices=[],
+        widget=forms.Select(attrs={"class": ""}),
+    )
+
+    roof_type = forms.ChoiceField(
+        label="Roof Type",
+        choices=[],
+        widget=forms.Select(attrs={"class": ""}),
+    )
+
+    fuel_type = forms.ChoiceField(
+        label="Fuel Type",
+        choices=[],
+        widget=forms.Select(attrs={"class": ""}),
     )
 
     # Analysis year
     analysis_year = forms.ChoiceField(
         label="Analysis Year",
         choices=[],
-        widget=forms.Select(attrs={"class": "browser-default"}),
+        widget=forms.Select(attrs={"class": ""}),
+    )
+
+    program_status = forms.ChoiceField(
+        label="Program Status",
+        choices=[],
+        widget=forms.Select(attrs={"class": ""}),
     )
 
     # Scenario/vocation
     vocation = forms.ChoiceField(
         label="Vocation",
         choices=[],
-        widget=forms.Select(attrs={"class": "browser-default"}),
+        widget=forms.Select(attrs={"class": ""}),
     )
 
     # Region for fuel prices
     region = forms.ChoiceField(
         label="Region",
         choices=[],
-        widget=forms.Select(attrs={"class": "browser-default"}),
+        widget=forms.Select(attrs={"class": ""}),
     )
 
-    # Key adjustable parameters
+    # Key adjustable parameters with enhanced widgets
     drag_coefficient = forms.FloatField(
         label="Drag Coefficient",
-        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.001"}),
+        min_value=0.1,
+        max_value=2.0,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "step": "0.001",
+                "data-slider": "true",
+                "data-min": "0.1",
+                "data-max": "2.0",
+                "data-step": "0.001",
+            }
+        ),
     )
 
     frontal_area_m2 = forms.FloatField(
         label="Frontal Area (m²)",
-        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.1"}),
+        min_value=5.0,
+        max_value=20.0,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "step": "0.1",
+                "data-slider": "true",
+                "data-min": "5.0",
+                "data-max": "20.0",
+                "data-step": "0.1",
+            }
+        ),
     )
 
     glider_kg = forms.FloatField(
         label="Glider Weight (kg)",
-        widget=forms.NumberInput(attrs={"class": "validate"}),
+        min_value=5000,
+        max_value=25000,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "data-slider": "true",
+                "data-min": "5000",
+                "data-max": "25000",
+                "data-step": "100",
+            }
+        ),
     )
 
     cargo_kg = forms.FloatField(
         label="Cargo Weight (kg)",
-        widget=forms.NumberInput(attrs={"class": "validate"}),
+        min_value=5000,
+        max_value=35000,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "data-slider": "true",
+                "data-min": "5000",
+                "data-max": "35000",
+                "data-step": "100",
+            }
+        ),
     )
 
     min_range_miles = forms.FloatField(
         label="Minimum Range (miles)",
-        widget=forms.NumberInput(attrs={"class": "validate"}),
+        min_value=100,
+        max_value=1500,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "data-slider": "true",
+                "data-min": "100",
+                "data-max": "1500",
+                "data-step": "25",
+            }
+        ),
     )
 
-    # Economic parameters
+    # Economic parameters with sliders
     discount_rate_pct = forms.FloatField(
         label="Discount Rate (%)",
         initial=4.1,
-        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.1"}),
+        min_value=0.0,
+        max_value=15.0,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "step": "0.01",
+                "data-slider": "true",
+                "data-min": "0.0",
+                "data-max": "15.0",
+                "data-step": "0.01",
+            }
+        ),
     )
 
     vehicle_life_yr = forms.IntegerField(
         label="Vehicle Life (years)",
         initial=7,
-        widget=forms.NumberInput(attrs={"class": "validate"}),
+        min_value=3,
+        max_value=20,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "data-slider": "true",
+                "data-min": "3",
+                "data-max": "20",
+                "data-step": "1",
+            }
+        ),
     )
 
     annual_vmt = forms.FloatField(
         label="Annual VMT",
         initial=100000,
-        widget=forms.NumberInput(attrs={"class": "validate"}),
+        min_value=20000,
+        max_value=200000,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "validate range-input",
+                "data-slider": "true",
+                "data-min": "20000",
+                "data-max": "200000",
+                "data-step": "5000",
+            }
+        ),
+    )
+
+    # Cost component toggles
+    include_purchase_cost = forms.BooleanField(
+        label="Include Purchase Cost",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    include_fuel_cost = forms.BooleanField(
+        label="Include Fuel Cost",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    include_maintenance_cost = forms.BooleanField(
+        label="Include Maintenance Cost",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    include_insurance_cost = forms.BooleanField(
+        label="Include Insurance Cost",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    include_registration_cost = forms.BooleanField(
+        label="Include Registration/Licensing",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    include_depreciation = forms.BooleanField(
+        label="Include Depreciation",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in cost-toggle"}),
+    )
+
+    # Analysis options checkboxes
+    enable_sensitivity_analysis = forms.BooleanField(
+        label="Enable Sensitivity Analysis",
+        initial=False,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in analysis-option"}),
+    )
+
+    enable_monte_carlo = forms.BooleanField(
+        label="Enable Monte Carlo Simulation",
+        initial=False,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in analysis-option"}),
+    )
+
+    real_time_update = forms.BooleanField(
+        label="Real-time Parameter Updates",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in ui-option"}),
     )
 
     def __init__(self, *args, **kwargs):
+        print("=== TCOAnalysisParameterForm __init__ called ===")
+        print(f"Working directory: {os.getcwd()}")
         super().__init__(*args, **kwargs)
+        print("About to call _populate_choices...")
         self._populate_choices()
+        print("About to call _set_initial_values...")
         self._set_initial_values()
+        print("=== End form initialization ===\n")
+
+    def _parse_scenario_name(self, scenario_name):
+        """Parse vehicle scenario_name into components"""
+        import re
+
+        components = {
+            "vehicle_class": "Unknown",
+            "cab_type": "Unknown",
+            "roof_type": "Unknown",
+            "fuel_type": "Unknown",
+            "year": "Unknown",
+            "program_status": "Unknown",
+        }
+
+        try:
+            # Pattern: "Class X [cab_type] [roof_type] roof (fuel_type, year, program_status)"
+            # Example: "Class 8 Sleeper cab high roof (Diesel, 2025, no program)"
+
+            # Extract vehicle class (Class 8, Class 6, etc.)
+            class_match = re.search(r"Class\s+(\d+)", scenario_name)
+            if class_match:
+                components["vehicle_class"] = f"Class {class_match.group(1)}"
+
+            # Extract cab type (between "Class X" and "roof")
+            cab_match = re.search(r"Class\s+\d+\s+(.+?)\s+roof", scenario_name)
+            if cab_match:
+                cab_parts = cab_match.group(1).strip().split()
+                if len(cab_parts) >= 2:
+                    components["cab_type"] = " ".join(
+                        cab_parts[:-1]
+                    )  # Everything except the last word
+                    components["roof_type"] = cab_parts[
+                        -1
+                    ]  # The last word (high, mid, low)
+                elif len(cab_parts) == 1:
+                    components["roof_type"] = cab_parts[0]
+
+            # Extract content in parentheses: (fuel_type, year, program_status)
+            paren_match = re.search(r"\(([^)]+)\)", scenario_name)
+            if paren_match:
+                paren_content = paren_match.group(1)
+                parts = [part.strip() for part in paren_content.split(",")]
+
+                if len(parts) >= 3:
+                    components["fuel_type"] = parts[0]
+                    components["year"] = parts[1]
+                    components["program_status"] = parts[2]
+                elif len(parts) == 2:
+                    components["fuel_type"] = parts[0]
+                    components["year"] = parts[1]
+                elif len(parts) == 1:
+                    # Try to detect if it's a year
+                    if parts[0].isdigit():
+                        components["year"] = parts[0]
+                    else:
+                        components["fuel_type"] = parts[0]
+
+        except Exception as e:
+            print(f"Error parsing scenario_name '{scenario_name}': {e}")
+
+        return components
 
     def _populate_choices(self):
         """Populate form choices from actual T3CO demo data"""
+        print("  --> _populate_choices method called")
         try:
             # Get demo_inputs path - should be relative to the main project root
-            main_project_root = settings.BASE_DIR.parent.parent
-            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs", "demo")
+            main_project_root = settings.BASE_DIR.parent
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs")
+            print(f"  --> main_project_root: {main_project_root}")
+            print(f"  --> demo_path: {demo_path}")
 
             vehicle_file = os.path.join(
                 demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
             )
+            print(f"  --> vehicle_file: {vehicle_file}")
+            print(f"  --> vehicle_file exists: {os.path.exists(vehicle_file)}")
             scenario_file = os.path.join(
                 demo_path, "Demo_FY22_scenario_assumptions.csv"
             )
@@ -178,15 +421,76 @@ class TCOAnalysisParameterForm(forms.Form):
             if os.path.exists(vehicle_file):
                 vehicle_df = pd.read_csv(vehicle_file)
 
-                # Get unique scenario names for vehicle types
-                scenario_names = sorted(vehicle_df["scenario_name"].unique())
-                vehicle_choices = [(name, name) for name in scenario_names]
-                self.fields["vehicle_type"].choices = vehicle_choices
+                # Parse all scenario names to extract components
+                parsed_data = []
+                for scenario_name in vehicle_df["scenario_name"].unique():
+                    components = self._parse_scenario_name(scenario_name)
+                    components["original_scenario_name"] = scenario_name
+                    parsed_data.append(components)
 
-                # Get unique years
-                years = sorted(vehicle_df["veh_year"].unique())
-                year_choices = [(str(year), str(year)) for year in years]
-                self.fields["analysis_year"].choices = year_choices
+                # Create choices for each component
+                vehicle_classes = sorted(
+                    set(
+                        item["vehicle_class"]
+                        for item in parsed_data
+                        if item["vehicle_class"] != "Unknown"
+                    )
+                )
+                cab_types = sorted(
+                    set(
+                        item["cab_type"]
+                        for item in parsed_data
+                        if item["cab_type"] != "Unknown"
+                    )
+                )
+                roof_types = sorted(
+                    set(
+                        item["roof_type"]
+                        for item in parsed_data
+                        if item["roof_type"] != "Unknown"
+                    )
+                )
+                fuel_types = sorted(
+                    set(
+                        item["fuel_type"]
+                        for item in parsed_data
+                        if item["fuel_type"] != "Unknown"
+                    )
+                )
+                program_statuses = sorted(
+                    set(
+                        item["program_status"]
+                        for item in parsed_data
+                        if item["program_status"] != "Unknown"
+                    )
+                )
+
+                # Set choices for dropdowns
+                self.fields["vehicle_class"].choices = [
+                    (vc, vc) for vc in vehicle_classes
+                ]
+                self.fields["cab_type"].choices = [(ct, ct.title()) for ct in cab_types]
+                self.fields["roof_type"].choices = [
+                    (rt, rt.title()) for rt in roof_types
+                ]
+                self.fields["fuel_type"].choices = [(ft, ft) for ft in fuel_types]
+                self.fields["program_status"].choices = [
+                    (ps, ps.title()) for ps in program_statuses
+                ]
+
+                # Get unique years from both parsed data and direct column
+                years_from_parsed = set(
+                    item["year"]
+                    for item in parsed_data
+                    if item["year"] != "Unknown" and item["year"].isdigit()
+                )
+                years_from_column = set(
+                    str(year) for year in vehicle_df["veh_year"].unique()
+                )
+                all_years = sorted(years_from_parsed.union(years_from_column))
+                self.fields["analysis_year"].choices = [
+                    (year, year) for year in all_years
+                ]
 
             # Load scenario data for choices
             if os.path.exists(scenario_file):
@@ -207,27 +511,43 @@ class TCOAnalysisParameterForm(forms.Form):
         except Exception as e:
             print(f"Error populating form choices from demo data: {e}")
             # Set default choices if data loading fails
-            self.fields["vehicle_type"].choices = [
-                (
-                    "Class 8 Sleeper cab high roof (Diesel, 2025, no program)",
-                    "Class 8 High Roof 2025",
-                ),
-                (
-                    "Class 8 Sleeper cab mid roof (Diesel, 2025, no program)",
-                    "Class 8 Mid Roof 2025",
-                ),
-                (
-                    "Class 8 Sleeper cab low roof (Diesel, 2025, no program)",
-                    "Class 8 Low Roof 2025",
-                ),
+            self.fields["vehicle_class"].choices = [("Class 8", "Class 8")]
+            self.fields["cab_type"].choices = [("Sleeper cab", "Sleeper Cab")]
+            self.fields["roof_type"].choices = [
+                ("high", "High"),
+                ("mid", "Mid"),
+                ("low", "Low"),
             ]
+            self.fields["fuel_type"].choices = [("Diesel", "Diesel")]
             self.fields["analysis_year"].choices = [
+                ("2020", "2020"),
                 ("2025", "2025"),
                 ("2030", "2030"),
                 ("2035", "2035"),
             ]
+            self.fields["program_status"].choices = [("no program", "No Program")]
             self.fields["vocation"].choices = [("Long haul", "Long Haul")]
             self.fields["region"].choices = [("FY22NoProgram", "FY22 No Program")]
+
+        # Debug: Print the final choices that were set
+        print("  --> Final choices populated:")
+        for field_name, field in self.fields.items():
+            if hasattr(field, "choices") and field.choices:
+                choices_list = list(field.choices)
+                print(
+                    f"    {field_name}: {len(choices_list)} choices - {choices_list[:3]}{'...' if len(choices_list) > 3 else ''}"
+                )
+            else:
+                print(f"    {field_name}: No choices or not a choice field")
+        print("  --> End _populate_choices\n")
+
+    def get_selected_scenario_name(self):
+        """Reconstruct the scenario_name from selected dropdown values"""
+        if self.is_valid():
+            data = self.cleaned_data
+            scenario_name = f"{data['vehicle_class']} {data['cab_type']} {data['roof_type']} roof ({data['fuel_type']}, {data['analysis_year']}, {data['program_status']})"
+            return scenario_name
+        return None
 
     def _set_initial_values(self):
         """Set initial values for parameters based on actual T3CO demo data"""
@@ -297,7 +617,7 @@ class TCOAnalysisParameterForm(forms.Form):
 
 
 class VehicleComparisonForm(forms.Form):
-    """Form for comparing multiple vehicles."""
+    """Enhanced form for comparing multiple vehicle-scenario combinations with grouping capabilities."""
 
     comparison_name = forms.CharField(
         max_length=200,
@@ -307,6 +627,27 @@ class VehicleComparisonForm(forms.Form):
         ),
     )
 
+    # Vehicle-Scenario Selection Method
+    selection_method = forms.ChoiceField(
+        choices=[
+            ("dropdown", "Use Parameter Dropdowns"),
+            ("file_upload", "Upload Vehicle/Scenario Files"),
+        ],
+        widget=forms.RadioSelect(attrs={"class": "comparison-method"}),
+        label="Selection Method",
+        initial="dropdown",
+        help_text="Choose how to select vehicles and scenarios for comparison",
+    )
+
+    # Dropdown-based selection (multiple configurations)
+    vehicle_configurations = forms.CharField(
+        widget=forms.HiddenInput(),
+        label="Vehicle Configurations",
+        required=False,
+        help_text="JSON data for selected vehicle configurations",
+    )
+
+    # File upload fallback
     vehicle_files = MultipleFileField(
         label="Vehicle Files",
         validators=[FileExtensionValidator(allowed_extensions=["json", "csv"])],
@@ -314,31 +655,164 @@ class VehicleComparisonForm(forms.Form):
             attrs={"class": "form-control", "accept": ".json,.csv"}
         ),
         help_text="Upload multiple vehicle files to compare (JSON or CSV format)",
+        required=False,
     )
 
-    scenario_file = forms.FileField(
-        label="Scenario File",
+    scenario_files = MultipleFileField(
+        label="Scenario Files", 
         validators=[FileExtensionValidator(allowed_extensions=["json", "csv"])],
-        widget=forms.ClearableFileInput(
+        widget=MultipleFileInput(
             attrs={"class": "form-control", "accept": ".json,.csv"}
         ),
-        help_text="Upload scenario file for comparison analysis",
+        help_text="Upload multiple scenario files (JSON or CSV format)",
+        required=False,
     )
 
+    # Grouping and Analysis Options
+    group_by_primary = forms.ChoiceField(
+        choices=[
+            ("none", "No Grouping"),
+            ("vehicle_class", "Vehicle Weight Class"),
+            ("fuel_type", "Fuel Type"),
+            ("analysis_year", "Analysis Year"),
+            ("program_status", "Technology Progress"),
+            ("vocation", "Vehicle Application"),
+            ("region", "Geographic Region"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+        label="Primary Grouping",
+        initial="fuel_type",
+        help_text="Primary criterion for grouping comparison results",
+    )
+
+    group_by_secondary = forms.ChoiceField(
+        choices=[
+            ("none", "No Secondary Grouping"),
+            ("vehicle_class", "Vehicle Weight Class"),
+            ("fuel_type", "Fuel Type"),
+            ("analysis_year", "Analysis Year"),
+            ("program_status", "Technology Progress"),
+            ("vocation", "Vehicle Application"),
+            ("region", "Geographic Region"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+        label="Secondary Grouping",
+        initial="none",
+        help_text="Optional secondary grouping for matrix/grid plots",
+        required=False,
+    )
+
+    # Comparison metrics selection
     comparison_metrics = forms.MultipleChoiceField(
         choices=[
             ("total_cost", "Total Cost of Ownership"),
             ("cost_per_mile", "Cost per Mile"),
             ("fuel_cost", "Fuel Costs"),
             ("maintenance_cost", "Maintenance Costs"),
-            ("depreciation", "Depreciation"),
+            ("capital_cost", "Capital Costs"),
             ("operating_cost", "Operating Costs"),
+            ("opportunity_cost", "Opportunity Costs"),
+            ("fuel_efficiency", "Fuel Efficiency (MPGGE)"),
+            ("range_miles", "Vehicle Range"),
+            ("payload_capacity", "Payload Impact"),
         ],
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
         label="Comparison Metrics",
-        required=False,
-        help_text="Select metrics to compare (default: all metrics)",
+        initial=["total_cost", "cost_per_mile", "fuel_efficiency"],
+        help_text="Select metrics to compare across vehicle-scenario combinations",
     )
+
+    # Chart type preferences
+    chart_type = forms.ChoiceField(
+        choices=[
+            ("stacked_bar", "Stacked Bar Chart"),
+            ("grouped_bar", "Grouped Bar Chart"),
+            ("line_chart", "Line Chart"),
+            ("scatter_plot", "Scatter Plot"),
+            ("heatmap", "Heatmap"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+        label="Primary Chart Type",
+        initial="stacked_bar",
+        help_text="Primary visualization style for comparison results",
+    )
+
+    # Analysis options
+    include_cost_breakdown = forms.BooleanField(
+        label="Include Detailed Cost Breakdown",
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in"}),
+        help_text="Show detailed breakdown of cost components for each configuration",
+    )
+
+    normalize_by_baseline = forms.BooleanField(
+        label="Normalize to Baseline",
+        initial=False,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in"}),
+        help_text="Express results as percentage relative to a baseline configuration",
+    )
+
+    baseline_configuration = forms.CharField(
+        max_length=200,
+        label="Baseline Configuration",
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Auto-select first configuration"}
+        ),
+        required=False,
+        help_text="Reference configuration for normalization (leave blank for auto-selection)",
+    )
+
+    sensitivity_analysis = forms.BooleanField(
+        label="Include Sensitivity Analysis",
+        initial=False,
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "filled-in"}),
+        help_text="Perform sensitivity analysis on key parameters across configurations",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Populate dropdown choices from demo data similar to parameter form
+        self._populate_grouping_choices()
+
+    def _populate_grouping_choices(self):
+        """Populate grouping choice options from available T3CO demo data"""
+        try:
+            # Get demo_inputs path
+            main_project_root = settings.BASE_DIR.parent
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs")
+
+            vehicle_file = os.path.join(demo_path, "Demo_FY22_vehicle_model_assumptions.csv")
+            scenario_file = os.path.join(demo_path, "Demo_FY22_scenario_assumptions.csv")
+
+            # This would be expanded to provide dynamic choices based on available data
+            # For now, keeping static choices that match the data structure
+
+        except Exception as e:
+            print(f"Error populating grouping choices: {e}")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        selection_method = cleaned_data.get("selection_method")
+
+        # Validate based on selection method
+        if selection_method == "dropdown":
+            if not cleaned_data.get("vehicle_configurations"):
+                raise forms.ValidationError("Please select at least one vehicle configuration for comparison.")
+        elif selection_method == "file_upload":
+            if not cleaned_data.get("vehicle_files") and not cleaned_data.get("scenario_files"):
+                raise forms.ValidationError("Please upload at least one vehicle or scenario file.")
+
+        # Validate grouping combinations
+        primary_group = cleaned_data.get("group_by_primary")
+        secondary_group = cleaned_data.get("group_by_secondary")
+        
+        if primary_group == secondary_group and primary_group != "none":
+            raise forms.ValidationError("Primary and secondary grouping cannot be the same.")
+
+        return cleaned_data
 
 
 class FleetAnalysisForm(forms.Form):

@@ -4,6 +4,7 @@
 {% block title %}Parameter Analysis Results{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 't3co_app/css/charts.css' %}">
 <style>
 .result-hero {
     background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
@@ -215,42 +216,10 @@
     </div>
 </div>
 
-<!-- Charts Section -->
-<div class="row">
-    <!-- TCO Summary Chart -->
-    <div class="col s12 l6">
-        <div class="card chart-card">
-            <div class="chart-title">
-                <i class="material-icons">donut_large</i>
-                TCO Summary
-            </div>
-            <canvas id="tcoSummaryChart" style="max-height: 320px;"></canvas>
-        </div>
-    </div>
+<!-- Charts Section with Enhanced Chart.js Integration -->
+{% include 't3co_app/components/t3co_charts.html' with chart_types=chart_types_enabled %}
 
-    <!-- Cost Breakdown Chart -->
-    <div class="col s12 l6">
-        <div class="card chart-card">
-            <div class="chart-title">
-                <i class="material-icons">pie_chart</i>
-                Cost Breakdown
-            </div>
-            <canvas id="costBreakdownChart" style="max-height: 320px;"></canvas>
-        </div>
-    </div>
-
-    <!-- Performance Metrics Chart -->
-    <div class="col s12 l6">
-        <div class="card chart-card">
-            <div class="chart-title">
-                <i class="material-icons">bar_chart</i>
-                Performance Metrics
-            </div>
-            <canvas id="keyMetricsChart" style="max-height: 320px;"></canvas>
-        </div>
-    </div>
-
-    <!-- Cost Timeline Chart -->
+    <!-- Annual Cost Projection Chart -->
     <div class="col s12 l6">
         <div class="card chart-card">
             <div class="chart-title">
@@ -260,46 +229,23 @@
             <canvas id="efficiencyTimelineChart" style="max-height: 320px;"></canvas>
         </div>
     </div>
-</div>
 
-<!-- Detailed Metrics and Parameters -->
-<div class="row">
-    <!-- Cost Component Cards -->
-    <div class="col s12 l6">
-        <div class="row">
-            <div class="col s6">
-                <div class="card metric-card green lighten-5">
-                    <i class="material-icons metric-icon green-text">directions_car</i>
-                    <div class="metric-value">${{ results.purchase_cost|floatformat:0|default:"0" }}</div>
-                    <div class="metric-label">Purchase Cost</div>
-                </div>
+    <!-- Vehicle Performance Radar Chart -->
+    <div class="col s12">
+        <div class="card chart-card">
+            <div class="chart-title">
+                <i class="material-icons">radar</i>
+                Vehicle Performance Profile
             </div>
-            <div class="col s6">
-                <div class="card metric-card orange lighten-5">
-                    <i class="material-icons metric-icon orange-text">local_gas_station</i>
-                    <div class="metric-value">${{ results.fuel_cost|floatformat:0|default:"0" }}</div>
-                    <div class="metric-label">Fuel Cost</div>
-                </div>
-            </div>
-            <div class="col s6">
-                <div class="card metric-card purple lighten-5">
-                    <i class="material-icons metric-icon purple-text">build</i>
-                    <div class="metric-value">${{ results.maintenance_cost|floatformat:0|default:"0" }}</div>
-                    <div class="metric-label">Maintenance</div>
-                </div>
-            </div>
-            <div class="col s6">
-                <div class="card metric-card teal lighten-5">
-                    <i class="material-icons metric-icon teal-text">security</i>
-                    <div class="metric-value">${{ results.insurance_cost|floatformat:0|default:"0" }}</div>
-                    <div class="metric-label">Insurance</div>
-                </div>
-            </div>
+            <canvas id="performanceRadarChart" style="max-height: 400px;"></canvas>
         </div>
     </div>
+</div>
 
+<!-- Analysis Parameters -->
+<div class="row">
     <!-- Parameter Summary -->
-    <div class="col s12 l6">
+    <div class="col s12">
         <div class="parameter-summary">
             <h5 class="green-text darken-2" style="margin-bottom: 20px;">
                 <i class="material-icons left">settings</i>
@@ -403,17 +349,33 @@
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 't3co_app/js/charts.js' %}"></script>
 <script>
-// Chart configuration
+// Global variables
 let chartDataConfig = {};
+let chartsInstance = null;
+
+// Parse chart data with error handling
 try {
-    chartDataConfig = JSON.parse('{{ chart_data|safe|default:"{}" }}');
+    const rawChartData = '{{ chart_data_json|safe }}';
+    console.log('Raw chart data string length:', rawChartData.length);
+    
+    if (rawChartData && rawChartData !== '{}') {
+        chartDataConfig = JSON.parse(rawChartData);
+        console.log('Parsed chart data successfully:', Object.keys(chartDataConfig));
+    } else {
+        console.warn('No chart data provided or empty data');
+        chartDataConfig = {};
+    }
 } catch (e) {
-    console.log('Chart data not available');
+    console.error('Error parsing chart data:', e);
+    console.log('Raw data that failed to parse (first 500 chars):', '{{ chart_data_json|safe }}'.substring(0, 500));
     chartDataConfig = {};
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing components...');
+    
     // Initialize Materialize components
     var elems = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(elems);
@@ -421,78 +383,64 @@ document.addEventListener('DOMContentLoaded', function() {
     var tooltips = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltips);
     
-    // Initialize charts
-    initializeCharts();
+    // Initialize charts with enhanced error handling
+    initializeChartsWithDebug();
     
     // Set up export functions
     setupExportFunctions();
+    
+    // Animate metrics
+    setTimeout(animateMetrics, 500);
 });
 
-function initializeCharts() {
-    // Common chart options for consistency
-    const commonOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    padding: 20,
-                    usePointStyle: true
-                }
-            }
-        }
-    };
+function initializeChartsWithDebug() {
+    console.log('Initializing charts with debug info...');
+    console.log('Available chart data keys:', Object.keys(chartDataConfig));
+    
+    // Create charts instance
+    chartsInstance = new T3COCharts();
+    
+    // Check if we have any chart data
+    if (Object.keys(chartDataConfig).length === 0) {
+        console.warn('No chart data available, showing empty state');
+        chartsInstance.showNoDataMessage();
+        showDebugInfo();
+        return;
+    }
+    
+    // Initialize charts
+    chartsInstance.initializeCharts(chartDataConfig);
+    
+    // Show debug information
+    showDebugInfo();
+}
 
-    // TCO Summary Chart
-    if (chartDataConfig.tco_summary) {
-        const ctx1 = document.getElementById('tcoSummaryChart');
-        if (ctx1) {
-            const mergedOptions = { ...commonOptions, ...chartDataConfig.tco_summary.options };
-            chartDataConfig.tco_summary.options = mergedOptions;
-            new Chart(ctx1.getContext('2d'), chartDataConfig.tco_summary);
-        }
-    }
+function showDebugInfo() {
+    console.log('=== T3CO CHART DEBUG INFO ===');
+    console.log('Chart data keys:', Object.keys(chartDataConfig));
     
-    // Cost Breakdown Chart
-    if (chartDataConfig.cost_breakdown) {
-        const ctx2 = document.getElementById('costBreakdownChart');
-        if (ctx2) {
-            const mergedOptions = { ...commonOptions, ...chartDataConfig.cost_breakdown.options };
-            chartDataConfig.cost_breakdown.options = mergedOptions;
-            new Chart(ctx2.getContext('2d'), chartDataConfig.cost_breakdown);
+    // Check each expected chart
+    const expectedCharts = ['tco_stacked_breakdown', 'cost_category_summary', 'key_metrics', 'cost_timeline', 'performance_radar'];
+    expectedCharts.forEach(chartKey => {
+        if (chartDataConfig[chartKey]) {
+            console.log(`✅ ${chartKey}:`, chartDataConfig[chartKey]);
+        } else {
+            console.log(`❌ ${chartKey}: missing`);
         }
-    }
+    });
     
-    // Key Metrics Chart
-    if (chartDataConfig.key_metrics) {
-        const ctx3 = document.getElementById('keyMetricsChart');
-        if (ctx3) {
-            const mergedOptions = { ...commonOptions, ...chartDataConfig.key_metrics.options };
-            chartDataConfig.key_metrics.options = mergedOptions;
-            new Chart(ctx3.getContext('2d'), chartDataConfig.key_metrics);
+    // Check canvas elements
+    const canvasIds = ['tcoSummaryChart', 'costBreakdownChart', 'keyMetricsChart', 'efficiencyTimelineChart', 'performanceRadarChart'];
+    canvasIds.forEach(canvasId => {
+        const canvas = document.getElementById(canvasId);
+        if (canvas) {
+            console.log(`✅ Canvas ${canvasId}: found`);
+        } else {
+            console.log(`❌ Canvas ${canvasId}: not found`);
         }
-    }
+    });
     
-    // Efficiency Timeline Chart -> Cost Timeline Chart
-    if (chartDataConfig.cost_timeline) {
-        const ctx4 = document.getElementById('efficiencyTimelineChart');
-        if (ctx4) {
-            const mergedOptions = { ...commonOptions, ...chartDataConfig.cost_timeline.options };
-            chartDataConfig.cost_timeline.options = mergedOptions;
-            new Chart(ctx4.getContext('2d'), chartDataConfig.cost_timeline);
-        }
-    }
-    
-    // Performance Radar Chart (if there's a canvas for it)
-    if (chartDataConfig.performance_radar) {
-        const ctx5 = document.getElementById('performanceRadarChart');
-        if (ctx5) {
-            const mergedOptions = { ...commonOptions, ...chartDataConfig.performance_radar.options };
-            chartDataConfig.performance_radar.options = mergedOptions;
-            new Chart(ctx5.getContext('2d'), chartDataConfig.performance_radar);
-        }
-    }
+    console.log('=== END DEBUG INFO ===');
 }
 
 function setupExportFunctions() {
@@ -568,8 +516,24 @@ function animateMetrics() {
     });
 }
 
-// Call animation when page loads
-setTimeout(animateMetrics, 500);
+// Utility functions for loading states and messages
+function showLoading() {
+    // Implementation for loading state
+    console.log('Loading...');
+}
+
+function hideLoading() {
+    // Implementation for hiding loading state
+    console.log('Loading complete');
+}
+
+function showToast(message, color) {
+    M.toast({html: message, classes: color});
+}
+
+function showSuccess(message) {
+    M.toast({html: message, classes: 'green'});
+}
 
 // Keyboard shortcuts
 document.addEventListener('keydown', function(e) {
@@ -590,5 +554,19 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
+// Add refresh button functionality
+function refreshCharts() {
+    if (chartsInstance) {
+        console.log('Refreshing charts...');
+        chartsInstance.refresh(chartDataConfig);
+    }
+}
+
+// Make functions globally available for debugging
+window.chartDataConfig = chartDataConfig;
+window.chartsInstance = chartsInstance;
+window.refreshCharts = refreshCharts;
+window.showDebugInfo = showDebugInfo;
 </script>
 {% endblock %}
