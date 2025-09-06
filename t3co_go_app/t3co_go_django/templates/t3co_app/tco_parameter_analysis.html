@@ -1,368 +1,630 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Parameter-Based TCO Analysis{% endblock %}
+{% block title %}Parameter-Based TCO Analysis - T3CO-Go{% endblock %}
 
 {% block extra_css %}
 <style>
 .parameter-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-left: 4px solid #1976d2;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #1976d2;
+}
+
+.section-header i {
+    margin-right: 12px;
+    font-size: 1.5rem;
+}
+
+.parameter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.parameter-card {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-left: 4px solid #007bff;
+    padding: 16px;
+    border-left: 3px solid #4caf50;
 }
 
-.parameter-section h5 {
-    color: #007bff;
-    margin-bottom: 15px;
+.parameter-card h6 {
+    color: #1976d2;
+    margin-bottom: 12px;
     font-weight: 600;
-}
-
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label {
-    opacity: 0.65;
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-}
-
-.btn-analyze {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border: none;
-    padding: 12px 30px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-}
-
-.btn-analyze:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
 }
 
 .info-tooltip {
     position: relative;
-    display: inline-block;
     cursor: help;
+    margin-left: 8px;
 }
 
-.info-tooltip .tooltiptext {
+.tooltip-content {
     visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
     position: absolute;
-    z-index: 1;
+    z-index: 1000;
     bottom: 125%;
     left: 50%;
-    margin-left: -100px;
+    transform: translateX(-50%);
+    background: #2e2e2e;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    width: 200px;
+    text-align: center;
     opacity: 0;
     transition: opacity 0.3s;
-    font-size: 12px;
 }
 
-.info-tooltip:hover .tooltiptext {
+.tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #2e2e2e;
+}
+
+.info-tooltip:hover .tooltip-content {
     visibility: visible;
     opacity: 1;
 }
 
-.form-section-divider {
-    border-top: 2px solid #e9ecef;
-    margin: 30px 0;
+.analysis-summary {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.submit-section {
+    text-align: center;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    margin-top: 24px;
+}
+
+.form-divider {
+    border-top: 2px solid #e0e0e0;
+    margin: 32px 0;
+    position: relative;
+}
+
+.form-divider::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 6px;
+    background: #1976d2;
+    border-radius: 3px;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1976d2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin: 0 8px;
+}
+
+.step-line {
+    width: 80px;
+    height: 2px;
+    background: #e0e0e0;
+}
+
+.floating-action {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.parameter-help {
+    background: linear-gradient(135deg, #e8f5e8 0%, #ffffff 100%);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid #4caf50;
+    margin-bottom: 24px;
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 class="mb-0">
-                        <i class="fas fa-sliders-h text-primary me-2"></i>
-                        Parameter-Based TCO Analysis
-                    </h2>
-                    <p class="text-muted mt-2">
-                        Configure vehicle and scenario parameters using dropdown selections and custom values
-                    </p>
-                </div>
-                <div>
-                    <a href="{% url 'tco_analysis' %}" class="btn btn-outline-secondary">
-                        <i class="fas fa-file-upload me-1"></i>File Upload Analysis
-                    </a>
-                    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary">
-                        <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
-                    </a>
-                </div>
-            </div>
+<!-- Page Header -->
+<div class="row">
+    <div class="col s12">
+        <div class="section-header">
+            <i class="material-icons">tune</i>
+            <h4 style="margin: 0;">Parameter-Based TCO Analysis</h4>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">
-                        <i class="fas fa-cogs me-2"></i>Analysis Configuration
-                    </h5>
-                </div>
-                <div class="card-body">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-
-                    <form method="post" id="parameter-form">
-                        {% csrf_token %}
-                        
-                        <!-- Analysis Configuration Section -->
-                        <div class="parameter-section">
-                            <h5><i class="fas fa-info-circle me-2"></i>Analysis Configuration</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        {{ form.analysis_name }}
-                                        <label for="{{ form.analysis_name.id_for_label }}">Analysis Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.analysis_year }}
-                                        <label for="{{ form.analysis_year.id_for_label }}">Analysis Year</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.vehicle_type }}
-                                        <label for="{{ form.vehicle_type.id_for_label }}">Vehicle Type</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Vehicle Parameters Section -->
-                        <div class="parameter-section">
-                            <h5><i class="fas fa-truck me-2"></i>Vehicle Parameters</h5>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        {{ form.drag_coefficient }}
-                                        <label for="{{ form.drag_coefficient.id_for_label }}">
-                                            Drag Coefficient
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Aerodynamic drag coefficient (typical: 0.4-0.7)</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        {{ form.frontal_area_m2 }}
-                                        <label for="{{ form.frontal_area_m2.id_for_label }}">
-                                            Frontal Area (m²)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Front cross-sectional area in square meters</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        {{ form.glider_kg }}
-                                        <label for="{{ form.glider_kg.id_for_label }}">
-                                            Vehicle Weight (kg)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Vehicle glider weight in kilograms</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Scenario Parameters Section -->
-                        <div class="parameter-section">
-                            <h5><i class="fas fa-map-marked-alt me-2"></i>Scenario Parameters</h5>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.vocation }}
-                                        <label for="{{ form.vocation.id_for_label }}">Vocation</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.region }}
-                                        <label for="{{ form.region.id_for_label }}">Region</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.cargo_kg }}
-                                        <label for="{{ form.cargo_kg.id_for_label }}">
-                                            Cargo Weight (kg)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Typical cargo weight for this vocation</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.min_range_miles }}
-                                        <label for="{{ form.min_range_miles.id_for_label }}">
-                                            Min Range (miles)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Minimum driving range required</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Economic Parameters Section -->
-                        <div class="parameter-section">
-                            <h5><i class="fas fa-dollar-sign me-2"></i>Economic Parameters</h5>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.discount_rate_pct }}
-                                        <label for="{{ form.discount_rate_pct.id_for_label }}">
-                                            Discount Rate (%)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Annual discount rate for NPV calculations</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-floating mb-3">
-                                        {{ form.vehicle_life_yr }}
-                                        <label for="{{ form.vehicle_life_yr.id_for_label }}">
-                                            Vehicle Life (years)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Expected operational life of the vehicle</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        {{ form.annual_vmt }}
-                                        <label for="{{ form.annual_vmt.id_for_label }}">
-                                            Annual VMT (miles)
-                                            <span class="info-tooltip">
-                                                <i class="fas fa-info-circle text-info"></i>
-                                                <span class="tooltiptext">Annual Vehicle Miles Traveled</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section-divider"></div>
-
-                        <!-- Submit Button -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-analyze btn-lg">
-                                <i class="fas fa-calculator me-2"></i>
-                                Run TCO Analysis
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <p class="grey-text" style="margin-top: -10px; margin-bottom: 24px;">
+            Configure vehicle and scenario parameters using dropdown selections and custom values
+        </p>
+        <div class="right-align" style="margin-top: -80px;">
+            <a href="{% url 'tco_analysis' %}" class="btn grey darken-1 waves-effect waves-light">
+                <i class="material-icons left">upload_file</i>File Upload
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn blue darken-1 waves-effect waves-light">
+                <i class="material-icons left">arrow_back</i>Dashboard
+            </a>
         </div>
     </div>
 </div>
 
-<!-- Loading Modal -->
-<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center p-4">
-                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <h5 class="mt-3">Calculating TCO Analysis...</h5>
-                <p class="text-muted mb-0">Please wait while we process your parameters</p>
+<!-- Progress Steps -->
+<div class="row">
+    <div class="col s12 center-align">
+        <div class="progress-steps">
+            <div class="step">1</div>
+            <div class="step-line"></div>
+            <div class="step">2</div>
+            <div class="step-line"></div>
+            <div class="step">3</div>
+        </div>
+        <p style="color: #1976d2; font-weight: 500;">Configure Parameters → Review Settings → Run Analysis</p>
+    </div>
+</div>
+
+<!-- Messages -->
+{% if messages %}
+<div class="row">
+    <div class="col s12">
+        {% for message in messages %}
+        <div class="card-panel {{ message.tags }} lighten-4">
+            <span class="{{ message.tags }}-text text-darken-2">{{ message }}</span>
+            <i class="material-icons right close-alert" style="cursor: pointer;">close</i>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Analysis Form -->
+<form method="post" id="parameterForm">
+    {% csrf_token %}
+    
+    <!-- Analysis Configuration -->
+    <div class="parameter-section">
+        <div class="section-header">
+            <i class="material-icons">settings</i>
+            <h5 style="margin: 0;">Analysis Configuration</h5>
+        </div>
+        
+        <div class="row">
+            <div class="input-field col s12 m6">
+                {{ form.analysis_name }}
+                <label for="{{ form.analysis_name.id_for_label }}">{{ form.analysis_name.label }}</label>
+                {% if form.analysis_name.help_text %}
+                <span class="helper-text">{{ form.analysis_name.help_text }}</span>
+                {% endif %}
+            </div>
+            <div class="input-field col s12 m3">
+                {{ form.analysis_year }}
+                <label for="{{ form.analysis_year.id_for_label }}">{{ form.analysis_year.label }}</label>
+            </div>
+            <div class="input-field col s12 m3">
+                {{ form.vehicle_type }}
+                <label for="{{ form.vehicle_type.id_for_label }}">{{ form.vehicle_type.label }}</label>
             </div>
         </div>
     </div>
+
+    <!-- Vehicle Parameters -->
+    <div class="parameter-section">
+        <div class="section-header">
+            <i class="material-icons">local_shipping</i>
+            <h5 style="margin: 0;">Vehicle Parameters</h5>
+        </div>
+        
+        <div class="parameter-grid">
+            <div class="parameter-card">
+                <h6>
+                    Powertrain Type
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Select the vehicle's powertrain technology</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.powertrain_type }}
+                    <label for="{{ form.powertrain_type.id_for_label }}">Powertrain</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Vehicle Weight (kg)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Total vehicle weight including payload</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.vehicle_weight }}
+                    <label for="{{ form.vehicle_weight.id_for_label }}">Weight</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Fuel Efficiency (mpg)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Miles per gallon equivalent</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.fuel_efficiency }}
+                    <label for="{{ form.fuel_efficiency.id_for_label }}">Efficiency</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Purchase Price ($)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Initial vehicle purchase cost</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.purchase_price }}
+                    <label for="{{ form.purchase_price.id_for_label }}">Price</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- Operating Parameters -->
+    <div class="parameter-section">
+        <div class="section-header">
+            <i class="material-icons">timeline</i>
+            <h5 style="margin: 0;">Operating Parameters</h5>
+        </div>
+        
+        <div class="parameter-grid">
+            <div class="parameter-card">
+                <h6>
+                    Annual Mileage
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Expected miles driven per year</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.annual_mileage }}
+                    <label for="{{ form.annual_mileage.id_for_label }}">Miles/Year</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Operating Years
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Total years of vehicle operation</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.operating_years }}
+                    <label for="{{ form.operating_years.id_for_label }}">Years</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Fuel Price ($/gallon)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Cost per gallon of fuel/energy</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.fuel_price }}
+                    <label for="{{ form.fuel_price.id_for_label }}">Price</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Maintenance Cost ($/mile)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Average maintenance cost per mile</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.maintenance_cost }}
+                    <label for="{{ form.maintenance_cost.id_for_label }}">Cost/Mile</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- Financial Parameters -->
+    <div class="parameter-section">
+        <div class="section-header">
+            <i class="material-icons">attach_money</i>
+            <h5 style="margin: 0;">Financial Parameters</h5>
+        </div>
+        
+        <div class="parameter-grid">
+            <div class="parameter-card">
+                <h6>
+                    Discount Rate (%)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Annual discount rate for NPV calculation</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.discount_rate }}
+                    <label for="{{ form.discount_rate.id_for_label }}">Rate</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Residual Value (%)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Percentage of purchase price retained at end</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.residual_value }}
+                    <label for="{{ form.residual_value.id_for_label }}">Residual %</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Insurance Cost ($/year)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Annual insurance premium</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.insurance_cost }}
+                    <label for="{{ form.insurance_cost.id_for_label }}">Annual Cost</label>
+                </div>
+            </div>
+            
+            <div class="parameter-card">
+                <h6>
+                    Registration/Fees ($/year)
+                    <span class="info-tooltip">
+                        <i class="material-icons tiny grey-text">info</i>
+                        <div class="tooltip-content">Annual registration and licensing fees</div>
+                    </span>
+                </h6>
+                <div class="input-field">
+                    {{ form.registration_fees }}
+                    <label for="{{ form.registration_fees.id_for_label }}">Annual Fees</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="parameter-help">
+        <h6 class="green-text darken-2">
+            <i class="material-icons left">help</i>
+            Analysis Help
+        </h6>
+        <p style="margin-bottom: 12px;">
+            <strong>Parameter Selection:</strong> Use the dropdown menus to select from predefined values or enter custom values in the input fields.
+        </p>
+        <p style="margin-bottom: 0;">
+            <strong>Validation:</strong> All parameters are validated before analysis. Required fields are marked and must be completed.
+        </p>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+        <h5 class="blue-text darken-2" style="margin-bottom: 16px;">Ready to Analyze?</h5>
+        <p class="grey-text" style="margin-bottom: 24px;">
+            Review your parameters and click the button below to run the TCO analysis
+        </p>
+        <button type="submit" class="btn-large blue darken-2 waves-effect waves-light" id="runAnalysisBtn">
+            <i class="material-icons left">analytics</i>
+            Run Parameter Analysis
+        </button>
+    </div>
+</form>
+
+<!-- Floating Action Button -->
+<div class="floating-action">
+    <a href="#" class="btn-floating btn-large blue darken-2 tooltipped" 
+       data-position="left" data-tooltip="Quick Help" onclick="showQuickHelp()">
+        <i class="material-icons">help</i>
+    </a>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('parameter-form');
-    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    // Initialize Materialize components
+    M.AutoInit();
     
-    // Show loading modal on form submit
-    form.addEventListener('submit', function(e) {
-        loadingModal.show();
-    });
+    // Form handling
+    setupFormHandling();
     
-    // Auto-populate dependent fields when selections change
-    const vehicleTypeSelect = document.getElementById('{{ form.vehicle_type.id_for_label }}');
-    const vocationSelect = document.getElementById('{{ form.vocation.id_for_label }}');
-    const regionSelect = document.getElementById('{{ form.region.id_for_label }}');
-    const yearSelect = document.getElementById('{{ form.analysis_year.id_for_label }}');
+    // Parameter validation
+    setupParameterValidation();
     
-    // Update form values when key selections change
-    function updateDependentFields() {
-        // This could be expanded to make AJAX calls to get updated defaults
-        console.log('Selection changed - could update dependent fields');
-    }
+    // Quick help
+    setupQuickHelp();
+});
+
+function setupFormHandling() {
+    const form = document.getElementById('parameterForm');
+    const submitBtn = document.getElementById('runAnalysisBtn');
     
-    if (vehicleTypeSelect) vehicleTypeSelect.addEventListener('change', updateDependentFields);
-    if (vocationSelect) vocationSelect.addEventListener('change', updateDependentFields);
-    if (regionSelect) regionSelect.addEventListener('change', updateDependentFields);
-    if (yearSelect) yearSelect.addEventListener('change', updateDependentFields);
-    
-    // Form validation
-    form.addEventListener('submit', function(e) {
-        let isValid = true;
-        const requiredFields = form.querySelectorAll('[required]');
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add('is-invalid');
-            } else {
-                field.classList.remove('is-invalid');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                // Show loading state
+                submitBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Processing...';
+                submitBtn.disabled = true;
+                showLoading();
+                
+                // Submit form
+                form.submit();
             }
         });
-        
-        if (!isValid) {
-            e.preventDefault();
-            loadingModal.hide();
-            alert('Please fill in all required fields.');
+    }
+}
+
+function setupParameterValidation() {
+    // Real-time validation for numeric fields
+    const numericFields = ['vehicle_weight', 'fuel_efficiency', 'purchase_price', 
+                          'annual_mileage', 'operating_years', 'fuel_price', 
+                          'maintenance_cost', 'discount_rate', 'residual_value', 
+                          'insurance_cost', 'registration_fees'];
+    
+    numericFields.forEach(fieldName => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            field.addEventListener('input', function(e) {
+                validateNumericField(e.target);
+            });
+        }
+    });
+}
+
+function validateNumericField(field) {
+    const value = parseFloat(field.value);
+    const fieldName = field.name;
+    
+    // Remove existing validation classes
+    field.classList.remove('valid', 'invalid');
+    
+    if (field.value === '') {
+        return; // Allow empty for optional fields
+    }
+    
+    if (isNaN(value) || value < 0) {
+        field.classList.add('invalid');
+        return false;
+    }
+    
+    // Field-specific validation
+    switch(fieldName) {
+        case 'discount_rate':
+        case 'residual_value':
+            if (value > 100) {
+                field.classList.add('invalid');
+                return false;
+            }
+            break;
+        case 'operating_years':
+            if (value > 50) {
+                field.classList.add('invalid');
+                return false;
+            }
+            break;
+    }
+    
+    field.classList.add('valid');
+    return true;
+}
+
+function validateForm() {
+    const requiredFields = ['analysis_name', 'vehicle_type', 'powertrain_type'];
+    let isValid = true;
+    
+    requiredFields.forEach(fieldName => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field && !field.value.trim()) {
+            field.classList.add('invalid');
+            isValid = false;
         }
     });
     
-    // Enhanced tooltips
-    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltips.forEach(tooltip => {
-        new bootstrap.Tooltip(tooltip);
+    if (!isValid) {
+        showError('Please fill in all required fields');
+    }
+    
+    return isValid;
+}
+
+function setupQuickHelp() {
+    // Close alerts
+    document.querySelectorAll('.close-alert').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.style.display = 'none';
+        });
     });
+}
+
+function showQuickHelp() {
+    const helpContent = `
+        <h5>Parameter Analysis Help</h5>
+        <p><strong>Required Fields:</strong> Analysis name, vehicle type, and powertrain type</p>
+        <p><strong>Optional Fields:</strong> All other parameters have default values</p>
+        <p><strong>Validation:</strong> Numeric fields must be positive values</p>
+        <p><strong>Tooltips:</strong> Hover over info icons for field descriptions</p>
+    `;
+    
+    // You could implement a modal here
+    showInfo('Quick Help', helpContent);
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+            case 'Enter':
+                e.preventDefault();
+                document.getElementById('runAnalysisBtn').click();
+                break;
+            case '/':
+                e.preventDefault();
+                showQuickHelp();
+                break;
+        }
+    }
 });
 </script>
 {% endblock %}

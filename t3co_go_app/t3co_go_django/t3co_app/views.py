@@ -6,7 +6,12 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 import os
 
-from .forms import TCOAnalysisForm, VehicleComparisonForm, FleetAnalysisForm, TCOAnalysisParameterForm
+from .forms import (
+    TCOAnalysisForm,
+    VehicleComparisonForm,
+    FleetAnalysisForm,
+    TCOAnalysisParameterForm,
+)
 from .models import Analysis, Vehicle, Scenario
 from core.t3co_integration import T3COIntegration
 
@@ -122,25 +127,25 @@ def tco_parameter_analysis(request):
             try:
                 # Initialize T3CO integration
                 t3co = T3COIntegration()
-                
+
                 # Get form data
                 form_data = form.cleaned_data
                 analysis_name = form_data.get("analysis_name", "Parameter Analysis")
-                
+
                 # Run parameter-based analysis
                 results = t3co.perform_parameter_based_analysis(form_data)
-                
+
                 if results and results.get("success"):
                     # Prepare Chart.js data
                     chart_data = prepare_parameter_analysis_charts(results)
-                    
+
                     # Save analysis to database
                     analysis = Analysis.objects.create(
                         name=analysis_name,
                         analysis_type="parameter",
                         results=results,
                     )
-                    
+
                     context = {
                         "analysis": analysis,
                         "results": results,
@@ -148,18 +153,20 @@ def tco_parameter_analysis(request):
                         "form": TCOAnalysisParameterForm(),
                         "form_data": form_data,  # Pass back for reference
                     }
-                    return render(request, "t3co_app/parameter_analysis_results.html", context)
+                    return render(
+                        request, "t3co_app/parameter_analysis_results.html", context
+                    )
                 else:
                     error_msg = results.get(
                         "error", "Unknown error occurred during parameter analysis"
                     )
                     messages.error(request, f"Analysis failed: {error_msg}")
-                    
+
             except Exception as e:
                 messages.error(request, f"Error during parameter analysis: {str(e)}")
     else:
         form = TCOAnalysisParameterForm()
-        
+
     return render(request, "t3co_app/tco_parameter_analysis.html", {"form": form})
 
 
@@ -713,85 +720,104 @@ def prepare_fleet_charts(results, vehicle_files, scenario_files):
 
 
 def prepare_parameter_analysis_charts(results):
-    """Prepare Chart.js data for parameter-based analysis."""
+    """Prepare Chart.js data for parameter-based analysis using real T3CO breakdown."""
     chart_data = {}
-    
+
     try:
+        # Get real T3CO breakdown data
+        tco_breakdown = results.get("tco_breakdown", {})
+        total_cost = results.get("total_cost_of_ownership", 0)
+        cost_per_mile = results.get("cost_per_mile", 0)
+        annual_cost = results.get("annual_cost", 0)
+        kpis = results.get("kpis", {})
+
         # TCO Summary Gauge Chart (using doughnut as approximation)
-        total_cost = results.get('total_cost_of_ownership', 0)
-        cost_per_mile = results.get('cost_per_mile', 0)
-        annual_cost = results.get('annual_cost', 0)
-        
         chart_data["tco_summary"] = {
             "type": "doughnut",
             "data": {
                 "labels": ["Total TCO", "Remaining Budget"],
-                "datasets": [{
-                    "data": [total_cost, max(0, 500000 - total_cost)],  # 500k budget example
-                    "backgroundColor": ["#FF6384", "#E0E0E0"],
-                    "borderWidth": 2,
-                }]
+                "datasets": [
+                    {
+                        "data": [
+                            total_cost,
+                            max(0, 1000000 - total_cost),  # 1M budget example
+                        ],
+                        "backgroundColor": ["#1976d2", "#E0E0E0"],
+                        "borderWidth": 2,
+                    }
+                ],
             },
             "options": {
                 "responsive": True,
                 "plugins": {
-                    "title": {"display": True, "text": f"Total Cost of Ownership: ${total_cost:,.0f}"},
+                    "title": {
+                        "display": True,
+                        "text": f"Total Cost of Ownership: ${total_cost:,.0f}",
+                    },
                     "legend": {"display": False},
                 },
                 "cutout": "60%",
-            }
-        }
-        
-        # Cost Breakdown Pie Chart
-        cost_components = {
-            "Vehicle Purchase": results.get('purchase_cost', 0),
-            "Fuel": results.get('fuel_cost', 0),
-            "Maintenance": results.get('maintenance_cost', 0),
-            "Insurance": results.get('insurance_cost', 0),
-            "Registration": results.get('registration_cost', 0),
-            "Depreciation": results.get('depreciation', 0)
-        }
-        
-        chart_data["cost_breakdown"] = {
-            "type": "pie",
-            "data": {
-                "labels": list(cost_components.keys()),
-                "datasets": [{
-                    "data": list(cost_components.values()),
-                    "backgroundColor": [
-                        "#FF6384", "#36A2EB", "#FFCE56", 
-                        "#4BC0C0", "#9966FF", "#FF9F40"
-                    ],
-                }]
             },
-            "options": {
-                "responsive": True,
-                "plugins": {
-                    "title": {"display": True, "text": "Cost Breakdown"},
-                    "legend": {"position": "bottom"},
+        }
+
+        # Real T3CO Cost Breakdown Pie Chart
+        if tco_breakdown:
+            # Filter out zero or very small values
+            filtered_breakdown = {k: v for k, v in tco_breakdown.items() if v > 100}
+
+            chart_data["cost_breakdown"] = {
+                "type": "pie",
+                "data": {
+                    "labels": list(filtered_breakdown.keys()),
+                    "datasets": [
+                        {
+                            "data": list(filtered_breakdown.values()),
+                            "backgroundColor": [
+                                "#1976d2",  # Vehicle Purchase - Blue
+                                "#4caf50",  # Fuel Costs - Green
+                                "#ff9800",  # Maintenance - Orange
+                                "#f44336",  # Insurance - Red
+                                "#9c27b0",  # Registration - Purple
+                                "#ff5722",  # Depreciation - Deep Orange
+                            ],
+                        }
+                    ],
+                },
+                "options": {
+                    "responsive": True,
+                    "plugins": {
+                        "title": {"display": True, "text": "T3CO Cost Breakdown"},
+                        "legend": {"position": "bottom"},
+                        "tooltip": {
+                            "callbacks": {
+                                "label": "function(context) { return context.label + ': $' + context.parsed.toLocaleString(); }"
+                            }
+                        },
+                    },
                 },
             }
-        }
-        
-        # Key Metrics Bar Chart
+
+        # Key Metrics Bar Chart with Real T3CO Data
         metrics = {
             "Cost per Mile": cost_per_mile,
-            "Annual Cost": annual_cost / 1000,  # Show in thousands
-            "Fuel Efficiency": results.get('fuel_efficiency', 0),
-            "Vehicle Life (Years)": results.get('vehicle_life_years', 0)
+            "Annual Cost (K$)": annual_cost / 1000,  # Show in thousands
+            "Fuel Efficiency (MPGGE)": kpis.get("fuel_efficiency_mpgge", 0),
+            "Range (miles)": kpis.get("range_miles", 0) / 100,  # Scale for visibility
         }
-        
+
         chart_data["key_metrics"] = {
             "type": "bar",
             "data": {
                 "labels": list(metrics.keys()),
-                "datasets": [{
-                    "label": "Value",
-                    "data": list(metrics.values()),
-                    "backgroundColor": ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0"],
-                    "borderColor": ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0"],
-                    "borderWidth": 1,
-                }]
+                "datasets": [
+                    {
+                        "label": "Value",
+                        "data": list(metrics.values()),
+                        "backgroundColor": ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0"],
+                        "borderColor": ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0"],
+                        "borderWidth": 1,
+                    }
+                ],
             },
             "options": {
                 "responsive": True,
@@ -805,44 +831,135 @@ def prepare_parameter_analysis_charts(results):
                         "title": {"display": True, "text": "Value"},
                     }
                 },
-            }
+            },
         }
-        
-        # Efficiency Impact Line Chart (showing aero improvement factor over time)
-        years = list(range(2025, 2051))  # 2025-2050
-        efficiency_timeline = [results.get('fuel_efficiency', 7.0) * (1 + (year - 2025) * 0.01) for year in years]
-        
-        chart_data["efficiency_timeline"] = {
+
+        # Annual Cost Timeline Chart
+        vehicle_life_years = results.get("vehicle_life_years", 7)
+        annual_costs_timeline = results.get("annual_costs_timeline", [])
+        annual_fuel_timeline = results.get("annual_fuel_costs_timeline", [])
+        annual_maintenance_timeline = results.get(
+            "annual_maintenance_costs_timeline", []
+        )
+
+        if not annual_costs_timeline:
+            # Generate basic timeline if not available
+            annual_costs_timeline = [annual_cost] * vehicle_life_years
+            annual_fuel_timeline = [
+                results.get("fuel_cost", 0) / vehicle_life_years
+            ] * vehicle_life_years
+            annual_maintenance_timeline = [
+                results.get("maintenance_cost", 0) / vehicle_life_years
+            ] * vehicle_life_years
+
+        years = list(range(1, vehicle_life_years + 1))
+
+        chart_data["cost_timeline"] = {
             "type": "line",
             "data": {
-                "labels": years,
-                "datasets": [{
-                    "label": "Fuel Efficiency (MPG)",
-                    "data": efficiency_timeline,
-                    "borderColor": "#4BC0C0",
-                    "backgroundColor": "rgba(75, 192, 192, 0.1)",
-                    "tension": 0.4,
-                    "fill": True,
-                }]
+                "labels": [f"Year {year}" for year in years],
+                "datasets": [
+                    {
+                        "label": "Total Annual Cost",
+                        "data": annual_costs_timeline,
+                        "borderColor": "#1976d2",
+                        "backgroundColor": "rgba(25, 118, 210, 0.1)",
+                        "tension": 0.4,
+                        "fill": False,
+                    },
+                    {
+                        "label": "Fuel Cost",
+                        "data": annual_fuel_timeline,
+                        "borderColor": "#4caf50",
+                        "backgroundColor": "rgba(76, 175, 80, 0.1)",
+                        "tension": 0.4,
+                        "fill": False,
+                    },
+                    {
+                        "label": "Maintenance Cost",
+                        "data": annual_maintenance_timeline,
+                        "borderColor": "#ff9800",
+                        "backgroundColor": "rgba(255, 152, 0, 0.1)",
+                        "tension": 0.4,
+                        "fill": False,
+                    },
+                ],
             },
             "options": {
                 "responsive": True,
                 "plugins": {
-                    "title": {"display": True, "text": "Projected Fuel Efficiency Over Time"},
+                    "title": {
+                        "display": True,
+                        "text": "Annual Cost Projection",
+                    },
                 },
                 "scales": {
                     "y": {
-                        "beginAtZero": False,
-                        "title": {"display": True, "text": "Miles per Gallon"},
+                        "beginAtZero": True,
+                        "title": {"display": True, "text": "Annual Cost ($)"},
+                        "ticks": {
+                            "callback": "function(value) { return '$' + value.toLocaleString(); }"
+                        },
                     },
                     "x": {
-                        "title": {"display": True, "text": "Year"},
+                        "title": {"display": True, "text": "Vehicle Life"},
+                    },
+                },
+            },
+        }
+
+        # T3CO Performance Radar Chart
+        performance_metrics = {
+            "Fuel Efficiency": min(
+                100, (kpis.get("fuel_efficiency_mpgge", 7) / 15) * 100
+            ),  # Normalize to 0-100
+            "Range Capability": min(
+                100, (kpis.get("range_miles", 600) / 1000) * 100
+            ),  # Normalize to 0-100
+            "Cost Effectiveness": min(
+                100, (50000 / max(1, cost_per_mile * 100000)) * 100
+            ),  # Normalize
+            "Payload Efficiency": min(
+                100, (1 / max(0.1, kpis.get("payload_impact", 1))) * 100
+            ),  # Normalize
+            "Uptime": min(
+                100, max(0, 100 - (kpis.get("downtime_hours", 0) / 10))
+            ),  # Normalize downtime
+        }
+
+        chart_data["performance_radar"] = {
+            "type": "radar",
+            "data": {
+                "labels": list(performance_metrics.keys()),
+                "datasets": [
+                    {
+                        "label": "Vehicle Performance",
+                        "data": list(performance_metrics.values()),
+                        "borderColor": "#1976d2",
+                        "backgroundColor": "rgba(25, 118, 210, 0.2)",
+                        "pointBackgroundColor": "#1976d2",
+                        "pointBorderColor": "#fff",
+                        "pointHoverBackgroundColor": "#fff",
+                        "pointHoverBorderColor": "#1976d2",
+                    }
+                ],
+            },
+            "options": {
+                "responsive": True,
+                "plugins": {
+                    "title": {"display": True, "text": "Vehicle Performance Profile"},
+                },
+                "scales": {
+                    "r": {
+                        "beginAtZero": True,
+                        "max": 100,
+                        "title": {"display": True, "text": "Performance Score"},
                     }
                 },
-            }
+            },
         }
-        
+
     except Exception as e:
         print(f"Error preparing parameter analysis charts: {e}")
-        
+
     return chart_data

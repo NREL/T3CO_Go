@@ -7,42 +7,41 @@ import sys
 import importlib.util
 
 # Add the T3CO source to the path to import existing modules
-t3co_go_src_path = Path(__file__).parents[3] / "src"
-t3co_2_0_path = Path(__file__).parents[3] / "t3co-2.0"
-sys.path.insert(0, str(t3co_go_src_path))
+t3co_2_0_path = Path(__file__).parents[3] / ".subtrees" / "T3CO" / "src"
 sys.path.insert(0, str(t3co_2_0_path))
 
 # Initialize variables for T3CO modules
-t3co_run_module = None
-t3co_sweep_module = None
+T3CO_VERSION = "none"
+Vehicle = None
+Scenario = None
+Ledger = None
+Energy = None
+Config = None
 
 try:
-    # Try to import T3CO 2.0 from local subtree first
-    sys.path.insert(0, str(t3co_2_0_path))
-    t3co_run_spec = importlib.util.find_spec("t3co.run")
-    t3co_sweep_spec = importlib.util.find_spec("t3co.sweep")
+    # Import T3CO 2.0 modules from subtree
+    from t3co.input_data.vehicle import Vehicle
+    from t3co.input_data.scenario import Scenario
+    from t3co.input_data.config import Config
+    from t3co.tco.ledger import Ledger
+    from t3co.energy_models.energy import Energy
 
-    if t3co_run_spec and t3co_sweep_spec:
-        t3co_run_module = importlib.util.module_from_spec(t3co_run_spec)
-        t3co_sweep_module = importlib.util.module_from_spec(t3co_sweep_spec)
-        T3CO_VERSION = "2.0"
-        print("Successfully found T3CO 2.0 from local subtree")
-    else:
-        raise ImportError("T3CO 2.0 modules not found in subtree")
+    T3CO_VERSION = "2.0"
+    print("Successfully imported T3CO 2.0 modules from subtree")
+
 except ImportError as e:
-    print(f"T3CO 2.0 subtree import failed: {e}")
+    print(f"T3CO 2.0 import failed: {e}")
     try:
         # Fallback to pip installation
-        t3co_run_spec = importlib.util.find_spec("t3co.run")
-        t3co_sweep_spec = importlib.util.find_spec("t3co.sweep")
+        from t3co.input_data.vehicle import Vehicle
+        from t3co.input_data.scenario import Scenario
+        from t3co.input_data.config import Config
+        from t3co.tco.ledger import Ledger
+        from t3co.energy_models.energy import Energy
 
-        if t3co_run_spec and t3co_sweep_spec:
-            t3co_run_module = importlib.util.module_from_spec(t3co_run_spec)
-            t3co_sweep_module = importlib.util.module_from_spec(t3co_sweep_spec)
-            T3CO_VERSION = "2.0"
-            print("Successfully found T3CO 2.0 from pip")
-        else:
-            raise ImportError("T3CO 2.0 modules not found via pip")
+        T3CO_VERSION = "2.0"
+        print("Successfully imported T3CO 2.0 modules from pip")
+
     except ImportError as e:
         print(f"T3CO 2.0 pip import failed: {e}")
         try:
@@ -447,35 +446,26 @@ default,0.12,3.50,0.07"""
 
     def perform_parameter_based_analysis(self, form_data):
         """
-        Perform TCO analysis using form parameters instead of files
-        
+        Perform TCO analysis using form parameters and actual T3CO 2.0 modules
+
         Args:
             form_data (dict): Form data with vehicle and scenario parameters
-            
+
         Returns:
             dict: Analysis results
         """
         try:
-            # Create vehicle configuration from parameters
-            vehicle_config = self._create_vehicle_config_from_params(form_data)
-            
-            # Create scenario configuration from parameters  
-            scenario_config = self._create_scenario_config_from_params(form_data)
-            
-            # Perform analysis with generated configs
-            results = self._calculate_parameter_based_tco(vehicle_config, scenario_config, form_data)
-            
-            # Process results
-            processed_results = self._process_results(results)
-            processed_results["success"] = True
-            
-            return processed_results
-            
+            if T3CO_VERSION == "2.0":
+                return self._perform_t3co_2_0_analysis(form_data)
+            else:
+                return self._perform_fallback_analysis(form_data)
+
         except Exception as e:
             print(f"Parameter-based analysis error: {e}")
             import traceback
+
             traceback.print_exc()
-            
+
             return {
                 "success": False,
                 "error": str(e),
@@ -485,232 +475,515 @@ default,0.12,3.50,0.07"""
                 "cost_breakdown": {},
                 "details": {},
             }
-    
+
+    def _perform_t3co_2_0_analysis(self, form_data):
+        """
+        Perform analysis using actual T3CO 2.0 modules and generate Ledger object
+        """
+        try:
+            # Get demo data paths
+            main_project_root = settings.BASE_DIR.parent.parent
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs", "demo")
+
+            vehicle_file = os.path.join(
+                demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
+            )
+            scenario_file = os.path.join(
+                demo_path, "Demo_FY22_scenario_assumptions.csv"
+            )
+
+            # Find matching vehicle selection
+            vehicle_df = pd.read_csv(vehicle_file)
+            selected_vehicle_name = form_data.get("vehicle_type")
+            vehicle_row = vehicle_df[
+                vehicle_df["scenario_name"] == selected_vehicle_name
+            ]
+
+            if vehicle_row.empty:
+                # Fallback to first row
+                vehicle_selection = 1
+            else:
+                vehicle_selection = int(vehicle_row.iloc[0]["selection"])
+
+            # Find matching scenario selection
+            scenario_df = pd.read_csv(scenario_file)
+            scenario_row = scenario_df[
+                scenario_df["scenario_name"] == selected_vehicle_name
+            ]
+
+            if scenario_row.empty:
+                # Fallback to first row
+                scenario_selection = 1
+            else:
+                scenario_selection = int(scenario_row.iloc[0]["selection"])
+
+            # Create T3CO Vehicle object
+            input_vehicle = Vehicle.from_db(
+                selection=vehicle_selection, vehicle_db_file=vehicle_file
+            )
+            input_vehicle.set_veh_kg()
+
+            # Apply user modifications to vehicle
+            if "drag_coefficient" in form_data:
+                input_vehicle.drag_coef = float(form_data["drag_coefficient"])
+            if "frontal_area_m2" in form_data:
+                input_vehicle.frontal_area_m2 = float(form_data["frontal_area_m2"])
+            if "glider_kg" in form_data:
+                input_vehicle.glider_kg = float(form_data["glider_kg"])
+
+            # Create T3CO Scenario object
+            input_scenario = Scenario.from_file(
+                selection=scenario_selection, scenario_file=scenario_file
+            )
+
+            # Apply user modifications to scenario
+            if "cargo_kg" in form_data:
+                input_scenario.cargo_kg = float(form_data["cargo_kg"])
+            if "min_range_miles" in form_data:
+                input_scenario.target_range_mi = float(form_data["min_range_miles"])
+            if "discount_rate_pct" in form_data:
+                input_scenario.discount_rate_pct_per_yr = (
+                    float(form_data["discount_rate_pct"]) / 100.0
+                )
+            if "vehicle_life_yr" in form_data:
+                input_scenario.vehicle_life_yr = int(form_data["vehicle_life_yr"])
+            if "annual_vmt" in form_data:
+                # Update VMT for all years
+                annual_vmt = float(form_data["annual_vmt"])
+                input_scenario.vmt = [annual_vmt] * input_scenario.vehicle_life_yr
+
+            # Create Energy object with basic fuel efficiency estimate
+            # Simple fuel efficiency model based on aerodynamics
+            base_mpgge = 7.0  # Base fuel efficiency for Class 8 truck
+            drag_factor = (
+                0.546 / input_vehicle.drag_coef
+            )  # Improvement factor from baseline
+            area_factor = (
+                10.4 / input_vehicle.frontal_area_m2
+            )  # Improvement factor from baseline
+            estimated_mpgge = base_mpgge * drag_factor * area_factor
+            estimated_range = 600  # miles, typical for diesel truck
+
+            input_energy = Energy(
+                mpgge=estimated_mpgge, primary_fuel_range_mi=estimated_range
+            )
+
+            # Create Ledger object using T3CO 2.0
+            output_ledger = Ledger(
+                vehicle=input_vehicle, scenario=input_scenario, energy=input_energy
+            )
+
+            # Extract results from Ledger
+            results = self._extract_ledger_results(output_ledger, form_data)
+
+            # Process results
+            processed_results = self._process_results(results)
+            processed_results["success"] = True
+            processed_results["t3co_version"] = "2.0"
+            processed_results["ledger_data"] = self._ledger_to_dict(output_ledger)
+
+            return processed_results
+
+        except Exception as e:
+            print(f"T3CO 2.0 analysis failed: {e}")
+            import traceback
+
+            traceback.print_exc()
+            # Fallback to simple calculation
+            return self._perform_fallback_analysis(form_data)
+
+    def _extract_ledger_results(self, ledger, form_data):
+        """Extract key results from T3CO Ledger object"""
+        try:
+            # Get total costs
+            total_cost = ledger.discounted_tco_dol
+            undiscounted_total = ledger.undiscounted_tco_dol
+
+            # Get detailed cost breakdowns from ledger attributes
+            purchase_cost = ledger.msrp_total_dol
+            fuel_cost = ledger.total_fuel_cost_dol
+            maintenance_cost = ledger.total_maintenance_cost_dol
+
+            # Extract additional cost components that may be available
+            insurance_cost = getattr(ledger, "total_insurance_cost_dol", 0)
+            registration_cost = getattr(ledger, "total_registration_cost_dol", 0)
+
+            # Calculate residual value and depreciation
+            residual_value = getattr(ledger, "residual_cost_dol", purchase_cost * 0.2)
+            depreciation = purchase_cost - residual_value
+
+            # Calculate per-mile and annual costs
+            total_miles = ledger.total_vmt
+            cost_per_mile = total_cost / total_miles if total_miles > 0 else 0
+            vehicle_life_years = ledger.vehicle_life_yr
+            annual_cost = (
+                total_cost / vehicle_life_years if vehicle_life_years > 0 else 0
+            )
+
+            # Get additional metrics for visualization
+            mpgge = getattr(ledger, "mpgge", 0)
+            range_achieved = getattr(ledger, "range_ach_mi", 0)
+
+            # Extract year-by-year costs for timeline visualization
+            annual_costs = []
+            annual_fuel_costs = []
+            annual_maintenance_costs = []
+
+            for year in range(1, vehicle_life_years + 1):
+                # Simple estimation of annual costs
+                annual_costs.append(annual_cost)
+                annual_fuel_costs.append(fuel_cost / vehicle_life_years)
+                annual_maintenance_costs.append(maintenance_cost / vehicle_life_years)
+
+            return {
+                "total_cost_of_ownership": total_cost,
+                "undiscounted_tco": undiscounted_total,
+                "cost_per_mile": cost_per_mile,
+                "annual_cost": annual_cost,
+                "purchase_cost": purchase_cost,
+                "fuel_cost": fuel_cost,
+                "maintenance_cost": maintenance_cost,
+                "insurance_cost": insurance_cost,
+                "registration_cost": registration_cost,
+                "depreciation": depreciation,
+                "residual_value": residual_value,
+                "vehicle_life_years": vehicle_life_years,
+                "total_miles": total_miles,
+                "mpgge": mpgge,
+                "range_achieved": range_achieved,
+                "scenario_name": ledger.scenario_name,
+                "model_year": ledger.model_year,
+                # Data for timeline charts
+                "annual_costs_timeline": annual_costs,
+                "annual_fuel_costs_timeline": annual_fuel_costs,
+                "annual_maintenance_costs_timeline": annual_maintenance_costs,
+                # TCO breakdown for pie chart
+                "tco_breakdown": {
+                    "Vehicle Purchase": purchase_cost,
+                    "Fuel Costs": fuel_cost,
+                    "Maintenance": maintenance_cost,
+                    "Insurance": insurance_cost,
+                    "Registration": registration_cost,
+                    "Depreciation": depreciation,
+                },
+                # Key performance indicators
+                "kpis": {
+                    "fuel_efficiency_mpgge": mpgge,
+                    "range_miles": range_achieved,
+                    "payload_impact": getattr(
+                        ledger, "payload_cap_cost_multiplier", 1.0
+                    ),
+                    "downtime_hours": getattr(ledger, "total_fueling_dwell_time_hr", 0)
+                    + getattr(ledger, "total_mr_downtime_hr", 0),
+                },
+            }
+
+        except Exception as e:
+            print(f"Error extracting ledger results: {e}")
+            return {
+                "total_cost_of_ownership": 0,
+                "cost_per_mile": 0,
+                "annual_cost": 0,
+                "purchase_cost": 0,
+                "fuel_cost": 0,
+                "maintenance_cost": 0,
+                "insurance_cost": 0,
+                "tco_breakdown": {},
+                "kpis": {},
+            }
+
+    def _ledger_to_dict(self, ledger):
+        """Convert Ledger object to dictionary for storage/display"""
+        try:
+            # Use the built-in to_dict method if available
+            if hasattr(ledger, "to_dict"):
+                return ledger.to_dict(flatten=True)
+            else:
+                # Manual extraction of key attributes
+                return {
+                    "selection": ledger.selection,
+                    "scenario_name": ledger.scenario_name,
+                    "model_year": ledger.model_year,
+                    "vehicle_life_yr": ledger.vehicle_life_yr,
+                    "discounted_tco_dol": ledger.discounted_tco_dol,
+                    "undiscounted_tco_dol": ledger.undiscounted_tco_dol,
+                    "total_vmt": ledger.total_vmt,
+                    "msrp_total_dol": ledger.msrp_total_dol,
+                    "total_fuel_cost_dol": ledger.total_fuel_cost_dol,
+                    "total_maintenance_cost_dol": ledger.total_maintenance_cost_dol,
+                }
+        except Exception as e:
+            print(f"Error converting ledger to dict: {e}")
+            return {}
+
+    def _perform_fallback_analysis(self, form_data):
+        """
+        Fallback analysis method when T3CO 2.0 is not available
+        """
+        # Create vehicle configuration from parameters
+        vehicle_config = self._create_vehicle_config_from_params(form_data)
+
+        # Create scenario configuration from parameters
+        scenario_config = self._create_scenario_config_from_params(form_data)
+
+        # Perform analysis with generated configs
+        results = self._calculate_parameter_based_tco(
+            vehicle_config, scenario_config, form_data
+        )
+
+        # Process results
+        processed_results = self._process_results(results)
+        processed_results["success"] = True
+
+        return processed_results
+
     def _create_vehicle_config_from_params(self, form_data):
         """Create vehicle configuration from form parameters"""
         try:
             # Load baseline vehicle data for the selected year
             # Get demo_inputs path - should be relative to the main project root
             main_project_root = settings.BASE_DIR.parent.parent
-            demo_inputs_path = os.path.join(main_project_root, 'demo_inputs')
-            baseline_path = os.path.join(demo_inputs_path, 'auxiliary', 'BaselineVehicle.csv')
-            
+            demo_inputs_path = os.path.join(main_project_root, "demo_inputs")
+            baseline_path = os.path.join(
+                demo_inputs_path, "auxiliary", "BaselineVehicle.csv"
+            )
+
             if os.path.exists(baseline_path):
                 df = pd.read_csv(baseline_path)
-                year = int(form_data.get('analysis_year', 2025))
-                baseline_row = df[df['Year'] == year]
-                
+                year = int(form_data.get("analysis_year", 2025))
+                baseline_row = df[df["Year"] == year]
+
                 if not baseline_row.empty:
                     baseline_data = baseline_row.iloc[0].to_dict()
                 else:
                     baseline_data = df.iloc[0].to_dict()  # Fallback to first row
             else:
                 baseline_data = {}
-            
+
             # Override with form parameters
             vehicle_config = {
-                'Year': int(form_data.get('analysis_year', 2025)),
-                'dragCoef': float(form_data.get('drag_coefficient', 0.546)),
-                'frontalAreaM2': float(form_data.get('frontal_area_m2', 10.18)),
-                'gliderKg': float(form_data.get('glider_kg', 11776)),
-                'vehicle_type': form_data.get('vehicle_type', 'Class8_long_haul'),
-                **baseline_data  # Include all baseline parameters
+                "Year": int(form_data.get("analysis_year", 2025)),
+                "dragCoef": float(form_data.get("drag_coefficient", 0.546)),
+                "frontalAreaM2": float(form_data.get("frontal_area_m2", 10.18)),
+                "gliderKg": float(form_data.get("glider_kg", 11776)),
+                "vehicle_type": form_data.get("vehicle_type", "Class8_long_haul"),
+                **baseline_data,  # Include all baseline parameters
             }
-            
+
             return vehicle_config
-            
+
         except Exception as e:
             print(f"Error creating vehicle config: {e}")
             return {
-                'Year': 2025,
-                'dragCoef': 0.546,
-                'frontalAreaM2': 10.18,
-                'gliderKg': 11776,
-                'vehicle_type': 'Class8_long_haul'
+                "Year": 2025,
+                "dragCoef": 0.546,
+                "frontalAreaM2": 10.18,
+                "gliderKg": 11776,
+                "vehicle_type": "Class8_long_haul",
             }
-    
+
     def _create_scenario_config_from_params(self, form_data):
         """Create scenario configuration from form parameters"""
         try:
             # Load vocation requirements for the selected vocation and year
-            # Get demo_inputs path - should be relative to the main project root  
+            # Get demo_inputs path - should be relative to the main project root
             main_project_root = settings.BASE_DIR.parent.parent
-            demo_inputs_path = os.path.join(main_project_root, 'demo_inputs')
-            vocation_path = os.path.join(demo_inputs_path, 'auxiliary', 'VocationRequirements.csv')
-            
+            demo_inputs_path = os.path.join(main_project_root, "demo_inputs")
+            vocation_path = os.path.join(
+                demo_inputs_path, "auxiliary", "VocationRequirements.csv"
+            )
+
             if os.path.exists(vocation_path):
                 df = pd.read_csv(vocation_path)
-                year = int(form_data.get('analysis_year', 2025))
-                vocation = form_data.get('vocation', 'Long haul')
-                
-                vocation_row = df[(df['Year'] == year) & (df['vocation'] == vocation)]
-                
+                year = int(form_data.get("analysis_year", 2025))
+                vocation = form_data.get("vocation", "Long haul")
+
+                vocation_row = df[(df["Year"] == year) & (df["vocation"] == vocation)]
+
                 if not vocation_row.empty:
                     vocation_data = vocation_row.iloc[0].to_dict()
                 else:
                     vocation_data = df.iloc[0].to_dict()  # Fallback
             else:
                 vocation_data = {}
-            
+
             # Load fuel prices for the selected region and year
-            fuel_prices = self._get_fuel_prices(form_data.get('region', 'Pacific'), int(form_data.get('analysis_year', 2025)))
-            
+            fuel_prices = self._get_fuel_prices(
+                form_data.get("region", "Pacific"),
+                int(form_data.get("analysis_year", 2025)),
+            )
+
             # Create scenario config
             scenario_config = {
-                'vocation': form_data.get('vocation', 'Long haul'),
-                'region': form_data.get('region', 'Pacific'),
-                'Year': int(form_data.get('analysis_year', 2025)),
-                'cargoKg': float(form_data.get('cargo_kg', 16329)),
-                'MinRangeMiles': float(form_data.get('min_range_miles', 750)),
-                'discount_rate_pct': float(form_data.get('discount_rate_pct', 4.1)),
-                'vehicle_life_yr': int(form_data.get('vehicle_life_yr', 7)),
-                'annual_vmt': float(form_data.get('annual_vmt', 100000)),
-                'fuel_prices': fuel_prices,
-                **vocation_data  # Include all vocation parameters
+                "vocation": form_data.get("vocation", "Long haul"),
+                "region": form_data.get("region", "Pacific"),
+                "Year": int(form_data.get("analysis_year", 2025)),
+                "cargoKg": float(form_data.get("cargo_kg", 16329)),
+                "MinRangeMiles": float(form_data.get("min_range_miles", 750)),
+                "discount_rate_pct": float(form_data.get("discount_rate_pct", 4.1)),
+                "vehicle_life_yr": int(form_data.get("vehicle_life_yr", 7)),
+                "annual_vmt": float(form_data.get("annual_vmt", 100000)),
+                "fuel_prices": fuel_prices,
+                **vocation_data,  # Include all vocation parameters
             }
-            
+
             return scenario_config
-            
+
         except Exception as e:
             print(f"Error creating scenario config: {e}")
             return {
-                'vocation': 'Long haul',
-                'region': 'Pacific',
-                'Year': 2025,
-                'cargoKg': 16329,
-                'MinRangeMiles': 750,
-                'discount_rate_pct': 4.1,
-                'vehicle_life_yr': 7,
-                'annual_vmt': 100000,
-                'fuel_prices': {'diesel': 4.0, 'electricity': 0.15}
+                "vocation": "Long haul",
+                "region": "Pacific",
+                "Year": 2025,
+                "cargoKg": 16329,
+                "MinRangeMiles": 750,
+                "discount_rate_pct": 4.1,
+                "vehicle_life_yr": 7,
+                "annual_vmt": 100000,
+                "fuel_prices": {"diesel": 4.0, "electricity": 0.15},
             }
-    
+
     def _get_fuel_prices(self, region, year):
         """Get fuel prices for the specified region and year"""
         try:
             # Get demo_inputs path - should be relative to the main project root
             main_project_root = settings.BASE_DIR.parent.parent
-            demo_inputs_path = os.path.join(main_project_root, 'demo_inputs')
-            fuel_path = os.path.join(demo_inputs_path, 'auxiliary', 'FuelPrices.csv')
-            
+            demo_inputs_path = os.path.join(main_project_root, "demo_inputs")
+            fuel_path = os.path.join(demo_inputs_path, "auxiliary", "FuelPrices.csv")
+
             if os.path.exists(fuel_path):
                 df = pd.read_csv(fuel_path)
-                region_data = df[df['Region'] == region]
-                
+                region_data = df[df["Region"] == region]
+
                 if not region_data.empty:
-                    year_col = str(year) if str(year) in df.columns else '2025'
-                    
+                    year_col = str(year) if str(year) in df.columns else "2025"
+
                     fuel_prices = {}
-                    for fuel_type in ['gasolineDolPerGal', 'dieselDolPerGal', 'CNGDolPerGge', 'dolPerKwh', 'hydrogenDolPerGGE']:
-                        fuel_row = region_data[region_data['Fuel'] == fuel_type.replace('DolPer', '').replace('dolPer', '')]
+                    for fuel_type in [
+                        "gasolineDolPerGal",
+                        "dieselDolPerGal",
+                        "CNGDolPerGge",
+                        "dolPerKwh",
+                        "hydrogenDolPerGGE",
+                    ]:
+                        fuel_row = region_data[
+                            region_data["Fuel"]
+                            == fuel_type.replace("DolPer", "").replace("dolPer", "")
+                        ]
                         if not fuel_row.empty and year_col in fuel_row.columns:
                             fuel_prices[fuel_type] = float(fuel_row[year_col].iloc[0])
-                    
+
                     return fuel_prices
-            
+
             # Fallback prices
             return {
-                'gasolineDolPerGal': 3.50,
-                'dieselDolPerGal': 4.00,
-                'CNGDolPerGge': 2.00,
-                'dolPerKwh': 0.15,
-                'hydrogenDolPerGGE': 6.00
+                "gasolineDolPerGal": 3.50,
+                "dieselDolPerGal": 4.00,
+                "CNGDolPerGge": 2.00,
+                "dolPerKwh": 0.15,
+                "hydrogenDolPerGGE": 6.00,
             }
-            
+
         except Exception as e:
             print(f"Error getting fuel prices: {e}")
             return {
-                'gasolineDolPerGal': 3.50,
-                'dieselDolPerGal': 4.00,
-                'CNGDolPerGge': 2.00,
-                'dolPerKwh': 0.15,
-                'hydrogenDolPerGGE': 6.00
+                "gasolineDolPerGal": 3.50,
+                "dieselDolPerGal": 4.00,
+                "CNGDolPerGge": 2.00,
+                "dolPerKwh": 0.15,
+                "hydrogenDolPerGGE": 6.00,
             }
-    
-    def _calculate_parameter_based_tco(self, vehicle_config, scenario_config, form_data):
+
+    def _calculate_parameter_based_tco(
+        self, vehicle_config, scenario_config, form_data
+    ):
         """Calculate TCO using parameter-based configurations"""
         try:
             # Extract key parameters
-            analysis_years = int(scenario_config.get('vehicle_life_yr', 7))
-            annual_miles = float(scenario_config.get('annual_vmt', 100000))
-            
+            analysis_years = int(scenario_config.get("vehicle_life_yr", 7))
+            annual_miles = float(scenario_config.get("annual_vmt", 100000))
+
             # Vehicle costs
-            base_vehicle_cost = vehicle_config.get('vehicle_glider_cost_dol', 121919)
-            
+            base_vehicle_cost = vehicle_config.get("vehicle_glider_cost_dol", 121919)
+
             # Fuel efficiency estimate based on drag coefficient and frontal area
-            drag_coef = float(vehicle_config.get('dragCoef', 0.546))
-            frontal_area = float(vehicle_config.get('frontalAreaM2', 10.18))
-            
+            drag_coef = float(vehicle_config.get("dragCoef", 0.546))
+            frontal_area = float(vehicle_config.get("frontalAreaM2", 10.18))
+
             # Simple fuel efficiency model (higher drag = lower efficiency)
             base_mpg = 7.0  # Base MPG for Class 8 truck
-            aero_factor = (0.546 / drag_coef) * (10.18 / frontal_area)  # Improvement factor
+            aero_factor = (0.546 / drag_coef) * (
+                10.18 / frontal_area
+            )  # Improvement factor
             fuel_efficiency = base_mpg * aero_factor
-            
+
             # Fuel costs
-            fuel_prices = scenario_config.get('fuel_prices', {})
-            diesel_price = fuel_prices.get('dieselDolPerGal', 4.0)
-            
+            fuel_prices = scenario_config.get("fuel_prices", {})
+            diesel_price = fuel_prices.get("dieselDolPerGal", 4.0)
+
             # Calculate costs
             total_miles = annual_miles * analysis_years
             total_fuel_gallons = total_miles / fuel_efficiency
             total_fuel_cost = total_fuel_gallons * diesel_price
-            
+
             # Maintenance costs (per mile)
             maintenance_per_mile = 0.15  # $0.15 per mile for Class 8
             total_maintenance_cost = total_miles * maintenance_per_mile
-            
+
             # Insurance (percentage of vehicle value)
             annual_insurance_rate = 0.02  # 2% of vehicle value
-            total_insurance_cost = base_vehicle_cost * annual_insurance_rate * analysis_years
-            
+            total_insurance_cost = (
+                base_vehicle_cost * annual_insurance_rate * analysis_years
+            )
+
             # Depreciation
             residual_value_pct = 0.20  # 20% residual value
             depreciation = base_vehicle_cost * (1 - residual_value_pct)
-            
+
             # Registration and licensing
             annual_registration = 2000  # Annual registration fees
             total_registration_cost = annual_registration * analysis_years
-            
+
             # Total costs
             total_cost = (
-                base_vehicle_cost + 
-                total_fuel_cost + 
-                total_maintenance_cost + 
-                total_insurance_cost + 
-                total_registration_cost
+                base_vehicle_cost
+                + total_fuel_cost
+                + total_maintenance_cost
+                + total_insurance_cost
+                + total_registration_cost
             )
-            
+
             cost_per_mile = total_cost / total_miles
             annual_cost = total_cost / analysis_years
-            
+
             return {
-                'total_cost_of_ownership': total_cost,
-                'cost_per_mile': cost_per_mile,
-                'annual_cost': annual_cost,
-                'purchase_cost': base_vehicle_cost,
-                'fuel_cost': total_fuel_cost,
-                'maintenance_cost': total_maintenance_cost,
-                'insurance_cost': total_insurance_cost,
-                'depreciation': depreciation,
-                'registration_cost': total_registration_cost,
-                'vehicle_life_years': analysis_years,
-                'fuel_efficiency': fuel_efficiency,
-                'annual_miles': annual_miles,
-                'fuel_price': diesel_price,
-                'total_miles': total_miles,
-                'aero_improvement_factor': aero_factor
+                "total_cost_of_ownership": total_cost,
+                "cost_per_mile": cost_per_mile,
+                "annual_cost": annual_cost,
+                "purchase_cost": base_vehicle_cost,
+                "fuel_cost": total_fuel_cost,
+                "maintenance_cost": total_maintenance_cost,
+                "insurance_cost": total_insurance_cost,
+                "depreciation": depreciation,
+                "registration_cost": total_registration_cost,
+                "vehicle_life_years": analysis_years,
+                "fuel_efficiency": fuel_efficiency,
+                "annual_miles": annual_miles,
+                "fuel_price": diesel_price,
+                "total_miles": total_miles,
+                "aero_improvement_factor": aero_factor,
             }
-            
+
         except Exception as e:
             print(f"Parameter-based TCO calculation failed: {e}")
             return {
-                'total_cost_of_ownership': 0,
-                'cost_per_mile': 0,
-                'annual_cost': 0,
-                'purchase_cost': 0,
-                'fuel_cost': 0,
-                'maintenance_cost': 0,
-                'insurance_cost': 0
+                "total_cost_of_ownership": 0,
+                "cost_per_mile": 0,
+                "annual_cost": 0,
+                "purchase_cost": 0,
+                "fuel_cost": 0,
+                "maintenance_cost": 0,
+                "insurance_cost": 0,
             }
 
 

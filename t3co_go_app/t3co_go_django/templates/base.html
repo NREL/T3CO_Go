@@ -5,26 +5,352 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}T3CO Go{% endblock %}</title>
+    
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 't3co_app/css/style.css' %}">
-    <script src="{% static 't3co_app/js/main.js' %}"></script>
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* Custom T3CO Theme */
+        :root {
+            --primary-color: #1976d2;
+            --primary-dark: #1565c0;
+            --accent-color: #ff5722;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --background-color: #f5f5f5;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1 0 auto;
+            padding-top: 20px;
+        }
+        
+        .brand-logo {
+            font-size: 1.8rem !important;
+            font-weight: 600;
+        }
+        
+        .nav-wrapper {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .sidenav {
+            width: 300px !important;
+        }
+        
+        .sidenav li > a {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidenav li > a > i {
+            margin-right: 16px;
+        }
+        
+        .card {
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .btn, .btn-large, .btn-small {
+            border-radius: 6px;
+            text-transform: none;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn:hover, .btn-large:hover, .btn-small:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        
+        .collection .collection-item {
+            border-radius: 4px;
+            margin-bottom: 4px;
+            border: none;
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        
+        .tabs .tab a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .tabs .tab a.active {
+            color: var(--primary-dark);
+        }
+        
+        .tabs .indicator {
+            background-color: var(--primary-color);
+        }
+        
+        .footer-copyright {
+            background-color: var(--primary-dark) !important;
+        }
+        
+        /* Utility classes */
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-card {
+            padding: 24px;
+            text-align: center;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Loading spinner */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        /* Chart containers */
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>T3CO Go Dashboard</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'tco_analysis' %}">TCO Analysis</a></li>
-                <li><a href="{% url 'results' %}">Results</a></li>
+    <!-- Navbar -->
+    <nav class="nav-wrapper">
+        <div class="container">
+            <a href="{% url 'dashboard' %}" class="brand-logo">
+                <i class="material-icons left">analytics</i>T3CO Go
+            </a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{% url 'dashboard' %}"><i class="material-icons left">dashboard</i>Dashboard</a></li>
+                <li><a href="{% url 'tco_analysis' %}"><i class="material-icons left">assessment</i>TCO Analysis</a></li>
+                <li><a href="{% url 'tco_parameter_analysis' %}"><i class="material-icons left">tune</i>Parameter Analysis</a></li>
+                <li><a href="{% url 'vehicle_comparison' %}"><i class="material-icons left">compare_arrows</i>Vehicle Compare</a></li>
+                <li><a href="#!" class="dropdown-trigger" data-target="user-dropdown">
+                    <i class="material-icons left">person</i>Menu<i class="material-icons right">arrow_drop_down</i>
+                </a></li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
+
+    <!-- User Dropdown -->
+    <ul id="user-dropdown" class="dropdown-content">
+        <li><a href="#!"><i class="material-icons">help</i>Help</a></li>
+        <li><a href="#!"><i class="material-icons">settings</i>Settings</a></li>
+        <li class="divider"></li>
+        <li><a href="#!"><i class="material-icons">exit_to_app</i>About</a></li>
+    </ul>
+
+    <!-- Mobile Navigation -->
+    <ul class="sidenav" id="mobile-nav">
+        <li>
+            <div class="user-view gradient-bg">
+                <div class="background">
+                    <img src="{% static 't3co_app/images/nav-bg.jpg' %}" alt="Background" style="opacity: 0.3;">
+                </div>
+                <a href="#user"><img class="circle" src="{% static 't3co_app/images/user-avatar.png' %}" alt="User"></a>
+                <a href="#name"><span class="white-text name">T3CO User</span></a>
+                <a href="#email"><span class="white-text email">analysis@t3co.go</span></a>
+            </div>
+        </li>
+        <li><a href="{% url 'dashboard' %}"><i class="material-icons">dashboard</i>Dashboard</a></li>
+        <li><a href="{% url 'tco_analysis' %}"><i class="material-icons">assessment</i>TCO Analysis</a></li>
+        <li><a href="{% url 'tco_parameter_analysis' %}"><i class="material-icons">tune</i>Parameter Analysis</a></li>
+        <li><a href="{% url 'vehicle_comparison' %}"><i class="material-icons">compare_arrows</i>Vehicle Compare</a></li>
+        <li><div class="divider"></div></li>
+        <li><a href="#!"><i class="material-icons">help</i>Help</a></li>
+        <li><a href="#!"><i class="material-icons">settings</i>Settings</a></li>
+    </ul>
+
+    <!-- Main Content -->
     <main>
-        {% block content %}
-        {% endblock %}
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="card-panel {{ message.tags|default:'blue' }} lighten-4">
+                        <i class="material-icons left">
+                            {% if message.tags == 'error' %}error
+                            {% elif message.tags == 'warning' %}warning
+                            {% elif message.tags == 'success' %}check_circle
+                            {% else %}info{% endif %}
+                        </i>
+                        {{ message }}
+                        <a href="#!" class="secondary-content" onclick="this.parentElement.style.display='none'">
+                            <i class="material-icons">close</i>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
-    <footer>
-        <p>&copy; {{ current_year }} T3CO Go. All rights reserved.</p>
+
+    <!-- Footer -->
+    <footer class="page-footer blue darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">T3CO Go</h5>
+                    <p class="grey-text text-lighten-4">Transportation Technology Total Cost of Ownership Analysis Tool</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="https://www.nrel.gov/">NREL</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Documentation</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Support</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © {{ current_year|default:"2025" }} National Renewable Energy Laboratory (NREL)
+                <a class="grey-text text-lighten-4 right" href="#!">Privacy Policy</a>
+            </div>
+        </div>
     </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{% static 't3co_app/js/main.js' %}"></script>
+    
+    <script>
+        // Initialize Materialize components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all Materialize components
+            M.AutoInit();
+            
+            // Initialize specific components
+            var sidenav = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(sidenav);
+            
+            var dropdown = document.querySelectorAll('.dropdown-trigger');
+            M.Dropdown.init(dropdown);
+            
+            var tabs = document.querySelectorAll('.tabs');
+            M.Tabs.init(tabs);
+            
+            var tooltips = document.querySelectorAll('.tooltipped');
+            M.Tooltip.init(tooltips);
+            
+            var modals = document.querySelectorAll('.modal');
+            M.Modal.init(modals);
+            
+            var select = document.querySelectorAll('select');
+            M.FormSelect.init(select);
+            
+            var datepicker = document.querySelectorAll('.datepicker');
+            M.Datepicker.init(datepicker);
+            
+            var collapsible = document.querySelectorAll('.collapsible');
+            M.Collapsible.init(collapsible);
+        });
+        
+        // Global utility functions
+        function showLoading() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+        
+        function showToast(message, className = 'blue') {
+            M.toast({html: message, classes: className});
+        }
+        
+        function showError(message) {
+            M.toast({html: message, classes: 'red darken-2'});
+        }
+        
+        function showSuccess(message) {
+            M.toast({html: message, classes: 'green darken-2'});
+        }
+    </script>
+    
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

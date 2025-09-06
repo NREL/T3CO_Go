@@ -72,171 +72,228 @@ class TCOAnalysisForm(forms.Form):
 
 class TCOAnalysisParameterForm(forms.Form):
     """Form for TCO analysis using dropdown parameter selections"""
-    
+
     # Analysis identification
     analysis_name = forms.CharField(
         max_length=100,
         label="Analysis Name",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter analysis name'})
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Enter analysis name"}
+        ),
     )
-    
+
     # Vehicle selection
     vehicle_type = forms.ChoiceField(
         label="Vehicle Type",
         choices=[],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "browser-default"}),
     )
-    
+
     # Analysis year
     analysis_year = forms.ChoiceField(
         label="Analysis Year",
         choices=[],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "browser-default"}),
     )
-    
+
     # Scenario/vocation
     vocation = forms.ChoiceField(
         label="Vocation",
         choices=[],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "browser-default"}),
     )
-    
+
     # Region for fuel prices
     region = forms.ChoiceField(
         label="Region",
         choices=[],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "browser-default"}),
     )
-    
+
     # Key adjustable parameters
     drag_coefficient = forms.FloatField(
         label="Drag Coefficient",
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.001'})
+        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.001"}),
     )
-    
+
     frontal_area_m2 = forms.FloatField(
         label="Frontal Area (m²)",
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'})
+        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.1"}),
     )
-    
+
     glider_kg = forms.FloatField(
         label="Glider Weight (kg)",
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
+        widget=forms.NumberInput(attrs={"class": "validate"}),
     )
-    
+
     cargo_kg = forms.FloatField(
         label="Cargo Weight (kg)",
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
+        widget=forms.NumberInput(attrs={"class": "validate"}),
     )
-    
+
     min_range_miles = forms.FloatField(
         label="Minimum Range (miles)",
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
+        widget=forms.NumberInput(attrs={"class": "validate"}),
     )
-    
+
     # Economic parameters
     discount_rate_pct = forms.FloatField(
         label="Discount Rate (%)",
         initial=4.1,
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'})
+        widget=forms.NumberInput(attrs={"class": "validate", "step": "0.1"}),
     )
-    
+
     vehicle_life_yr = forms.IntegerField(
         label="Vehicle Life (years)",
         initial=7,
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
+        widget=forms.NumberInput(attrs={"class": "validate"}),
     )
-    
+
     annual_vmt = forms.FloatField(
         label="Annual VMT",
         initial=100000,
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
+        widget=forms.NumberInput(attrs={"class": "validate"}),
     )
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._populate_choices()
         self._set_initial_values()
-    
+
     def _populate_choices(self):
-        """Populate form choices from demo data"""
+        """Populate form choices from actual T3CO demo data"""
         try:
             # Get demo_inputs path - should be relative to the main project root
-            # BASE_DIR is t3co_go_django directory, so we need to go up two levels to reach the main project
             main_project_root = settings.BASE_DIR.parent.parent
-            demo_inputs_path = os.path.join(main_project_root, 'demo_inputs')
-            
-            # Vehicle types from vehicles directory
-            vehicles_path = os.path.join(demo_inputs_path, 'vehicles')
-            if os.path.exists(vehicles_path):
-                vehicle_types = [(d, d.replace('_', ' ').title()) 
-                               for d in os.listdir(vehicles_path) 
-                               if os.path.isdir(os.path.join(vehicles_path, d)) and not d.startswith('.')]
-                self.fields['vehicle_type'].choices = vehicle_types
-            
-            # Years from baseline vehicle data
-            baseline_path = os.path.join(demo_inputs_path, 'auxiliary', 'BaselineVehicle.csv')
-            if os.path.exists(baseline_path):
-                df = pd.read_csv(baseline_path)
-                years = [(str(year), str(year)) for year in sorted(df['Year'].unique())]
-                self.fields['analysis_year'].choices = years
-            
-            # Vocations from vocation requirements
-            vocation_path = os.path.join(demo_inputs_path, 'auxiliary', 'VocationRequirements.csv')
-            if os.path.exists(vocation_path):
-                df = pd.read_csv(vocation_path)
-                vocations = [(v, v.title()) for v in sorted(df['vocation'].unique())]
-                self.fields['vocation'].choices = vocations
-            
-            # Regions from fuel prices
-            fuel_path = os.path.join(demo_inputs_path, 'auxiliary', 'FuelPrices.csv')
-            if os.path.exists(fuel_path):
-                df = pd.read_csv(fuel_path)
-                regions = [(r, r) for r in sorted(df['Region'].unique())]
-                self.fields['region'].choices = regions
-                
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs", "demo")
+
+            vehicle_file = os.path.join(
+                demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
+            )
+            scenario_file = os.path.join(
+                demo_path, "Demo_FY22_scenario_assumptions.csv"
+            )
+
+            # Load vehicle data for choices
+            if os.path.exists(vehicle_file):
+                vehicle_df = pd.read_csv(vehicle_file)
+
+                # Get unique scenario names for vehicle types
+                scenario_names = sorted(vehicle_df["scenario_name"].unique())
+                vehicle_choices = [(name, name) for name in scenario_names]
+                self.fields["vehicle_type"].choices = vehicle_choices
+
+                # Get unique years
+                years = sorted(vehicle_df["veh_year"].unique())
+                year_choices = [(str(year), str(year)) for year in years]
+                self.fields["analysis_year"].choices = year_choices
+
+            # Load scenario data for choices
+            if os.path.exists(scenario_file):
+                scenario_df = pd.read_csv(scenario_file)
+
+                # Get unique vocations
+                if "vocation" in scenario_df.columns:
+                    vocations = sorted(scenario_df["vocation"].unique())
+                    vocation_choices = [(v, v.title()) for v in vocations]
+                    self.fields["vocation"].choices = vocation_choices
+
+                # Get unique regions
+                if "region" in scenario_df.columns:
+                    regions = sorted(scenario_df["region"].unique())
+                    region_choices = [(r, r) for r in regions]
+                    self.fields["region"].choices = region_choices
+
         except Exception as e:
-            print(f"Error populating form choices: {e}")
+            print(f"Error populating form choices from demo data: {e}")
             # Set default choices if data loading fails
-            self.fields['vehicle_type'].choices = [('Class8_long_haul', 'Class 8 Long Haul')]
-            self.fields['analysis_year'].choices = [('2025', '2025')]
-            self.fields['vocation'].choices = [('Long haul', 'Long Haul')]
-            self.fields['region'].choices = [('Pacific', 'Pacific')]
-    
+            self.fields["vehicle_type"].choices = [
+                (
+                    "Class 8 Sleeper cab high roof (Diesel, 2025, no program)",
+                    "Class 8 High Roof 2025",
+                ),
+                (
+                    "Class 8 Sleeper cab mid roof (Diesel, 2025, no program)",
+                    "Class 8 Mid Roof 2025",
+                ),
+                (
+                    "Class 8 Sleeper cab low roof (Diesel, 2025, no program)",
+                    "Class 8 Low Roof 2025",
+                ),
+            ]
+            self.fields["analysis_year"].choices = [
+                ("2025", "2025"),
+                ("2030", "2030"),
+                ("2035", "2035"),
+            ]
+            self.fields["vocation"].choices = [("Long haul", "Long Haul")]
+            self.fields["region"].choices = [("FY22NoProgram", "FY22 No Program")]
+
     def _set_initial_values(self):
-        """Set initial values for parameters based on demo data"""
+        """Set initial values for parameters based on actual T3CO demo data"""
         try:
             # Get demo_inputs path - should be relative to the main project root
             main_project_root = settings.BASE_DIR.parent.parent
-            demo_inputs_path = os.path.join(main_project_root, 'demo_inputs')
-            baseline_path = os.path.join(demo_inputs_path, 'auxiliary', 'BaselineVehicle.csv')
-            
-            if os.path.exists(baseline_path):
-                df = pd.read_csv(baseline_path)
-                # Use 2025 data as default
-                default_row = df[df['Year'] == 2025].iloc[0] if not df[df['Year'] == 2025].empty else df.iloc[0]
-                
-                self.fields['drag_coefficient'].initial = default_row.get('dragCoef', 0.546)
-                self.fields['frontal_area_m2'].initial = default_row.get('frontalAreaM2', 10.18)
-                self.fields['glider_kg'].initial = default_row.get('gliderKg', 11776)
-            
-            # Set cargo from vocation requirements
-            vocation_path = os.path.join(demo_inputs_path, 'auxiliary', 'VocationRequirements.csv')
-            if os.path.exists(vocation_path):
-                df = pd.read_csv(vocation_path)
-                default_row = df[df['Year'] == 2025].iloc[0] if not df[df['Year'] == 2025].empty else df.iloc[0]
-                
-                self.fields['cargo_kg'].initial = default_row.get('cargoKg', 16329)
-                self.fields['min_range_miles'].initial = 750  # Default range
-                
+            demo_path = os.path.join(main_project_root, "demo_inputs", "inputs", "demo")
+
+            vehicle_file = os.path.join(
+                demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
+            )
+            scenario_file = os.path.join(
+                demo_path, "Demo_FY22_scenario_assumptions.csv"
+            )
+
+            # Load vehicle data for initial values
+            if os.path.exists(vehicle_file):
+                vehicle_df = pd.read_csv(vehicle_file)
+                # Use the first vehicle row as default (Class 8 Sleeper cab high roof, 2020)
+                if not vehicle_df.empty:
+                    default_vehicle = vehicle_df.iloc[0]
+
+                    self.fields["drag_coefficient"].initial = default_vehicle.get(
+                        "drag_coef", 0.546
+                    )
+                    self.fields["frontal_area_m2"].initial = default_vehicle.get(
+                        "frontal_area_m2", 10.4
+                    )
+                    self.fields["glider_kg"].initial = default_vehicle.get(
+                        "glider_kg", 11776
+                    )
+
+            # Load scenario data for initial values
+            if os.path.exists(scenario_file):
+                scenario_df = pd.read_csv(scenario_file)
+                if not scenario_df.empty:
+                    default_scenario = scenario_df.iloc[0]
+
+                    self.fields["cargo_kg"].initial = default_scenario.get(
+                        "cargo_kg", 17236
+                    )
+                    self.fields["min_range_miles"].initial = default_scenario.get(
+                        "target_range_mi", 750
+                    )
+                    self.fields["discount_rate_pct"].initial = default_scenario.get(
+                        "discount_rate_pct_per_yr", 4.1
+                    )
+                    self.fields["vehicle_life_yr"].initial = default_scenario.get(
+                        "vehicle_life_yr", 7
+                    )
+                    self.fields["annual_vmt"].initial = (
+                        default_scenario.get("vmt", "[100000]")
+                        .strip("[]")
+                        .split(",")[0]
+                        if isinstance(default_scenario.get("vmt"), str)
+                        else 100000
+                    )
+
         except Exception as e:
-            print(f"Error setting initial values: {e}")
+            print(f"Error setting initial values from demo data: {e}")
             # Set fallback defaults
-            self.fields['drag_coefficient'].initial = 0.546
-            self.fields['frontal_area_m2'].initial = 10.18
-            self.fields['glider_kg'].initial = 11776
-            self.fields['cargo_kg'].initial = 16329
-            self.fields['min_range_miles'].initial = 750
+            self.fields["drag_coefficient"].initial = 0.546
+            self.fields["frontal_area_m2"].initial = 10.4
+            self.fields["glider_kg"].initial = 11776
+            self.fields["cargo_kg"].initial = 17236
+            self.fields["min_range_miles"].initial = 750
 
 
 class VehicleComparisonForm(forms.Form):

@@ -6,7 +6,11 @@ urlpatterns = [
     path("", views.dashboard, name="dashboard"),
     # Analysis views
     path("analysis/", views.tco_analysis, name="tco_analysis"),
-    path("analysis/parameters/", views.tco_parameter_analysis, name="tco_parameter_analysis"),
+    path(
+        "analysis/parameters/",
+        views.tco_parameter_analysis,
+        name="tco_parameter_analysis",
+    ),
     path("comparison/", views.vehicle_comparison, name="vehicle_comparison"),
     path("fleet/", views.fleet_analysis, name="fleet_analysis"),
     # Results and details

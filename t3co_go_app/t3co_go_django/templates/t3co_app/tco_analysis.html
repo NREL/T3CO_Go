@@ -1,374 +1,461 @@
-{% extends 't3co_app/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}TCO Analysis - T3CO-Go{% endblock %}
 
+{% block extra_css %}
+<style>
+.upload-zone {
+    border: 2px dashed #e0e0e0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.upload-zone:hover {
+    border-color: #1976d2;
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+}
+
+.upload-zone.dragover {
+    border-color: #1976d2;
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: #1976d2;
+    margin-bottom: 16px;
+}
+
+.file-preview {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 12px;
+    border-left: 4px solid #4caf50;
+    display: none;
+}
+
+.form-section {
+    margin-bottom: 32px;
+    padding: 24px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #1976d2;
+}
+
+.section-header i {
+    margin-right: 12px;
+    font-size: 1.5rem;
+}
+
+.analysis-summary {
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.progress-indicator {
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    position: relative;
+}
+
+.step.active {
+    background: #1976d2;
+}
+
+.step.completed {
+    background: #4caf50;
+}
+
+.step.pending {
+    background: #e0e0e0;
+    color: #666;
+}
+
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: #e0e0e0;
+    margin: 0 8px;
+}
+
+.step-line.completed {
+    background: #4caf50;
+}
+
+.sidebar-tips {
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+    border-radius: 12px;
+    padding: 24px;
+    border-left: 4px solid #1976d2;
+}
+
+.tip-item {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.tip-item:last-child {
+    border-bottom: none;
+}
+
+.tip-icon {
+    color: #1976d2;
+    margin-right: 8px;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">
-        <i class="fas fa-calculator"></i> Single Vehicle TCO Analysis
-    </h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-            <a href="{% url 'demo_data' %}" class="btn btn-sm btn-outline-secondary">
-                <i class="fas fa-play-circle"></i> Try Demo
+<!-- Page Header -->
+<div class="row">
+    <div class="col s12">
+        <div class="section-header">
+            <i class="material-icons">calculate</i>
+            <h4 style="margin: 0;">Single Vehicle TCO Analysis</h4>
+        </div>
+        <div class="right-align" style="margin-top: -60px;">
+            <a href="{% url 'demo_data' %}" class="btn blue lighten-1 waves-effect waves-light">
+                <i class="material-icons left">play_circle</i>Try Demo
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn grey darken-1 waves-effect waves-light">
+                <i class="material-icons left">arrow_back</i>Back
             </a>
         </div>
-        <a href="{% url 'dashboard' %}" class="btn btn-sm btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back
-        </a>
+    </div>
+</div>
+
+<!-- Progress Indicator -->
+<div class="row">
+    <div class="col s12">
+        <div class="card progress-indicator">
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step-line"></div>
+                <div class="step pending">2</div>
+                <div class="step-line"></div>
+                <div class="step pending">3</div>
+            </div>
+            <div class="center-align">
+                <span style="color: #1976d2; font-weight: 500;">Upload Files → Process Data → View Results</span>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Analysis Form -->
 <div class="row">
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-upload"></i> Upload Analysis Files</h5>
+    <div class="col s12 l8">
+        <div class="card form-section">
+            <div class="section-header">
+                <i class="material-icons">upload_file</i>
+                <h5 style="margin: 0;">Upload Analysis Files</h5>
             </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data" id="analysisForm">
-                    {% csrf_token %}
-                    
-                    <!-- Analysis Name -->
-                    <div class="mb-3">
-                        <label for="{{ form.analysis_name.id_for_label }}" class="form-label">
-                            {{ form.analysis_name.label }}
-                        </label>
+            
+            <form method="post" enctype="multipart/form-data" id="analysisForm">
+                {% csrf_token %}
+                
+                <!-- Analysis Name -->
+                <div class="row">
+                    <div class="input-field col s12">
                         {{ form.analysis_name }}
+                        <label for="{{ form.analysis_name.id_for_label }}">{{ form.analysis_name.label }}</label>
                         {% if form.analysis_name.help_text %}
-                        <div class="form-text">{{ form.analysis_name.help_text }}</div>
+                        <span class="helper-text">{{ form.analysis_name.help_text }}</span>
                         {% endif %}
                         {% if form.analysis_name.errors %}
-                        <div class="invalid-feedback d-block">
+                        <span class="helper-text red-text">
                             {% for error in form.analysis_name.errors %}{{ error }}{% endfor %}
-                        </div>
+                        </span>
                         {% endif %}
                     </div>
-                    
-                    <!-- Vehicle File Upload -->
-                    <div class="mb-3">
-                        <label for="{{ form.vehicle_file.id_for_label }}" class="form-label">
+                </div>
+
+                <!-- Vehicle File Upload -->
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="blue-text darken-2">
+                            <i class="material-icons left">local_shipping</i>
                             {{ form.vehicle_file.label }}
-                        </label>
-                        <div class="file-upload-area" onclick="document.getElementById('{{ form.vehicle_file.id_for_label }}').click()">
-                            <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
-                            <p class="mb-2">Click to select vehicle configuration file</p>
-                            <p class="text-muted small">or drag and drop here</p>
+                        </h6>
+                        <div class="upload-zone" onclick="document.getElementById('{{ form.vehicle_file.id_for_label }}').click()">
+                            <i class="material-icons upload-icon">cloud_upload</i>
+                            <p style="margin-bottom: 8px; font-weight: 500;">Click to select vehicle configuration file</p>
+                            <p class="grey-text">or drag and drop here</p>
                             {{ form.vehicle_file }}
                         </div>
                         {% if form.vehicle_file.help_text %}
-                        <div class="form-text">{{ form.vehicle_file.help_text }}</div>
+                        <span class="helper-text">{{ form.vehicle_file.help_text }}</span>
                         {% endif %}
                         {% if form.vehicle_file.errors %}
-                        <div class="invalid-feedback d-block">
+                        <span class="helper-text red-text">
                             {% for error in form.vehicle_file.errors %}{{ error }}{% endfor %}
-                        </div>
+                        </span>
                         {% endif %}
-                        <div id="vehicleFileInfo" class="mt-2 text-info" style="display: none;"></div>
+                        <div id="vehicleFileInfo" class="file-preview"></div>
                     </div>
-                    
-                    <!-- Scenario File Upload -->
-                    <div class="mb-3">
-                        <label for="{{ form.scenario_file.id_for_label }}" class="form-label">
+                </div>
+                
+                <!-- Scenario File Upload -->
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="blue-text darken-2">
+                            <i class="material-icons left">map</i>
                             {{ form.scenario_file.label }}
-                        </label>
-                        <div class="file-upload-area" onclick="document.getElementById('{{ form.scenario_file.id_for_label }}').click()">
-                            <i class="fas fa-road fa-2x text-muted mb-2"></i>
-                            <p class="mb-2">Click to select scenario configuration file</p>
-                            <p class="text-muted small">or drag and drop here</p>
+                        </h6>
+                        <div class="upload-zone" onclick="document.getElementById('{{ form.scenario_file.id_for_label }}').click()">
+                            <i class="material-icons upload-icon">route</i>
+                            <p style="margin-bottom: 8px; font-weight: 500;">Click to select scenario configuration file</p>
+                            <p class="grey-text">or drag and drop here</p>
                             {{ form.scenario_file }}
                         </div>
                         {% if form.scenario_file.help_text %}
-                        <div class="form-text">{{ form.scenario_file.help_text }}</div>
+                        <span class="helper-text">{{ form.scenario_file.help_text }}</span>
                         {% endif %}
                         {% if form.scenario_file.errors %}
-                        <div class="invalid-feedback d-block">
+                        <span class="helper-text red-text">
                             {% for error in form.scenario_file.errors %}{{ error }}{% endfor %}
-                        </div>
+                        </span>
                         {% endif %}
-                        <div id="scenarioFileInfo" class="mt-2 text-info" style="display: none;"></div>
+                        <div id="scenarioFileInfo" class="file-preview"></div>
                     </div>
-                    
-                    <!-- Analysis Parameters -->
-                    <div class="mb-3">
-                        <label for="{{ form.analysis_parameters.id_for_label }}" class="form-label">
-                            {{ form.analysis_parameters.label }}
-                        </label>
-                        {{ form.analysis_parameters }}
-                        {% if form.analysis_parameters.help_text %}
-                        <div class="form-text">{{ form.analysis_parameters.help_text }}</div>
-                        {% endif %}
-                        {% if form.analysis_parameters.errors %}
-                        <div class="invalid-feedback d-block">
-                            {% for error in form.analysis_parameters.errors %}{{ error }}{% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="button" class="btn btn-outline-secondary me-md-2" onclick="resetForm()">
-                            <i class="fas fa-undo"></i> Reset
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="submitBtn">
-                            <i class="fas fa-chart-line"></i> Run Analysis
+                </div>
+
+                <!-- Submit Button -->
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <button type="submit" class="btn-large blue darken-2 waves-effect waves-light" id="submitBtn">
+                            <i class="material-icons left">analytics</i>
+                            Run TCO Analysis
                         </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
     
-    <!-- Help and Instructions -->
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Instructions</h5>
+    <!-- Sidebar with Tips -->
+    <div class="col s12 l4">
+        <div class="sidebar-tips">
+            <h5 class="blue-text darken-2" style="margin-bottom: 20px;">
+                <i class="material-icons left">lightbulb</i>
+                Analysis Tips
+            </h5>
+            
+            <div class="tip-item">
+                <i class="material-icons tip-icon">file_upload</i>
+                <strong>File Formats:</strong> Upload CSV files with proper column headers
             </div>
-            <div class="card-body">
-                <h6>File Format Requirements:</h6>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> <strong>T3CO 2.0:</strong> JSON format</li>
-                    <li><i class="fas fa-check text-success"></i> <strong>Legacy:</strong> CSV format</li>
-                </ul>
-                
-                <h6 class="mt-3">Analysis Process:</h6>
-                <ol class="small">
-                    <li>Upload vehicle configuration file</li>
-                    <li>Upload scenario parameters file</li>
-                    <li>Optionally add custom parameters</li>
-                    <li>Run analysis to get TCO results</li>
-                </ol>
-                
-                <div class="alert alert-info mt-3">
-                    <i class="fas fa-lightbulb"></i>
-                    <strong>Tip:</strong> New to T3CO? Try our <a href="{% url 'demo_data' %}" class="alert-link">demo analysis</a> first!
-                </div>
-                
-                <div class="mt-3">
-                    <h6>Sample Files:</h6>
-                    <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-sm" onclick="downloadSampleVehicle()">
-                            <i class="fas fa-download"></i> Vehicle Template
-                        </a>
-                        <a href="#" class="btn btn-outline-info btn-sm" onclick="downloadSampleScenario()">
-                            <i class="fas fa-download"></i> Scenario Template
-                        </a>
-                    </div>
-                </div>
+            
+            <div class="tip-item">
+                <i class="material-icons tip-icon">settings</i>
+                <strong>Vehicle Config:</strong> Include all required vehicle parameters
+            </div>
+            
+            <div class="tip-item">
+                <i class="material-icons tip-icon">timeline</i>
+                <strong>Scenarios:</strong> Define analysis timeframe and conditions
+            </div>
+            
+            <div class="tip-item">
+                <i class="material-icons tip-icon">speed</i>
+                <strong>Processing:</strong> Analysis typically takes 1-3 minutes
+            </div>
+            
+            <div class="tip-item">
+                <i class="material-icons tip-icon">assessment</i>
+                <strong>Results:</strong> View comprehensive TCO breakdown and charts
             </div>
         </div>
         
-        <!-- Analysis History -->
-        <div class="card mt-3">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-history"></i> Recent Analyses</h5>
-            </div>
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                    <!-- This would be populated with recent analyses -->
-                    <div class="text-center text-muted py-3">
-                        <i class="fas fa-clock"></i>
-                        <p class="mb-0 small">Your recent analyses will appear here</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- File Format Examples Modal -->
-<div class="modal fade" id="formatExamplesModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">File Format Examples</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" id="formatTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="json-tab" data-bs-toggle="tab" data-bs-target="#json" type="button">
-                            JSON (T3CO 2.0)
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="csv-tab" data-bs-toggle="tab" data-bs-target="#csv" type="button">
-                            CSV (Legacy)
-                        </button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="formatTabContent">
-                    <div class="tab-pane fade show active" id="json" role="tabpanel">
-                        <pre class="mt-3"><code>{
-  "vehicle_type": "conventional",
-  "powertrain": {
-    "engine_efficiency": 0.35,
-    "fuel_type": "diesel"
-  },
-  "specifications": {
-    "weight": 26000,
-    "cargo_capacity": 16000
-  }
-}</code></pre>
-                    </div>
-                    <div class="tab-pane fade" id="csv" role="tabpanel">
-                        <pre class="mt-3"><code>parameter,value,unit
-vehicle_type,conventional,
-engine_efficiency,0.35,
-fuel_type,diesel,
-weight,26000,kg</code></pre>
-                    </div>
-                </div>
+        <!-- Demo Data Section -->
+        <div class="card" style="margin-top: 24px;">
+            <div class="card-content">
+                <span class="card-title blue-text darken-2">
+                    <i class="material-icons left">play_circle</i>
+                    Try Demo Data
+                </span>
+                <p>New to T3CO-Go? Start with our sample data to explore the platform's capabilities.</p>
+                <a href="{% url 'demo_data' %}" class="btn blue lighten-1 waves-effect waves-light">
+                    <i class="material-icons left">rocket_launch</i>
+                    Launch Demo
+                </a>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
-{% block extra_scripts %}
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    setupFileUploadHandlers();
+    // Initialize Materialize components
+    M.AutoInit();
+    
+    // File upload handling
+    setupFileUploads();
+    
+    // Form validation
     setupFormValidation();
 });
 
-function setupFileUploadHandlers() {
-    // Vehicle file handler
-    const vehicleFileInput = document.getElementById('{{ form.vehicle_file.id_for_label }}');
-    vehicleFileInput.addEventListener('change', function(e) {
-        handleFileSelection(e.target, 'vehicleFileInfo');
-    });
+function setupFileUploads() {
+    const vehicleInput = document.getElementById('{{ form.vehicle_file.id_for_label }}');
+    const scenarioInput = document.getElementById('{{ form.scenario_file.id_for_label }}');
     
-    // Scenario file handler
-    const scenarioFileInput = document.getElementById('{{ form.scenario_file.id_for_label }}');
-    scenarioFileInput.addEventListener('change', function(e) {
-        handleFileSelection(e.target, 'scenarioFileInfo');
-    });
+    if (vehicleInput) {
+        vehicleInput.addEventListener('change', function(e) {
+            handleFileSelect(e, 'vehicleFileInfo');
+        });
+    }
     
-    // Hide file inputs (they'll be triggered by clicking upload areas)
-    vehicleFileInput.style.display = 'none';
-    scenarioFileInput.style.display = 'none';
+    if (scenarioInput) {
+        scenarioInput.addEventListener('change', function(e) {
+            handleFileSelect(e, 'scenarioFileInfo');
+        });
+    }
+    
+    // Drag and drop functionality
+    setupDragAndDrop();
 }
 
-function handleFileSelection(input, infoElementId) {
+function handleFileSelect(event, infoElementId) {
+    const file = event.target.files[0];
     const infoElement = document.getElementById(infoElementId);
     
-    if (input.files && input.files[0]) {
-        const file = input.files[0];
-        const fileSize = (file.size / 1024).toFixed(2);
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-        
-        let formatInfo = '';
-        if (fileExtension === 'json') {
-            formatInfo = '<i class="fas fa-check text-success"></i> T3CO 2.0 Format';
-        } else if (fileExtension === 'csv') {
-            formatInfo = '<i class="fas fa-check text-warning"></i> Legacy Format';
-        } else {
-            formatInfo = '<i class="fas fa-exclamation-triangle text-danger"></i> Unsupported Format';
-        }
-        
-        infoElement.innerHTML = `
-            <i class="fas fa-file"></i> ${file.name} (${fileSize} KB) - ${formatInfo}
-        `;
+    if (file) {
+        infoElement.innerHTML = 
+            '<i class="material-icons left green-text">check_circle</i>' +
+            '<strong>' + file.name + '</strong> (' + formatFileSize(file.size) + ')';
         infoElement.style.display = 'block';
     } else {
         infoElement.style.display = 'none';
     }
 }
 
-function setupFormValidation() {
-    const form = document.getElementById('analysisForm');
-    form.addEventListener('submit', function(e) {
-        const submitBtn = document.getElementById('submitBtn');
+function setupDragAndDrop() {
+    const uploadZones = document.querySelectorAll('.upload-zone');
+    
+    uploadZones.forEach(zone => {
+        zone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            zone.classList.add('dragover');
+        });
         
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Analysis...';
+        zone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            zone.classList.remove('dragover');
+        });
         
-        // Show loading spinner
-        showLoading();
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            zone.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const fileInput = zone.querySelector('input[type="file"]');
+                if (fileInput) {
+                    fileInput.files = files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            }
+        });
     });
 }
 
-function resetForm() {
-    document.getElementById('analysisForm').reset();
-    document.getElementById('vehicleFileInfo').style.display = 'none';
-    document.getElementById('scenarioFileInfo').style.display = 'none';
-    
-    // Reset submit button
+function setupFormValidation() {
+    const form = document.getElementById('analysisForm');
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<i class="fas fa-chart-line"></i> Run Analysis';
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const analysisName = form.querySelector('[name="analysis_name"]').value;
+            const vehicleFile = form.querySelector('[name="vehicle_file"]').files[0];
+            const scenarioFile = form.querySelector('[name="scenario_file"]').files[0];
+            
+            if (!analysisName.trim()) {
+                showError('Please enter an analysis name');
+                return;
+            }
+            
+            if (!vehicleFile) {
+                showError('Please select a vehicle configuration file');
+                return;
+            }
+            
+            if (!scenarioFile) {
+                showError('Please select a scenario configuration file');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Processing...';
+            submitBtn.disabled = true;
+            showLoading();
+            
+            // Submit form
+            form.submit();
+        });
+    }
 }
 
-function downloadSampleVehicle() {
-    const sampleData = {
-        "vehicle_type": "conventional",
-        "powertrain": {
-            "engine_efficiency": 0.35,
-            "fuel_type": "diesel"
-        },
-        "specifications": {
-            "weight": 26000,
-            "cargo_capacity": 16000,
-            "length": 12.2,
-            "width": 2.6,
-            "height": 4.0
-        },
-        "costs": {
-            "purchase_price": 150000,
-            "maintenance_rate": 0.05
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+            case 'Enter':
+                e.preventDefault();
+                document.getElementById('submitBtn').click();
+                break;
         }
-    };
-    
-    const dataStr = JSON.stringify(sampleData, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'sample_vehicle.json';
-    a.click();
-    
-    URL.revokeObjectURL(url);
-}
-
-function downloadSampleScenario() {
-    const sampleData = {
-        "scenario_name": "urban_delivery",
-        "usage_profile": {
-            "daily_distance": 200,
-            "annual_distance": 50000,
-            "load_factor": 0.75
-        },
-        "economic_parameters": {
-            "analysis_period": 10,
-            "discount_rate": 0.07,
-            "fuel_price": 1.20
-        },
-        "operational_parameters": {
-            "duty_cycle": "urban",
-            "operating_days_per_year": 250
-        }
-    };
-    
-    const dataStr = JSON.stringify(sampleData, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'sample_scenario.json';
-    a.click();
-    
-    URL.revokeObjectURL(url);
-}
-
-// Setup drag and drop for file upload areas
-document.querySelectorAll('.file-upload-area').forEach(area => {
-    setupFileUpload(area);
+    }
 });
 </script>
 {% endblock %}
