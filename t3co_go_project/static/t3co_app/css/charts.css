@@ -1,13 +1,16 @@
 /* T3CO Chart Styling - Enhanced Chart.js Components */
 
-/* Chart Card Styling */
+/* Chart Card Styling - Standardized Heights */
 .chart-card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     overflow: hidden;
     transition: all 0.3s ease;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chart-card:hover {
@@ -15,35 +18,134 @@
     box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
 
+/* Standardized chart card heights for uniform layout */
+.chart-tco-breakdown,
+.chart-cost-distribution,
+.chart-key-metrics,
+.chart-timeline,
+.chart-radar {
+    height: 600px;
+}
+
 .chart-title {
     background: linear-gradient(135deg, #1976d2, #1565c0);
     color: white;
-    padding: 16px 20px;
+    padding: 12px 16px;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .chart-title i {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
+/* Chart Containers Enhancement */
+.t3co-charts-container {
+    margin-bottom: 15px;
+}
+
+.t3co-charts-container .row {
+    margin-bottom: 0;
+}
+
+/* Improved chart spacing for side-by-side layout */
+.col.s12.l6 .chart-card {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.col.s12.l6:first-child .chart-card {
+    margin-left: 0;
+}
+
+.col.s12.l6:last-child .chart-card {
+    margin-right: 0;
+}
+
+/* Ensure equal spacing between chart rows */
+.t3co-charts-container + .t3co-charts-container {
+    margin-top: 15px;
+}
+
+.col.s12.l6:only-child .chart-card {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Full width charts (radar, timeline) should not have side margins */
+.col.s12:not(.l6) .chart-card {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Enhanced chart content layout - Standardized */
 .chart-content {
-    padding: 20px;
+    padding: 15px;
     position: relative;
-    min-height: 320px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    background: #fafafa;
+    flex: 1;
+}
+
+/* Standardized chart content heights */
+.chart-tco-breakdown .chart-content,
+.chart-cost-distribution .chart-content,
+.chart-key-metrics .chart-content,
+.chart-timeline .chart-content,
+.chart-radar .chart-content {
+    height: 500px;
 }
 
 .chart-canvas {
     position: relative;
-    height: 300px;
+    height: 460px;
     width: 100%;
     max-width: 100%;
+}
+
+/* Standardized chart canvas heights */
+.chart-tco-breakdown .chart-canvas,
+.chart-cost-distribution .chart-canvas,
+.chart-key-metrics .chart-canvas,
+.chart-timeline .chart-canvas,
+.chart-radar .chart-canvas {
+    height: 460px;
+}
+
+.chart-canvas {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Specific chart canvas heights - Optimized for side-by-side layout */
+.chart-tco-breakdown .chart-canvas {
+    height: 450px;
+}
+
+.chart-cost-distribution .chart-canvas {
+    height: 400px;
+}
+
+.chart-key-metrics .chart-canvas {
+    height: 350px;
+}
+
+.chart-timeline .chart-canvas {
+    height: 400px;
+}
+
+.chart-radar .chart-canvas {
+    height: 450px;
 }
 
 /* Chart State Messages */
@@ -128,27 +230,41 @@
 /* Chart Responsive Behavior */
 @media (max-width: 992px) {
     .chart-card {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        min-height: 350px;
     }
     
     .chart-content {
         padding: 15px;
-        min-height: 280px;
+        min-height: 300px;
     }
     
     .chart-canvas {
-        height: 250px;
+        height: 260px;
+    }
+    
+    /* Reset specific chart heights for tablet view */
+    .chart-tco-breakdown .chart-canvas,
+    .chart-cost-distribution .chart-canvas,
+    .chart-key-metrics .chart-canvas,
+    .chart-timeline .chart-canvas,
+    .chart-radar .chart-canvas {
+        height: 260px;
     }
 }
 
 @media (max-width: 768px) {
+    .chart-card {
+        min-height: 320px;
+    }
+    
     .chart-content {
         padding: 12px;
-        min-height: 250px;
+        min-height: 270px;
     }
     
     .chart-canvas {
-        height: 220px;
+        height: 240px;
     }
     
     .chart-title {
@@ -158,6 +274,15 @@
     
     .chart-title i {
         font-size: 1.1rem;
+    }
+    
+    /* Reset all chart heights for mobile */
+    .chart-tco-breakdown .chart-canvas,
+    .chart-cost-distribution .chart-canvas,
+    .chart-key-metrics .chart-canvas,
+    .chart-timeline .chart-canvas,
+    .chart-radar .chart-canvas {
+        height: 240px;
     }
 }
 

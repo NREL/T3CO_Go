@@ -659,7 +659,7 @@ class VehicleComparisonForm(forms.Form):
     )
 
     scenario_files = MultipleFileField(
-        label="Scenario Files", 
+        label="Scenario Files",
         validators=[FileExtensionValidator(allowed_extensions=["json", "csv"])],
         widget=MultipleFileInput(
             attrs={"class": "form-control", "accept": ".json,.csv"}
@@ -758,7 +758,10 @@ class VehicleComparisonForm(forms.Form):
         max_length=200,
         label="Baseline Configuration",
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Auto-select first configuration"}
+            attrs={
+                "class": "form-control",
+                "placeholder": "Auto-select first configuration",
+            }
         ),
         required=False,
         help_text="Reference configuration for normalization (leave blank for auto-selection)",
@@ -784,8 +787,12 @@ class VehicleComparisonForm(forms.Form):
             main_project_root = settings.BASE_DIR.parent
             demo_path = os.path.join(main_project_root, "demo_inputs", "inputs")
 
-            vehicle_file = os.path.join(demo_path, "Demo_FY22_vehicle_model_assumptions.csv")
-            scenario_file = os.path.join(demo_path, "Demo_FY22_scenario_assumptions.csv")
+            vehicle_file = os.path.join(
+                demo_path, "Demo_FY22_vehicle_model_assumptions.csv"
+            )
+            scenario_file = os.path.join(
+                demo_path, "Demo_FY22_scenario_assumptions.csv"
+            )
 
             # This would be expanded to provide dynamic choices based on available data
             # For now, keeping static choices that match the data structure
@@ -800,17 +807,25 @@ class VehicleComparisonForm(forms.Form):
         # Validate based on selection method
         if selection_method == "dropdown":
             if not cleaned_data.get("vehicle_configurations"):
-                raise forms.ValidationError("Please select at least one vehicle configuration for comparison.")
+                raise forms.ValidationError(
+                    "Please select at least one vehicle configuration for comparison."
+                )
         elif selection_method == "file_upload":
-            if not cleaned_data.get("vehicle_files") and not cleaned_data.get("scenario_files"):
-                raise forms.ValidationError("Please upload at least one vehicle or scenario file.")
+            if not cleaned_data.get("vehicle_files") and not cleaned_data.get(
+                "scenario_files"
+            ):
+                raise forms.ValidationError(
+                    "Please upload at least one vehicle or scenario file."
+                )
 
         # Validate grouping combinations
         primary_group = cleaned_data.get("group_by_primary")
         secondary_group = cleaned_data.get("group_by_secondary")
-        
+
         if primary_group == secondary_group and primary_group != "none":
-            raise forms.ValidationError("Primary and secondary grouping cannot be the same.")
+            raise forms.ValidationError(
+                "Primary and secondary grouping cannot be the same."
+            )
 
         return cleaned_data
 

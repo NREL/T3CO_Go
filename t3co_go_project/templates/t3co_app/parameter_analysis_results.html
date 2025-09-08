@@ -155,7 +155,7 @@
         font-size: 1.8rem;
     }
     .chart-card {
-        height: 300px;
+        height: 350px;
     }
 }
 </style>
@@ -170,6 +170,12 @@
             Parameter Analysis Results
         </div>
         <div class="right-align" style="margin-top: -60px;">
+            <a href="{% url 'export_ledger_json' analysis.id %}" 
+               class="btn green darken-1 waves-effect waves-light"
+               download
+               title="Export results as Ledger JSON">
+                <i class="material-icons left">file_download</i>Export JSON
+            </a>
             <a href="{% url 'tco_parameter_analysis' %}" class="btn blue darken-2 waves-effect waves-light">
                 <i class="material-icons left">add</i>New Analysis
             </a>

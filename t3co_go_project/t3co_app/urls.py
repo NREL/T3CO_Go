@@ -16,6 +16,11 @@ urlpatterns = [
         views.parameter_analysis_results,
         name="parameter_analysis_results",
     ),
+    path(
+        "analysis/parameters/<int:analysis_id>/export-ledger/",
+        views.export_ledger_json,
+        name="export_ledger_json",
+    ),
     path("comparison/", views.vehicle_comparison, name="vehicle_comparison"),
     path("fleet/", views.fleet_analysis, name="fleet_analysis"),
     # Results and details
@@ -26,7 +31,11 @@ urlpatterns = [
     # Demo and utilities
     path("demo/", views.demo_data, name="demo_data"),
     path("demo/run/", views.run_demo_analysis, name="run_demo_analysis"),
-    path("demo/parameter-results/", views.demo_parameter_results, name="demo_parameter_results"),
+    path(
+        "demo/parameter-results/",
+        views.demo_parameter_results,
+        name="demo_parameter_results",
+    ),
     path("debug/charts/", views.debug_charts, name="debug_charts"),
     # AJAX endpoints
     path(

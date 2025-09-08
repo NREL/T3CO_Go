@@ -11,7 +11,7 @@
 <!-- T3CO Charts JavaScript -->
 <script src="{% static 't3co_app/js/charts.js' %}"></script>
 
-<!-- Chart Containers -->
+<!-- Chart Containers - Standardized Two-Column Layout -->
 <div class="row t3co-charts-container">
     {% if chart_types.tco_breakdown %}
     <!-- T3CO Stacked Breakdown Chart -->
@@ -60,7 +60,9 @@
         </div>
     </div>
     {% endif %}
+</div>
 
+<div class="row t3co-charts-container">
     {% if chart_types.key_metrics %}
     <!-- Key Performance Metrics Chart -->
     <div class="col s12 l6">
@@ -91,7 +93,7 @@
         <div class="card chart-card chart-timeline">
             <div class="chart-title">
                 <i class="material-icons">timeline</i>
-                Cost Timeline Analysis
+                Cost Timeline Analysis - Ledger Data
             </div>
             <div class="chart-content">
                 <div class="chart-zoom-controls">
@@ -119,7 +121,9 @@
         </div>
     </div>
     {% endif %}
+</div>
 
+<div class="row t3co-charts-container">
     {% if chart_types.radar %}
     <!-- Performance Radar Chart -->
     <div class="col s12">

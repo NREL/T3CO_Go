@@ -64,12 +64,21 @@ class T3COCharts {
                             if (label) {
                                 label += ': ';
                             }
-                            if (context.parsed.y !== null) {
+                            if (context.parsed.y !== null && !isNaN(context.parsed.y)) {
                                 label += new Intl.NumberFormat('en-US', {
                                     style: 'currency',
                                     currency: 'USD',
                                     minimumFractionDigits: 0
                                 }).format(context.parsed.y);
+                            } else if (context.parsed !== null && !isNaN(context.parsed)) {
+                                // For doughnut charts and other chart types
+                                label += new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    minimumFractionDigits: 0
+                                }).format(context.parsed);
+                            } else {
+                                label += 'N/A';
                             }
                             return label;
                         }
