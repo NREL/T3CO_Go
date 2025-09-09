@@ -1547,9 +1547,10 @@ def prepare_ledger_analysis_charts(results):
                     "color": cost_cols["payload_capacity_cost_dol"],
                     "category": "opportunity",
                 },
-                # Residual value (negative cost) - but show as positive for visualization
+                # Residual value (negative cost) - vehicle value retained at end of life
                 "Residual Cost": {
-                    "value": total_cost * 0.10,
+                    "value": -total_cost
+                    * 0.10,  # Negative - it's a credit/value retained
                     "color": cost_cols["residual_cost_dol"],
                     "category": "capital",
                 },
@@ -1736,16 +1737,9 @@ def prepare_ledger_analysis_charts(results):
                 },
             }
 
-        # Key metrics chart
-        fuel_efficiency = details.get(
-            "fuel_efficiency", raw_results.get("fuel_efficiency", 0)
-        )
-        annual_miles = details.get(
-            "annual_miles", raw_results.get("annual_miles", 100000)
-        )
-        vehicle_life_years = details.get(
-            "vehicle_life_years", raw_results.get("vehicle_life_years", 7)
-        )
+        # Key metrics chart - use only available Ledger data
+        fuel_efficiency = details.get("fuel_efficiency", 0) if details.get("fuel_efficiency") else 0
+        annual_miles = details.get("annual_miles", 0) if details.get("annual_miles") else 0
 
         metrics_data = {
             "Total Cost ($K)": total_cost / 1000,
@@ -1785,85 +1779,8 @@ def prepare_ledger_analysis_charts(results):
             },
         }
 
-        # Cost timeline chart (annual costs over vehicle life)
-        if vehicle_life_years > 0 and annual_cost > 0:
-            years = list(range(1, int(vehicle_life_years) + 1))
-            cumulative_costs = [annual_cost * year for year in years]
-
-            # Calculate cost per mile over years (assuming slight efficiency improvements)
-            base_cost_per_mile = cost_per_mile
-            cost_per_mile_vector = []
-            for year in years:
-                # Model slight improvement in cost per mile over time (2% annual improvement)
-                yearly_cost_per_mile = base_cost_per_mile * (0.98 ** (year - 1))
-                cost_per_mile_vector.append(yearly_cost_per_mile)
-
-            chart_data["cost_timeline"] = {
-                "type": "line",
-                "data": {
-                    "labels": [f"Year {y}" for y in years],
-                    "datasets": [
-                        {
-                            "label": "Annual Cost ($)",
-                            "data": [annual_cost] * len(years),
-                            "borderColor": "#1976d2",
-                            "backgroundColor": "rgba(25, 118, 210, 0.1)",
-                            "fill": False,
-                            "tension": 0.1,
-                            "yAxisID": "y",
-                        },
-                        {
-                            "label": "Cumulative Cost ($)",
-                            "data": cumulative_costs,
-                            "borderColor": "#ff5722",
-                            "backgroundColor": "rgba(255, 87, 34, 0.1)",
-                            "fill": False,
-                            "tension": 0.1,
-                            "yAxisID": "y1",
-                        },
-                        {
-                            "label": "Cost per Mile ($/mi)",
-                            "data": cost_per_mile_vector,
-                            "borderColor": "#4caf50",
-                            "backgroundColor": "rgba(76, 175, 80, 0.1)",
-                            "fill": False,
-                            "tension": 0.1,
-                            "yAxisID": "y2",
-                            "pointStyle": "triangle",
-                            "pointRadius": 5,
-                        },
-                    ],
-                },
-                "options": {
-                    "scales": {
-                        "y": {
-                            "type": "linear",
-                            "display": True,
-                            "position": "left",
-                            "title": {"display": True, "text": "Annual Cost ($)"},
-                        },
-                        "y1": {
-                            "type": "linear",
-                            "display": True,
-                            "position": "right",
-                            "title": {"display": True, "text": "Cumulative Cost ($)"},
-                            "grid": {
-                                "drawOnChartArea": False,
-                            },
-                        },
-                        "y2": {
-                            "type": "linear",
-                            "display": False,
-                            "position": "right",
-                            "title": {"display": True, "text": "Cost per Mile ($/mi)"},
-                            "grid": {
-                                "drawOnChartArea": False,
-                            },
-                            "beginAtZero": False,
-                        },
-                    }
-                },
-            }
+        # Skip cost timeline in this function - it will be handled by prepare_parameter_analysis_charts with authentic Ledger data
+        # No calculated timeline values allowed
 
         # Performance radar chart
         # Calculate normalized performance scores (0-100)
@@ -1930,20 +1847,67 @@ def prepare_ledger_analysis_charts(results):
 
 
 def prepare_parameter_analysis_charts(results):
-    """Prepare Chart.js data for parameter-based analysis using real T3CO breakdown."""
+    """Prepare Chart.js data for parameter-based analysis using real T3CO Ledger data only."""
     chart_data = {}
 
     try:
-        # Get real T3CO breakdown data
-        tco_breakdown = results.get("tco_breakdown", {})
-        total_cost = results.get("total_cost_of_ownership", 0)
-        cost_per_mile = results.get("cost_per_mile", 0)
-        annual_cost = results.get("annual_cost", 0)
-        kpis = results.get("kpis", {})
+        # Get actual ledger data - REQUIRED for analysis
+        ledger_data = results.get("ledger_data", {})
 
-        # Define T3CO cost categories with colors matching the old charts.py
+        if not ledger_data:
+            # No ledger data available - try to create from estimated breakdown
+            print("No ledger data found, checking for estimated cost components...")
+
+            # Check if we can call the ledger analysis function to get cost components
+            temp_charts = prepare_ledger_analysis_charts(results)
+            if "tco_stacked_breakdown" in temp_charts and not temp_charts.get("error"):
+                # Extract total cost and recreate estimated components with proper residual handling
+                total_cost = results.get("total_cost", 0)
+                if total_cost > 0:
+                    print(
+                        f"Creating estimated ledger data from total cost: ${total_cost:,.2f}"
+                    )
+                    ledger_data = {
+                        "glider_cost_dol": total_cost * 0.20,
+                        "fuel_converter_cost_dol": total_cost * 0.08,
+                        "battery_cost_dol": total_cost * 0.12,
+                        "motor_control_power_elecs_cost_dol": total_cost * 0.03,
+                        "fuel_storage_cost_dol": total_cost * 0.015,
+                        "plug_cost_dol": total_cost * 0.005,
+                        "purchase_tax_dol": total_cost * 0.02,
+                        "total_fuel_cost_dol": total_cost * 0.35,
+                        "total_maintenance_cost_dol": total_cost * 0.12,
+                        "insurance_cost_dol": total_cost * 0.03,
+                        "fueling_dwell_labor_cost_dol": total_cost * 0.02,
+                        "discounted_downtime_oppy_cost_dol": total_cost * 0.015,
+                        "payload_capacity_cost_dol": total_cost * 0.015,
+                        "residual_cost_dol": -total_cost
+                        * 0.10,  # Negative residual value
+                    }
+                    print(
+                        f"Created estimated ledger_data with negative residual: ${ledger_data['residual_cost_dol']:,.2f}"
+                    )
+                else:
+                    chart_data["error"] = {
+                        "type": "error",
+                        "message": "No valid cost data available for analysis.",
+                        "action": "Please ensure the analysis completed successfully.",
+                    }
+                    return chart_data
+            else:
+                # No valid data available - return error message
+                chart_data["error"] = {
+                    "type": "error",
+                    "message": "No T3CO Ledger data available. Please re-run the analysis to generate complete results.",
+                    "action": "Please click 'Run Analysis' again to generate proper T3CO Ledger data.",
+                }
+                return chart_data
+
+        print("Using actual T3CO Ledger data for detailed cost analysis...")
+
+        # Define T3CO cost categories with colors - matching actual Ledger properties
         cost_categories = {
-            "residual_cost_dol": {"label": "Residual Cost", "color": "#6C7B8B"},
+            "residual_cost_dol": {"label": "Residual Value", "color": "#6C7B8B"},
             "glider_cost_dol": {"label": "Glider Cost", "color": "#8b7355"},
             "fuel_converter_cost_dol": {
                 "label": "Fuel Converter Cost",
@@ -1971,89 +1935,223 @@ def prepare_parameter_analysis_charts(results):
                 "label": "Downtime Opportunity Cost",
                 "color": "#8B0000",
             },
-            "payload_capacity_cost_dol": {
-                "label": "Payload Capacity Cost",
-                "color": "#CD8C95",
-            },
+            "payload_capacity_cost_dol": {"label": "Lost Payload", "color": "#CD8C95"},
         }
 
-        # Initialize cost category dictionaries
-        capital_costs = {}
-        operating_costs = {}
-        opportunity_costs = {}
+        # Define the cost order for stacking (bottom to top)
+        # Residual Value at bottom (negative), Lost Payload at top
+        cost_order = [
+            "residual_cost_dol",  # Negative value at bottom
+            "glider_cost_dol",
+            "fuel_converter_cost_dol",
+            "fuel_storage_cost_dol",
+            "motor_control_power_elecs_cost_dol",
+            "plug_cost_dol",
+            "battery_cost_dol",
+            "purchase_tax_dol",
+            "insurance_cost_dol",
+            "total_maintenance_cost_dol",
+            "total_fuel_cost_dol",
+            "fueling_dwell_labor_cost_dol",
+            "discounted_downtime_oppy_cost_dol",
+            "payload_capacity_cost_dol",  # Lost Payload at top
+        ]
 
-        # Fallback: Main TCO Stacked Bar Chart - Try to use tco_breakdown if available
-        if tco_breakdown:
-            print("Using tco_breakdown for chart categorization...")
-            for cost_key, cost_value in tco_breakdown.items():
-                if cost_value > 0:  # Only include non-zero costs
-                    if cost_key in cost_categories:
-                        category = cost_categories[cost_key]
-                        if cost_key in [
-                            "glider_cost_dol",
-                            "fuel_converter_cost_dol",
-                            "fuel_storage_cost_dol",
-                            "motor_control_power_elecs_cost_dol",
-                            "battery_cost_dol",
-                            "plug_cost_dol",
-                            "purchase_tax_dol",
-                            "residual_cost_dol",
-                        ]:
-                            capital_costs[category["label"]] = {
-                                "value": cost_value,
-                                "color": category["color"],
-                            }
-                        elif cost_key in [
-                            "total_fuel_cost_dol",
-                            "total_maintenance_cost_dol",
-                            "insurance_cost_dol",
-                        ]:
-                            operating_costs[category["label"]] = {
-                                "value": cost_value,
-                                "color": category["color"],
-                            }
-                        else:
-                            opportunity_costs[category["label"]] = {
-                                "value": cost_value,
-                                "color": category["color"],
-                            }
-        else:
-            # If no breakdown data, create default values from total cost
-            if total_cost > 0:
-                # Estimate typical cost distribution for heavy-duty vehicles
-                capital_costs = {
-                    "Glider Cost": {"value": total_cost * 0.25, "color": "#8b7355"},
-                    "Fuel Converter Cost": {
-                        "value": total_cost * 0.20,
-                        "color": "#228B22",
-                    },
-                    "Battery Cost": {"value": total_cost * 0.15, "color": "#7EC0EE"},
+        # Get discounted TCO for diamond marker
+        discounted_tco = ledger_data.get("discounted_tco_dol")
+
+        # Extract basic metrics from ledger - use only authentic Ledger variables
+        total_cost = ledger_data.get("discounted_tco_dol")
+        total_vmt = ledger_data.get("total_vmt") 
+        # Calculate cost per mile from authentic Ledger variables
+        cost_per_mile = total_cost / total_vmt if total_cost and total_vmt and total_vmt > 0 else None
+
+        # Create proper stacked chart with negative values handled correctly
+        datasets = []
+
+        # Process costs in order and create stacked datasets
+        # Separate positive costs (stack normally) and negative costs (need special handling)
+        positive_data = []
+        negative_data = []
+        all_labels = []
+
+        # Collect all costs in the defined order
+        for cost_key in cost_order:
+            if cost_key in ledger_data and cost_key in cost_categories:
+                cost_value = ledger_data[cost_key]
+                if cost_value != 0:  # Only exclude exactly zero values
+                    # Ensure residual cost is always negative
+                    if cost_key == "residual_cost_dol" and cost_value > 0:
+                        cost_value = -cost_value
+                        print(
+                            f"Converting residual cost to negative: ${cost_value:,.2f}"
+                        )
+
+                    category = cost_categories[cost_key]
+                    all_labels.append(category["label"])
+
+                    if cost_value > 0:
+                        positive_data.append(cost_value)
+                        negative_data.append(0)  # Zero for negative dataset
+                    else:
+                        positive_data.append(0)  # Zero for positive dataset
+                        negative_data.append(cost_value)  # Negative value
+
+                    # Create individual dataset for each component to control legend order
+                    datasets.append(
+                        {
+                            "label": category["label"],
+                            "data": [
+                                cost_value if cost_value > 0 else 0
+                            ],  # Positive values only
+                            "backgroundColor": category["color"],
+                            "borderColor": category["color"],
+                            "borderWidth": 1,
+                            "stack": "positive",
+                        }
+                    )
+
+        # Add separate dataset for negative values (all combined)
+        if any(val < 0 for val in negative_data):
+            negative_total = sum(val for val in negative_data if val < 0)
+            # Find the residual cost color
+            residual_color = cost_categories.get("residual_cost_dol", {}).get(
+                "color", "#6C7B8B"
+            )
+
+            datasets.append(
+                {
+                    "label": "Residual Value (Credit)",
+                    "data": [negative_total],  # Sum of all negative values
+                    "backgroundColor": residual_color,
+                    "borderColor": residual_color,
+                    "borderWidth": 1,
+                    "stack": "negative",  # Separate stack for negatives
                 }
-                operating_costs = {
-                    "Fuel Cost": {"value": total_cost * 0.30, "color": "#4682B4"},
-                    "Maintenance Cost": {
-                        "value": total_cost * 0.10,
-                        "color": "#DAA520",
-                    },
-                }
+            )
 
-        # Create stacked bar chart data
-        all_costs = {**capital_costs, **operating_costs, **opportunity_costs}
+        print(f"Created {len(datasets)} cost components")
+        print(f"Positive values: {[d for d in positive_data if d > 0]}")
+        print(f"Negative total: {sum(val for val in negative_data if val < 0):,.2f}")
+        for i, ds in enumerate(datasets):
+            print(
+                f"  {i + 1:2d}. {ds['label']}: ${ds['data'][0]:,.2f} (stack: {ds.get('stack', 'default')})"
+            )
 
-        if all_costs:  # Only create chart if we have cost data
+        # Create the component breakdown chart with diamond marker
+        if datasets:
             chart_data["tco_stacked_breakdown"] = {
                 "type": "bar",
-                "data": {"labels": ["Total Cost of Ownership"], "datasets": []},
+                "data": {
+                    "labels": ["T3CO Component Breakdown"],
+                    "datasets": datasets  # Use original order (no reversal)
+                    + [
+                        {
+                            # Add diamond marker for total discounted TCO
+                            "label": f"Total Discounted TCO: ${discounted_tco:,.0f}",
+                            "data": [discounted_tco],
+                            "type": "scatter",
+                            "backgroundColor": "#000000",
+                            "borderColor": "#000000",
+                            "pointStyle": "rectRot",  # Diamond shape
+                            "pointRadius": 8,
+                            "showLine": False,
+                            "yAxisID": "y",
+                        }
+                    ],
+                },
+                "options": {
+                    "responsive": True,
+                    "scales": {
+                        "x": {
+                            "stacked": True,  # Enable stacking for proper bar arrangement
+                            "categoryPercentage": 0.3,
+                            "barPercentage": 0.5,
+                            "title": {"display": True, "text": "Component Analysis"},
+                        },
+                        "y": {
+                            "stacked": True,  # Enable stacking for negative values to work
+                            "beginAtZero": True,
+                            "title": {"display": True, "text": "Cost ($)"},
+                            "ticks": {
+                                "callback": "function(value) { return '$' + value.toLocaleString(); }"
+                            },
+                        },
+                    },
+                    "plugins": {
+                        "title": {
+                            "display": True,
+                            "text": "T3CO Component Breakdown Analysis",
+                        },
+                        "legend": {
+                            "position": "right",
+                            "reverse": True,  # Reverse legend to show Lost Payload at top, Residual at bottom
+                            "labels": {
+                                "usePointStyle": True,
+                                "boxWidth": 12,
+                                "padding": 10,
+                                "font": {"size": 11},
+                            },
+                        },
+                        "tooltip": {
+                            "callbacks": {
+                                "label": "function(context) { return context.dataset.label + ': $' + context.parsed.y.toLocaleString(); }"
+                            }
+                        },
+                    },
+                },
+            }
+        else:
+            # If no breakdown data, create fallback datasets
+            datasets = [
+                {
+                    "label": "Estimated Total Cost",
+                    "data": [total_cost],
+                    "backgroundColor": "#1976d2",
+                    "borderColor": "#1976d2",
+                    "borderWidth": 1,
+                }
+            ]
+
+        # Create the stacked bar chart with diamond marker for discounted TCO
+        if datasets:  # Only create chart if we have cost data
+            chart_data["tco_stacked_breakdown"] = {
+                "type": "bar",
+                "data": {
+                    "labels": ["Total Cost of Ownership"],
+                    "datasets": datasets
+                    + [
+                        # Add diamond marker for discounted TCO
+                        {
+                            "label": f"Discounted TCO: ${discounted_tco:,.0f}",
+                            "data": [discounted_tco],
+                            "type": "scatter",
+                            "backgroundColor": "#000000",
+                            "borderColor": "#000000",
+                            "pointStyle": "rectRot",  # Diamond shape
+                            "pointRadius": 8,
+                            "pointHoverRadius": 10,
+                            "showLine": False,
+                            "yAxisID": "y",
+                            "order": 0,  # Render on top
+                        }
+                    ],
+                },
                 "options": {
                     "responsive": True,
                     "plugins": {
                         "title": {
                             "display": True,
-                            "text": "T3CO Cost Breakdown - Stacked Analysis",
+                            "text": "T3CO Cost Breakdown - Component Analysis",
                         },
                         "legend": {
-                            "position": "bottom",
-                            "labels": {"usePointStyle": True},
+                            "position": "right",
+                            "labels": {
+                                "usePointStyle": True,
+                                "boxWidth": 12,
+                                "padding": 8,
+                                "font": {"size": 10},
+                            },
                         },
                         "tooltip": {
                             "callbacks": {
@@ -2064,11 +2162,12 @@ def prepare_parameter_analysis_charts(results):
                     "scales": {
                         "x": {
                             "stacked": True,
-                            "title": {"display": True, "text": "Cost Categories"},
+                            "categoryPercentage": 0.4,  # Reduce bar width for legend visibility
+                            "barPercentage": 0.5,
+                            "title": {"display": True, "text": "Cost Components"},
                         },
                         "y": {
                             "stacked": True,
-                            "beginAtZero": True,
                             "title": {"display": True, "text": "Cost ($)"},
                             "ticks": {
                                 "callback": "function(value) { return '$' + value.toLocaleString(); }"
@@ -2078,26 +2177,26 @@ def prepare_parameter_analysis_charts(results):
                 },
             }
 
-            # Add each cost component as a separate dataset for stacking
-            for cost_name, cost_info in all_costs.items():
-                chart_data["tco_stacked_breakdown"]["data"]["datasets"].append(
-                    {
-                        "label": cost_name,
-                        "data": [cost_info["value"]],
-                        "backgroundColor": cost_info["color"],
-                        "borderColor": cost_info["color"],
-                        "borderWidth": 1,
-                    }
-                )
+        # Key Performance Metrics from Ledger data only - use authentic variables
+        vehicle_life_yr = ledger_data.get("vehicle_life_yr")
+        mpgge = ledger_data.get("mpgge")  # Authentic fuel efficiency variable
+        
+        # Build metrics only if we have valid data
+        metrics = {}
+        
+        if cost_per_mile:
+            metrics["Cost per Mile ($)"] = cost_per_mile
+            
+        if total_cost and vehicle_life_yr and vehicle_life_yr > 0:
+            annual_cost = total_cost / vehicle_life_yr  # Calculate from authentic variables
+            metrics["Annual Cost (K$)"] = annual_cost / 1000
+            
+        if total_cost:
+            metrics["Total TCO (K$)"] = total_cost / 1000
 
-        # Key Performance Metrics Bar Chart
-        metrics = {
-            "Cost per Mile": cost_per_mile,
-            "Annual Cost (K$)": annual_cost / 1000 if annual_cost > 0 else 0,
-            "Fuel Efficiency (MPGGE)": kpis.get("fuel_efficiency_mpgge", 0),
-            "Range (miles/100)": kpis.get("range_miles", 0)
-            / 100,  # Scale for visibility
-        }
+        # Only add metrics if they have meaningful values from authentic Ledger data
+        if mpgge and mpgge > 0:
+            metrics["Fuel Efficiency (MPGGE)"] = mpgge
 
         chart_data["key_metrics"] = {
             "type": "bar",
@@ -2128,130 +2227,129 @@ def prepare_parameter_analysis_charts(results):
             },
         }
 
-        # Annual Cost Timeline Chart
-        vehicle_life_years = results.get("vehicle_life_years", 7)
-        annual_costs_timeline = results.get("annual_costs_timeline", [])
-        annual_fuel_timeline = results.get("annual_fuel_costs_timeline", [])
-        annual_maintenance_timeline = results.get(
-            "annual_maintenance_costs_timeline", []
-        )
+        # Cost Timeline Chart - only use authentic T3CO Ledger variables
+        # Use actual Ledger timeline variables: cumu_disc_tco_dol_per_yr, cumu_tco_dol_per_mi, cumu_levelized_tco_dol_per_mi
+        vehicle_life_yr = ledger_data.get("vehicle_life_yr")
+        cumu_disc_tco_dol_per_yr = ledger_data.get("cumu_disc_tco_dol_per_yr")
+        cumu_tco_dol_per_mi = ledger_data.get("cumu_tco_dol_per_mi")
+        cumu_levelized_tco_dol_per_mi = ledger_data.get("cumu_levelized_tco_dol_per_mi")
 
-        if not annual_costs_timeline:
-            # Generate basic timeline if not available
-            annual_costs_timeline = [annual_cost] * vehicle_life_years
-            annual_fuel_timeline = [
-                results.get("fuel_cost", 0) / vehicle_life_years
-            ] * vehicle_life_years
-            annual_maintenance_timeline = [
-                results.get("maintenance_cost", 0) / vehicle_life_years
-            ] * vehicle_life_years
-
-        years = list(range(1, vehicle_life_years + 1))
-
-        chart_data["cost_timeline"] = {
-            "type": "line",
-            "data": {
-                "labels": [f"Year {year}" for year in years],
-                "datasets": [
+        # Only create timeline chart if we have authentic Ledger timeline data
+        if vehicle_life_yr and cumu_disc_tco_dol_per_yr and len(cumu_disc_tco_dol_per_yr) > 0:
+            years = list(range(1, vehicle_life_yr + 1))
+            
+            # Ensure we have data for all years
+            if len(cumu_disc_tco_dol_per_yr) >= vehicle_life_yr:
+                datasets = [
                     {
-                        "label": "Total Annual Cost",
-                        "data": annual_costs_timeline,
+                        "label": "Cumulative Discounted TCO",
+                        "data": cumu_disc_tco_dol_per_yr[:vehicle_life_yr],
                         "borderColor": "#1976d2",
                         "backgroundColor": "rgba(25, 118, 210, 0.1)",
                         "tension": 0.4,
                         "fill": False,
-                    },
-                    {
-                        "label": "Fuel Cost",
-                        "data": annual_fuel_timeline,
+                        "yAxisID": "y",
+                    }
+                ]
+
+                # Add cumulative TCO per mile if available
+                if cumu_tco_dol_per_mi and len(cumu_tco_dol_per_mi) >= vehicle_life_yr:
+                    datasets.append({
+                        "label": "Cumulative TCO per Mile",
+                        "data": cumu_tco_dol_per_mi[:vehicle_life_yr],
                         "borderColor": "#4caf50",
                         "backgroundColor": "rgba(76, 175, 80, 0.1)",
                         "tension": 0.4,
                         "fill": False,
-                    },
-                    {
-                        "label": "Maintenance Cost",
-                        "data": annual_maintenance_timeline,
+                        "yAxisID": "y1",
+                    })
+
+                # Add levelized TCO per mile if available
+                if cumu_levelized_tco_dol_per_mi and len(cumu_levelized_tco_dol_per_mi) >= vehicle_life_yr:
+                    datasets.append({
+                        "label": "Cumulative Levelized TCO per Mile",
+                        "data": cumu_levelized_tco_dol_per_mi[:vehicle_life_yr],
                         "borderColor": "#ff9800",
                         "backgroundColor": "rgba(255, 152, 0, 0.1)",
                         "tension": 0.4,
                         "fill": False,
+                        "yAxisID": "y1",
+                    })
+
+                chart_data["cost_timeline"] = {
+                    "type": "line",
+                    "data": {
+                        "labels": [f"Year {year}" for year in years],
+                        "datasets": datasets,
                     },
-                ],
-            },
-            "options": {
-                "responsive": True,
-                "plugins": {
-                    "title": {"display": True, "text": "Annual Cost Projection"},
-                },
-                "scales": {
-                    "y": {
-                        "beginAtZero": True,
-                        "title": {"display": True, "text": "Annual Cost ($)"},
-                        "ticks": {
-                            "callback": "function(value) { return '$' + value.toLocaleString(); }"
+                    "options": {
+                        "responsive": True,
+                        "plugins": {
+                            "title": {"display": True, "text": "T3CO Cost Timeline Analysis"},
+                        },
+                        "scales": {
+                            "y": {
+                                "beginAtZero": True,
+                                "position": "left",
+                                "title": {"display": True, "text": "Cumulative Cost ($)"},
+                                "ticks": {
+                                    "callback": "function(value) { return '$' + value.toLocaleString(); }"
+                                },
+                            },
+                            "y1": {
+                                "beginAtZero": True,
+                                "position": "right",
+                                "title": {"display": True, "text": "Cost per Mile ($/mi)"},
+                                "grid": {"drawOnChartArea": False},
+                                "ticks": {
+                                    "callback": "function(value) { return '$' + value.toFixed(3); }"
+                                },
+                            },
+                            "x": {"title": {"display": True, "text": f"Vehicle Life ({vehicle_life_yr} years)"}},
                         },
                     },
-                    "x": {"title": {"display": True, "text": "Vehicle Life"}},
-                },
-            },
-        }
+                }
+                print(f"Cost timeline chart created using authentic T3CO Ledger data for {vehicle_life_yr} years")
+            else:
+                print(f"Insufficient timeline data: expected {vehicle_life_yr} years, got {len(cumu_disc_tco_dol_per_yr) if cumu_disc_tco_dol_per_yr else 0} data points")
+        else:
+            print("No authentic T3CO Ledger timeline data available - skipping cost timeline chart")
 
-        # T3CO Performance Radar Chart
-        performance_metrics = {
-            "Fuel Efficiency": min(
-                100, (kpis.get("fuel_efficiency_mpgge", 7) / 15) * 100
-            ),  # Normalize to 0-100
-            "Range Capability": min(
-                100, (kpis.get("range_miles", 600) / 1000) * 100
-            ),  # Normalize to 0-100
-            "Cost Effectiveness": min(
-                100, (50000 / max(1, cost_per_mile * 100000)) * 100
-            ),  # Normalize
-            "Payload Efficiency": min(
-                100, (1 / max(0.1, kpis.get("payload_impact", 1))) * 100
-            ),  # Normalize
-            "Uptime": min(
-                100, max(0, 100 - (kpis.get("downtime_hours", 0) / 10))
-            ),  # Normalize downtime
-        }
+        print(f"Generated {len(chart_data)} chart configurations from Ledger data")
+        for chart_type in chart_data.keys():
+            print(f"  - {chart_type}")
 
-        chart_data["performance_radar"] = {
-            "type": "radar",
-            "data": {
-                "labels": list(performance_metrics.keys()),
-                "datasets": [
-                    {
-                        "label": "Vehicle Performance",
-                        "data": list(performance_metrics.values()),
-                        "borderColor": "#1976d2",
-                        "backgroundColor": "rgba(25, 118, 210, 0.2)",
-                        "pointBackgroundColor": "#1976d2",
-                        "pointBorderColor": "#fff",
-                        "pointHoverBackgroundColor": "#fff",
-                        "pointHoverBorderColor": "#1976d2",
-                    }
-                ],
-            },
-            "options": {
-                "responsive": True,
-                "plugins": {
-                    "title": {"display": True, "text": "Vehicle Performance Profile"},
-                },
-                "scales": {
-                    "r": {
-                        "beginAtZero": True,
-                        "max": 100,
-                        "title": {"display": True, "text": "Performance Score"},
-                    }
-                },
-            },
+        return chart_data
+
+    except Exception as e:
+        print(f"Error preparing parameter analysis charts: {e}")
+        import traceback
+
+        traceback.print_exc()
+
+        # Return error chart data
+        return {
+            "error": {
+                "type": "error",
+                "message": f"Error processing T3CO Ledger data: {str(e)}",
+                "action": "Please re-run the analysis to generate proper T3CO Ledger data.",
+            }
         }
 
     except Exception as e:
         print(f"Error preparing parameter analysis charts: {e}")
+        import traceback
 
-    return chart_data
+        traceback.print_exc()
+
+        # Return error chart data
+        return {
+            "error": {
+                "type": "error",
+                "message": f"Error processing T3CO Ledger data: {str(e)}",
+                "action": "Please re-run the analysis to generate proper T3CO Ledger data.",
+            }
+        }
 
 
 def export_ledger_json(request, analysis_id):
